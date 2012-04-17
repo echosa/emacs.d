@@ -1,0 +1,187 @@
+Version 0.26 (20010-03-29)
+
+  * new command:
+    - `geben-find-file', bound to 'C-c f' in geben-mode.
+  * new custom variable:
+    - `geben-get-tramp-spec-for'.
+  * improved:
+    - If there only single session alive, `geben-end' ends the session
+      without port inquiry.
+
+Version 0.25 (2009-11-19)
+
+  * improved:
+    - to `geben-proxy' now you can specify any fixed port number to
+      which incoming debugging session is bound.
+
+Version 0.24 (2009-05-08)
+
+  * new commands added:
+    - geben-clear-breakpoints; bound to 'U' in geben-mode.
+    - geben-run-to-cursor; bound to 'c' in geben-mode.
+  * new custom variables added:
+    - geben-query-on-clear-breakpoints
+  * new variables added:
+    - geben-version
+  * changed: Key bindings of `geben-set-redirect' is assigned to `>'.
+  * changed: Key bindings of `geben-show-backtrace is also assigned to `t'.
+  * fixed: Even if you unset a breakpoint successfully in the current
+           session, it was not removed from the persist storage.
+  * fixed: With Komodo's Perl Debugging Extension, GEBEN possibly
+                caused an internal error when user attempted to set a
+                lineno breakpoint at a blank line.
+
+Version 0.23 (2009-02-25)
+
+  * improved: Suppressed unwanted focus changing - when the context
+              variable buffer was visible in any window, the focus was
+              moved from the debugging buffer to the context variable
+              buffer after proceeding any continuous command.
+
+  * fixed: Now GEBEN works With HTTP server running on Windows unlike
+           before.
+  * fixed: Now `eval' command works against PHP(Xdebug) same as
+           before.
+
+Version 0.22 (2009-01-22)
+
+  * fixed: Bug in Makefile: cannot byte-compile geben.el if the
+           working directory is not one of the Emacs' default
+           directories.
+
+Version 0.21 (2009-01-10)
+
+  * fixed: Implemented `geben-quit-window'.
+  * fixed: Type mismatch error was occurred in breakpoint list mode
+                when any breakpoint deletion was executed.
+
+Version 0.20 (2009-01-08)
+
+  Redesigned. 
+
+  From this release GEBEN does not require an external DBGp client
+  program.
+
+  * changed:
+    - GEBEN always mirrors debuggee script files under `geben-mode'.
+      When you need to open the original script file to edit, hit any
+      unbound keys of geben-mode and GEBEN asks you to open one. If
+      you respond `yes' then GEBEN attempts to visit the file via
+      `TRAMP'.
+    - More, many things.
+
+Version 0.19 (2008-11-06)
+
+  * fixed: Emacs may not be able to exit by exception.
+  * fixed: Default fileuri parameter on setting breakpoint may be
+           invalid.
+
+Version 0.18 (2008-11-04)
+
+  From this release GEBEN has shifted from beta stage.
+  
+  Incompatible changes:
+  * GEBEN dropped Emacs 21.4 support.
+    Now GEBEN requires Emacs 22.1 and later.
+
+  Visible changes:
+  * new commands added:
+    - geben-display-context and related commands.
+    - `geben-mode-help' and similar commands to display description
+       and key bindings of GEBEN's each mode.
+  * custom face added:
+    - geben-context-category-face
+    - geben-context-variable-face
+    - geben-context-type-face
+    - geben-context-class-face
+    - geben-context-string-face
+    - geben-context-constant-face
+
+Version 0.17 (2008-10-27)
+
+  Visible changes:
+  * fixed: Location path for remotely fetched source files.
+
+Version 0.16 (2008-10-25)
+
+  Visible changes:
+  * support for Komodo Debugger Extensions are added.
+
+  * fixed: improved session finishing handling.
+  * fixed: when reopen a debuggee script file which has any line
+           breakpoints, GEBEN had failed to restore overlays.
+  
+Version 0.15 (2008-10-22)
+
+  Visible changes:
+  * new commands added:
+    - geben-breakpoint-menu and related commands.
+    - geben-breakpoint-list and related commands.
+  * custom variables added:
+    - geben-dbgp-feature-list
+  * custom face added:
+    - geben-breakpoint-fileuri
+    - geben-breakpoint-lineno
+    - geben-breakpoint-function
+  * custom variables remove:
+    - geben-dbgp-feature-alist
+
+Version 0.14 (2008-10-15)
+
+  * fixed: Runtime erros on Emacs 21.4.
+
+Version 0.13 (2008-10-13)
+
+  Visible changes:
+  * new commands added:
+    - geben-backtrace
+    - geben-where
+    - geben-set-redirect
+  * custom variables added:
+    - geben-display-window-function
+    - geben-dbgp-redirect-stdout
+    - geben-dbgp-redirect-stderr
+    - geben-dbgp-redirect-combine
+    - geben-dbgp-redirect-coding-system
+    - geben-dbgp-redirect-buffer-init-hook
+  * custom face added:
+    - geben-backtrace-fileuri
+    - geben-backtrace-lineno
+  * fixed: compiling error on Emacs 21.4 in `defface' definition.
+  * changed: renamed DBGp client's buffer name to `*GEBEN process*.
+
+Version 0.12 (2008-10-08)
+
+  Visible changes:
+  * added: New argument QUIT to `geben' command.
+           It can be specified by the prefix arg, as typing like
+	   `M-x C-u geben'. This asks executed GEBEN to quit.
+  * Now GEBEN sets/unsets breakpoint even in off session state.
+  * fixed: Make GEBEN do not send commands while off session state.
+  * fixed: Increasing breakpoints by entering debugging session.
+
+Version 0.11 (2008-10-08)
+
+  * fixed: Byte compiled geben.el could raise undefined
+           symbol error.
+
+Version 0.10 (2008-10-07)
+
+ Incompatible changes:
+  * Removed dependencies on `CEDET' package. 
+
+ Visible changes:
+  * fixed: Improved line-no breakpoint handling.
+  * fixed: Improved initial and final state handling.
+  * custom variables added:
+    - geben-dbgp-feature-alist
+    - geben-dbgp-command-line
+    - geben-temporary-file-directory
+    - geben-close-remote-file-after-finish
+    - geben-show-breakpoints-debugging-only
+  * custom face added:
+    - geben-breakpoint-face
+			  
+Version 0.01 (2006-12-26)
+
+ * Sample implementation.

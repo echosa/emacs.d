@@ -1,0 +1,2 @@
+;;;$Id: revive.el,v 2.18 2003/06/22 05:11:46 yuuji Exp yuuji $
+(1 (nil ((truncate-partial-width-windows) (make-backup-files . t) (version-control) (visible-bell))) (425 99 ((0 0 81 98) (81 0 162 98) (162 0 243 98) (243 0 324 98) (324 0 425 98)) ((nil "*scratch*" 192 1) (nil "*invalid-packages*" 42 1) (nil "*invalid-packages*" 42 1) (nil "*invalid-packages*" 42 1) (nil "*invalid-packages*" 42 1))))
