@@ -1,6 +1,3 @@
-[submodule "zf-mode"]
-	path = zf-mode
-	url = git://github.com/echosa/zf-mode.git
 [submodule "emacs-setup"]
 	path = emacs-setup
 	url = git://github.com/echosa/emacs-setup.git
