@@ -43,7 +43,7 @@
  '(emacs-setup-post-sexp (quote ((when (fboundp (quote colorize-compilation-buffer)) (add-hook (quote compilation-filter-hook) (quote colorize-compilation-buffer))) (when (fboundp (quote my-term-mode-hook)) (add-hook (quote term-mode-hook) (quote my-term-mode-hook))) (when (fboundp (quote rainbow-delimiters-mode)) (add-hook (quote emacs-lisp-mode-hook) (quote rainbow-delimiters-mode))) (when (fboundp (quote paredit-mode)) (add-hook (quote emacs-lisp-mode-hook) (quote paredit-mode))) (setq completion-ignore-case t))))
  '(emacs-setup-pre-layout-sexp nil)
  '(emacs-setup-pre-sexp (quote (nil)))
- '(emacs-setup-require-list (quote (("uniquify") ("ido" (ido-mode) (icomplete-mode 99)) ("smex-autoloads") ("evil" (evil-mode) (define-key evil-ex-map "e " (quote ido-find-file)) (define-key evil-ex-map "b " (quote ido-switch-buffer))) ("key-chord" (key-chord-mode 1) (key-chord-define-global "jk" (quote evil-normal-state))) ("my-funcs" (eval-after-load (quote ibuf-ext) (quote (my-ibuffer-load-hook)))))))
+ '(emacs-setup-require-list (quote (("uniquify") ("ido" (ido-mode) (icomplete-mode 99)) ("smex-autoloads") ("evil" (evil-mode) (define-key evil-ex-map "e " (quote ido-find-file)) (define-key evil-ex-map "b " (quote ido-switch-buffer))) ("evil-leader") ("my-funcs" (eval-after-load (quote ibuf-ext) (quote (my-ibuffer-load-hook)))))))
  '(emacs-setup-set-frame-size nil)
  '(erc-fill-column 70)
  '(evil-cross-lines nil)
