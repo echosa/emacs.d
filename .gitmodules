@@ -1,6 +1,0 @@
-[submodule "emacs-setup"]
-	path = emacs-setup
-	url = git://github.com/echosa/emacs-setup.git
-[submodule "emacs-mysql2sqlite"]
-	path = emacs-mysql2sqlite
-	url = git://github.com/echosa/emacs-mysql2sqlite.git
