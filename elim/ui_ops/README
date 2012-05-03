@@ -1,0 +1,6 @@
+Functions for handling calls triggered by libpurple, ie calls from 
+the daemon to the client, and for handling responses thereto (in those
+cases where this is required).
+
+It now also includes calls triggered by the elim client code as well as 
+by libpurple.

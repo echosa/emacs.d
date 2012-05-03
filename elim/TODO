@@ -1,0 +1,48 @@
+# -*- mode:org -*-
+* importers
+** TODO account importer
+** TODO buddy importer
+* process control
+** DONE make buffer selection code re-use buffers from dead elim processes
+** DONE make process sentinel warn the user when elim dies
+* account list
+** DONE update account status in ascii mode
+** DONE update account status in gui mode
+** DONE add protocol icon/tag to account entry
+** DONE log in/out menu items from account entry
+** DONE dynamic account menus for connected accounts
+** DONE remove account (CLI)
+** DONE remove account (GUI)
+** TODO roomlist
+* buddy list
+** DONE display groups created after intial ui setup
+** DONE update buddy status in ascii as well as gui mode
+** DONE add protocol icon to buddy entries
+** DONE extended buddy list menu actions
+** DONE buddy info action, inc display buddy icon
+** DONE make blocking/unblocking work
+** TODO remove buddy from CLI as well as GUI
+** TODO distinguish homonymous entries by account
+** DONE alias buddy
+** DONE move buddy to a new group
+** DONE fix buddy add so only one entry per buddy in blist (no clones)
+** TODO offline buddies (when option set)
+*** DONE hide when offline at login-time
+*** TODO hide when they go offline after you log in
+* misc stuff
+** DONE pump command failures/warnings etc into the *garak* buffer.
+** DONE set (account) buddy icon
+** TODO update docs to cover new client-to-daemon commands
+** DONE can dynamic submenus be generated at invocation time? [not easily]
+*** not easily enough. on hold for now.
+** TODO notify ui ops
+*** DONE email
+*** TODO emails (multi message notification)
+*** DONE url
+*** DONE generic message
+*** DONE user info
+*** DONE search results
+* preferences
+** DONE fetch preferences list and display it in editable widget form
+** DONE add specialised preference widgets for those that need it
+** DONE implement setting preferences

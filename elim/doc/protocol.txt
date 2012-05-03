@@ -1,0 +1,123 @@
+ELIM Sexp Protocol (ESP)
+
+############################################################################
+Copyright © 2009 Vivek Dasmohapatra.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the file "COPYING".
+############################################################################
+This document describes the sexp based protocol (based on the sexps
+produced by xml-parse-region et al from xml.el in GNU Emacs 22):
+
+The basic building block of the sexp protocol is a three part s-expression
+of the following form:
+
+  (node-name attribute-alist value)
+
+node-name is always a symbol.
+attribute-alist is a symbol-keyed, string-valued alist, with nil preferred
+as the default representation for no attribues.
+value is a string for atoms (simple types) or another s-expression for
+complex types.
+
+Some examples:
+
+   (string nil "møøse")
+   (list   nil 
+           (string nil "zero")
+           (int    nil "1"   )
+           (float  nil "2.0" ))
+############################################################################
+The following atomic types are defined and handled:
+
+string   a string: may contain any character except \0 
+         \ characters should be escaped: \\
+         " characters likewise:          \"
+         no special \ sequences are recognised, any character 
+         preceded by \ will be treated literaly. (ie \n => n, not LF)
+int      an integer. not limited to any bit width: unpack as a float if need be
+         if the integer has a 'type attribute, this indicates it is part of
+         an enumeration. This is supplied as a hint to the receiving 
+         system, it need not change the unpacking mechanism.
+float    a floating point number
+bool     true or false (represented as 1 or 0).
+data     a base64 encoded string
+
+The following compound types are defined and handled:
+
+alist    a string-keyed hash. values may be any type, including lists and alists
+list     a list of values of any valid type, including lists and alists
+
+Examples:
+
+  (int    nil "2147483647")
+  (int    ((type . ":conversation-type") "2")
+  (string nil "hamburgers")
+  (float  nil "3.14159265")
+  (bool   nil "1")
+  (data   nil "bm90aGluZyBiZXR0ZXIgdG8AZG8/")
+  (alist  nil
+          (int   ((name . "abc")) "57005")
+          (float ((name . "def")) "1.414")
+          (list  ((name . "ghi"))  
+                 (int    nil "0"  )
+                 (string nil "one")
+                 (float  nil "3"  )))
+
+############################################################################
+Function calls:
+
+The structure of an ESP function call is as follows:
+
+  (function-call nil
+    (name-of-function-as-symbol ((id . "unique-id-here")))
+    S-EXPRESSION-REPRESENTING-ARGUMENTS)
+
+OR
+
+   (function-call nil (name-of-function-as-symbol ((id . "unique-id-here"))))
+
+Note that there is only one s-expression for the arguments, so multi-argument
+functions should use a list or an alist here.
+
+*All* currently existing function calls in elim use either an alist
+or no argument at all.
+
+############################################################################
+Return values:
+
+The structure of a return value froma function call is as follows:
+
+  (function-response nil
+    (name-of-function-as-symbol ((id . "same-unique-id-as-in-function-call")))
+    S-EXPRESSION-REPRESENTING-RETURN-VALUE)
+
+Examples:
+
+  (function-response 
+    (list-protocols ((id . "32768")))
+    (alist nil
+      (int   ((name . "status")) "0")
+      (alist ((name . "value" ))
+        (string ((name . "prpl-aim"    )) "AIM"    )
+        (string ((name . "prpl-bonjour")) "Bonjour")) ))
+
+  (function-response 
+    (add-account ((id . "32767")))
+    (alist nil
+      (int    ((name . "status"  )) "22"))
+      (string ((name . "message" )) "Invalid Arguments"))
+
+By convention, all return value s-expressions take the form of an alist
+with a "status" member, which is an integer. (0 for success)
+
+If the call was a success, there will be a "value" member, usually
+an alist but not necessarily so, representing the result of the call
+in more detail. If the status was non-zero, you can expect a "message"
+element, a string, with an error message.
+
+############################################################################
+

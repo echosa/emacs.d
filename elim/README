@@ -1,0 +1,182 @@
+elim is currently alpha software. 
+Use at your own peril.
+
+It is available under the GPL, as detailed in COPYING, and the 
+documentation is available under the GFDL with no invariant sections,
+supplied in doc/COPYING.
+
+Having said that, you will need the following packages (including header files,
+if your distro ships the -dev or -devel part as a separate package):
+
+glib-2.0
+libxml-2.0 
+libpurple 
+
+Note that the makefile will try to detect these and will complain if it 
+can't find them.
+
+On a debian stable (squeeze) system you should install at least the
+following packages:
+
+libpurple-dev
+
+You will also need GNU Make and a C compiler.
+
+Assuming the build dependencies are all installed, all you should need to 
+do is:
+
+  make
+
+this should produce a binary called "elim-client".
+
+If you want to test the daemon using the (currently incomplete) elisp 
+client suport, you need to do the following:
+
+* fire up emacs
+* load elisp/garak.el
+* customise or set elim-executable to the location of the elim-client binary
+  (this step shouldn't be necessary now, but just in case it doesn't work)
+
+Example .emacs configuration:
+
+       (add-to-list 'load-path "~/src/elim/elisp")
+       (load-library "garak")
+
+M-x garak RET
+
+To add an account:
+
+  /add-account USERNAME PROTOCOL
+
+eg:
+
+  /add-account foo@jabber.org prpl-jabber
+  /add-account blerg@irc.freenode.net prpl-irc
+
+(the protocol names can be tab completed)
+
+To configue extra account details:
+
+  /configure-account foo@jabber.org
+
+This will trigger an emacs widget based (defcustom style) UI being set up
+for you to fill out the details in.
+
+If the account is a new one, you can then register it:
+
+  /register ACCOUNT
+
+To login:
+
+  /connect USERNAME
+
+(USERNAME can be tab-completed once accounts have been added)
+
+NOTE: You may need to set the status offline explicitly before 
+      setting it to available - this eems to be an oddity of the 
+      way libpurple behaves, but it could be a mistake on my part.
+      Under investigation, either way.
+
+To join a channel/room/etc
+
+on IRC:
+
+  /join USERNAME #emacs
+
+OR, if you are already in an account-specific buffer, such as an IRC channel
+buffer, just:
+
+  /join #emacs
+
+The details vary per protocol, but garak should be able to figure out what's 
+required if you just say /join USERNAME (or /join in an account-specific buffer)
+
+To start a one-to-one conversation:
+
+  /msg ACCOUNT BUDDY MESSAGE-TEXT
+
+OR (in an account specific buffer)
+
+  /msg BUDDY MESSAGE-TEXT
+
+To add a buddy
+
+  /add-buddy USERNAME BUDDY-NAME
+
+OR (in an account specific buffer)
+
+  /add-buddy BUDDY-NAME 
+
+To start a conversation with an individual:
+
+  /msg USERNAME BUDDY-NAME
+
+OR (in an account specific buffer)
+
+  /msg BUDDY-NAME
+
+OR as the context menu from the buddy list in *Garak*
+
+To leave a conversation:
+
+  /part
+
+To disconnect an account:
+
+  /disconnect USER
+
+OR (in an account specific buffer)
+
+  /disconnect 
+
+To set your status:
+
+  /status away
+  /status available
+  /status invisible
+  /status do-not-disturb OR /status unavailable
+
+To set your icon/avatar/what-have-you:
+
+  /set-icon USERNAME /path/to/icon/image
+
+OR (in an account specific buffer)
+
+  /set-icon /path/to/icon/image
+
+New garak buffers should turn up in the tracking block in the mode line:
+
+  [#emacs,#elim,etc]
+
+You can click on the buffer names in the mode line or switch to them in the 
+usual way.
+
+That's all that's implemented for now, it's all only just been written so 
+hasn't had a lot of testing.
+
+To display the buddy list:
+
+M-x garak-gui RET
+
+Not that the buddy list widget/buffer is only partially implemented, 
+you cannot block or unblock buddies (yet), even though the menu item 
+is present.
+
+To recreate the *Garak* buffer, M-x garak-gui RET in the *garak*
+buffer or any conversation buffer.
+
+To set garak's own options and preferences:
+
+M-x customize-group RET garak RET 
+
+To set libpurple's preferences, issue the /prefs command.
+
+-- 
+fledermaus <vivek@etla.org>
+
+Copyright © 2009-2010 Vivek Dasmohapatra 
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without warranty of any kind.

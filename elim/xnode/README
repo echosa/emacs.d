@@ -1,0 +1,4 @@
+Reimplementation of libpurple's xmlnode_* functions, with a couple of
+extra useful functions added, that does not rely on libpurple being
+loaded and initialised and does not spew 100s of errors when dbus
+hasn't been set up.

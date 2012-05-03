@@ -1,0 +1,561 @@
+ELIM Sexp Protocol (ESP): Daemon to Client calls
+
+############################################################################
+Copyright © 2009 Vivek Dasmohapatra.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the file "COPYING".
+############################################################################
+General Notes:
+
+*) All calls come with an ID (a string) which should be returned as 
+   part of the response. Not all calls require a response, but it
+   should never cause problems to return a response that is not required.
+
+*) Call IDs for daemon-to-client calls (and their corresponding responses)
+   occupy a separate namespace than client-to-daemon calls: It is theoretically
+   possible for a daemon-to-client call to have the same ID as a 
+   client-to-daemon call, but this does not imply any relationship between 
+   them.
+
+*) some int values are members of enumerations: see enumerations.txt
+   for details
+
+############################################################################
+
+Calls can usefully be divided into categories. The ones implemented so far are:
+
+*) Account 
+*) Buddy List (blist)
+*) Connection
+*) Conversation
+*) Request
+
+############################################################################
+
+Account calls:
+
+The calls in this group roughly correspond to those which notify you of 
+changes to the state of IM accounts, (not including connection/disconnection,
+for which see the Connection secion).
+They are:
+
+*) elim-account-notify-added
+
+   A buddy who is already on this account's buddy list added this account 
+   (ie you) to their buddy list.
+   NOTE: this would never actually happen on IRC, since IRC doesn't have 
+   buddy lists as such, but you get the idea:
+
+   Normally no user action would be required as a result of this notification.
+   A client might wish to update its internal buddy list representation, though.
+
+   (function-call nil
+     (elim-account-notify-added ((id . "001")))
+     (alist nil
+       (string ((name . "user"        )) "rudybot"  )
+       (string ((name . "alias"       )) "rudebot"  )
+       (int    ((name . "account-uid" )) "268435456")
+       (string ((name . "account-name")) "fsbot@irc.freenode.net")
+       (string ((name . "im-protocol" )) "prpl-irc" )))
+
+*) elim-account-status-changed
+
+   The status (Available, Away etc) of an account changed
+ 
+   (function-call nil
+     (elim-account-status-changed ((id . "002")))
+     (alist nil
+       (int    ((name . "account-uid" )) "268435456")
+       (string ((name . "account-name")) "fsbot@irc.freenode.net")
+       (string ((name . "im-protocol" )) "prpl-irc" )
+       (string ((name . "status-name" )) "Available")
+       (int    ((name . "status-type" )
+                (type . ":status-primitive"))    "2")
+       (bool   ((name . "connected"   ))         "0") ))
+
+*) elim-account-request-add
+
+   A (potential) contact who is _not_ already in your buddy list added
+   you to their buddy list.
+
+   (function-call nil
+     (elim-account-request-add ((id . "003")))
+     (alist nil
+       (string ((name . "user"        )) "rudybot"  )
+       (string ((name . "alias"       )) "rudebot"  )
+       (string ((name . "message"     )) "rudebot added you: retaliate? (y/n)")
+       (int    ((name . "account-uid" )) "268435456")
+       (string ((name . "account-name")) "fsbot@irc.freenode.net")
+       (string ((name . "im-protocol" )) "prpl-irc" )))
+   
+*) elim-account-request-auth
+
+   Someone has performed an operation that requires authorisation from you.
+
+   (function-call nil
+     (elim-account-request-auth ((id . "004")))
+     (alist nil
+       (string ((name . "user"        )) "rudybot"      )
+       (string ((name . "id"          )) "er, something")
+       (string ((name . "alias"       )) "rudebot"      )
+       (bool   ((name . "on-list"     )) "0"            )
+       (string ((name . "message"     )) "rudebot added you: retaliate? (y/n)")
+       (int    ((name . "account-uid" )) "268435456")
+       (string ((name . "account-name")) "fsbot@irc.freenode.net")
+       (string ((name . "im-protocol" )) "prpl-irc" )))
+    
+on-list: whether the other user is on your buddy list already
+
+   (function-response 
+     (elim-account-request-auth ((id . "004")))
+     (alist nil
+       (int  ((name . "status")) "0") 
+       (bool ((name . "value" )) "1")))
+
+The response indicates whether you should accept (bool 1) or reject (bool 0)
+the request.
+############################################################################
+
+Blist calls:
+
+These are concerned with changes to your buddy list:
+
+Some terminology:
+
+A "buddy"   is a contact, typically another IM user.
+
+A "contact" is slightly different: a contact is a logical grouping of 
+            buddies. For example, if you have two different sets of 
+            IM details for one person (eg on different IM networks)
+            You might place them in a contact together.
+
+            Note that libpurple automatically places _all_ new buddies
+            in a contact with the same name as the buddy if no other
+            contact is specified.
+
+A "group"   is a logical group into which you can place a buddy
+            or contact. Some protocols support groups on the server,
+            others leave it entirely up to clients.
+            The default group is "Buddies" for buddies and contacts
+            And "Chats" for multi-user rooms/chats/channels/
+
+The main calls here (there are other but they are not implemented yet)
+have very similar return structures: Some details are simply omitted 
+for those blist node types which do not support them:
+
+*) elim-blist-create-node
+
+   This call informs you that a new node has been created. However,
+   investigation of the libpurple code reveals that this means a 
+   new node has been allocated, but _not_ that it has been added to 
+   the buddy list... so in general you don't have to do anything
+   when you see this.
+
+*) elim-blist-update-node
+
+   A node was added to the buddy list and/or changed
+
+*) elim-blist-remove-node
+
+  A node was removed from the buddy list
+
+Some of the fields require clarification:
+
+bnode-type  : an integer specifying the type of node: see below for details
+bnode-parent: if this node is contained within another node, the uid
+              of the container is given here.
+bnode-child : if this node contains other nodes, the uid of the first child
+              node will be given here
+bnode-prev  : the preceding sibling node, if any
+bnode-next  : the subsequent sibling node, if any
+bnode-flags : usually uninteresting. if (logand flags 1), then the node
+              is ephemeral and should not be saved.
+allowed     : false if you have blocked this IM user
+status-id   : canonical IM status ID
+status-name : human friendly status name
+status-type : status type code - what type of status is this.
+status-msg  : extended status message
+
+A buddy:
+
+   (function-call nil 
+     (elim-blist-update-node ((id . "010")))
+     (alist nil
+       (int    ((name . "bnode-uid"    )) "268435500")
+       (int    ((name . "bnode-type"   )
+                (type . ":blist-node-type"))      "2")
+       (string ((name . "bnode-name"   )) "fsbot"    )
+       (int    ((name . "account-uid"  )) "268435456")
+       (string ((name . "account-name" )) "elim@irc.freenode.net")
+       (string ((name . "im-protocol"  )) "prpl-im"  )
+       (string ((name . "bnode-alias"  )) "fsbot"    )
+       (string ((name . "server-alias" )) "fsbot"    )
+       (string ((name . "contact-alias")) "erbot"    )
+       (int    ((name . "bnode-type"   )
+                (type . ":blist-node-flags"))     "0")
+       (string ((name . "bnode-prev"   )) "126346445")
+       (string ((name . "bnode-next"   )) "126313246")
+       (string ((name . "bnode-parent" )) "133313123")
+       (string ((name . "bnode-child"  )) "216313141")
+       (string ((name . "bnode-flags"  )) "0"        )
+       (bool   ((name . "allowed"      )) "1"        )
+       (bool   ((name . "available"    )) "0"        )
+       (bool   ((name . "online"       )) "1"        )
+       (bool   ((name . "idle"         )) "1"        )
+       (string ((name . "status-name"  )) "Away"     )
+       (string ((name . "status-id"    )) "away"     )
+       (int    ((name . "status-type"  )
+                (type . ":status-primitive"))     "5")
+       (string ((name . "status-msg"   )) "Off to lunch") ))
+
+A chat node (channel, room, etc):
+
+   (function-call nil 
+     (elim-blist-update-node ((id . "010")))
+     (alist nil
+       (int    ((name . "bnode-uid"    )) "268435500")
+       (int    ((name . "bnode-type"   )) "3"        )
+       (string ((name . "bnode-name"   )) "#fsbot"   )
+       (int    ((name . "account-uid"  )) "268435456")
+       (string ((name . "account-name" )) "elim@irc.freenode.net")
+       (string ((name . "im-protocol"  )) "prpl-irc" )
+       (string ((name . "bnode-prev"   )) "126346445")
+       (string ((name . "bnode-next"   )) "126313246")
+       (string ((name . "bnode-parent" )) "133313123")
+       (string ((name . "bnode-child"  )) "216313141")
+       (alist  ((name . "options"      ))
+         (alist nil
+           (string ((name . "password")) "s3kr1t")
+           (string ((name . "channel" )) "#fsbot"))
+       (string ((name . "bnode-flags"  )) "0"        )
+       (bool   ((name . "allowed"      )) "1"        ) ))
+
+A Contact node:
+
+   (function-call nil 
+     (elim-blist-update-node ((id . "010")))
+     (alist nil
+       (int    ((name . "bnode-uid"    )) "268435500")
+       (int    ((name . "bnode-type"   )
+                (type . ":blist-node-type"))      "1")
+       (string ((name . "bnode-name"   )) "fsbot"    )
+       (string ((name . "bnode-prev"   )) "126346445")
+       (string ((name . "bnode-next"   )) "126313246")
+       (string ((name . "bnode-parent" )) "133313123")
+       (string ((name . "bnode-child"  )) "216313141")
+       (string ((name . "bnode-flags"  )) "0"        ) ))
+
+A group node:
+
+   (function-call nil 
+     (elim-blist-update-node ((id . "010")))
+     (alist nil
+       (int    ((name . "bnode-uid"    )) "268435500" )
+       (int    ((name . "bnode-type"   )
+                (type . ":blist-node-type"))      "0")
+       (string ((name . "bnode-name"   )) "fsbot"     )
+       (string ((name . "bnode-prev"   )) "126346445" )
+       (string ((name . "bnode-next"   )) "126313246" )
+       (string ((name . "bnode-parent" )) "133313123" )
+       (string ((name . "bnode-child"  )) "216313141" )
+       (string ((name . "bnode-flags"  )) "0"         ) ))
+
+############################################################################
+
+Connection calls:
+
+These calls inform you of connection/disconnection of accounts:
+
+*) elim-connection-state
+
+   Delivers a message related to the connection-state of an IM account
+   in some way, together with the purple connection state
+
+   (function-call nil
+     (elim-connection-state ((id . "020")))
+     (alist nil
+       (int    ((name . "account-uid" )) "268435500")
+       (string ((name . "account-name")) "elim@irc.freenode.net")
+       (string ((name . "im-protocol" )) "prpl-irc")
+       (int    ((name . "state"       )
+                (type . ":connection-state"))   "2")
+       (string ((name . "message"     )) "purple alert!") ))
+
+state: a purple connection state enum value. 
+0 = disconnected
+1 = connected
+2 = connecting
+
+*) elim-connection-progress 
+
+   Notifies you of how complete a connection operation is.
+
+   (function-call nil
+     (elim-connection-progress ((id . "021")))
+     (alist nil
+       (int    ((name . "account-uid" )) "268435500")
+       (string ((name . "account-name")) "elim@irc.freenode.net")
+       (string ((name . "im-protocol" )) "prpl-irc")
+       (int    ((name . "state"       )
+                (type . ":connection-state"))   "2")
+       (int    ((name . "step"        )) "2")
+       (int    ((name . "step-count"  )) "3")
+       (string ((name . "message"     )) "contacting nickserv...") ))
+   
+  Informs you of your progress (step/step-count) with an additional message.
+
+*) elim-disconnect-reason 
+
+   (function-call nil
+     (elim-disconnect-reason ((id . "022")))
+     (alist nil
+       (int    ((name . "account-uid" )) "268435500")
+       (string ((name . "account-name")) "elim@irc.freenode.net")
+       (string ((name . "im-protocol" )) "prpl-irc")
+       (int    ((name . "reason-code" )
+                (type . ":connection-error"))   "6")
+       (string ((name . "message"     )) "username already logged in") ))
+
+reason-code: a connection-reason enumeration code.
+
+*) elim-network-up
+
+   The network interface, as determined by libpurple, has gone down.
+
+   (function-call nil (elim-network-up ((id . "023"))))
+
+*) elim-network-down
+
+   The network interface, as determined by libpurple, has come back up.
+
+   (function-call nil (elim-network-down ((id . "024"))))
+
+############################################################################
+
+Conversation:
+
+*) elim-conv-create
+
+   A new IM or chat conversation has been created inside libpurple.
+
+   (function-call nil 
+     (elim-conv-create ((id . "030")))
+     (alist nil
+       (string  ((name . "account-name" )) "elim@irc.freenode.net")
+       (string  ((name . "im-protocol"  )) "prpl-irc" )
+       (int     ((name . "account-uid"  )) "268435500")
+       (int     ((name . "conv-uid"     )) "126313246")
+       (string  ((name . "conv-name"    )) "rudybot"  )
+       (string  ((name . "conv-title"   )) "rudybot@freenode")
+       (int     ((name . "conv-type"    )
+                 (type . ":conversation-type"))    "1")
+       (int     ((name . "conv-features")
+                 (type . "connection-flags"  ))  "129") ))
+
+*) elim-conv-destroy
+
+   A conversation inside libpurple is about to be destroyed. 
+
+   (function-call nil 
+     (elim-conv-destroy ((id . "031")))
+     (alist nil
+       (string  ((name . "account-name" )) "elim@irc.freenode.net")
+       (string  ((name . "im-protocol"  )) "prpl-irc" )
+       (int     ((name . "account-uid"  )) "268435500")
+       (int     ((name . "conv-uid"     )) "126313246")
+       (string  ((name . "conv-name"    )) "rudybot"  )
+       (string  ((name . "conv-title"   )) "rudybot@freenode")
+       (int     ((name . "conv-type"    )
+                 (type . ":conversation-type"))    "1")
+       (int     ((name . "conv-features")
+                 (type . "connection-flags"  ))  "129") ))
+
+*) elim-conv-write-chat
+
+   A message was written to a chat conversation.
+   [This includes outbound messages from you]
+
+   (function-call nil
+     (elim-conv-write-chat ((id . "032")))
+     (alist nil
+       (string  ((name . "account-name" )) "elim@irc.freenode.net")
+       (string  ((name . "im-protocol"  )) "prpl-irc"  )
+       (int     ((name . "account-uid"  )) "268435500" )
+       (int     ((name . "conv-uid"     )) "126313246" )
+       (string  ((name . "conv-name"    )) "rudybot"   )
+       (string  ((name . "conv-title"   )) "rudybot@freenode")
+       (int     ((name . "conv-type"    )
+                 (type . ":conversation-type"))     "2")
+       (int     ((name . "conv-features")
+                 (type . "connection-flags"  ))  " 129") 
+       (string  ((name . "who"          )) "rudybot"   )
+       (string  ((name . "text"         )) "wake up!"  )
+       (int     ((name . "flags"        )
+                 (type . ":messsage-flags"))       "18")
+       (int     ((name . "time"         )) "1237254273") ))
+
+flags: an ORed together value of message flag enumeration values.
+
+(logand flags 1) => message sent by you
+(logand flags 2) => message received
+(logand flags 4) => system message
+
+*) elim-conv-write-im
+
+   A message was written to an IM conversation.
+   [This includes outbound messages from you]
+
+   (function-call nil
+     (elim-conv-write-im ((id . "033")))
+     (alist nil
+       (string  ((name . "account-name"  )) "elim@irc.freenode.net")
+       (string  ((name . "im-protocol"   )) "prpl-irc"  )
+       (int     ((name . "account-uid"   )) "268435500" )
+       (int     ((name . "conv-uid"      )) "126313246" )
+       (string  ((name . "conv-name"     )) "rudybot"   )
+       (string  ((name . "conv-title"    )) "rudybot@freenode")
+       (int     ((name . "conv-type"     )
+                 (type . ":conversation-type"))      "1")
+       (int     ((name . "conv-features" )
+                 (type . "connection-flags"  ))    "129")
+       (string  ((name . "who"           )) "rudybot"   )
+       (string  ((name . "text"          )) "wake up!"  )
+       (int     ((name . "flags"         )
+                 (type . ":message-flags"))        "18")
+       (int     ((name . "time"          )) "1237254273") ))
+
+flags: see elim-conv-write-chat
+
+*) elim-conv-write-sys
+
+   A system message was written into a conversation.
+   This could have originated at the IM server, or from within libpurple.
+   It won't be [directly] from a user.   
+
+   (function-call nil
+     (elim-conv-write-sys ((id . "034")))
+     (alist nil
+       (string  ((name . "account-name"  )) "elim@irc.freenode.net")
+       (string  ((name . "im-protocol"   )) "prpl-irc"     )
+       (int     ((name . "account-uid"   )) "268435500"    )
+       (int     ((name . "conv-uid"      )) "126313246"    )
+       (string  ((name . "conv-name"     )) "rudybot"      )
+       (string  ((name . "conv-title"    )) "rudybot@freenode")
+       (int     ((name . "conv-type"     )
+                 (type . ":conversation-type"))         "1")
+       (int     ((name . "conv-features" )
+                 (type . "connection-flags"  ))       "129")
+       (string  ((name . "who"           )) ""             )
+       (string  ((name . "alias"         )) ""             )
+       (string  ((name . "text"          )) "purple alert!")
+       (int     ((name . "flags"         )
+                 (type . ":message-flags")) "4"            )
+       (int     ((name . "time"          )) "1237254273"   ) ))
+
+flags: see elim-conv-write-chat
+
+*) elim-chat-add-users
+
+   Users added to a chat/room/channel/etc
+
+   (function-call nil
+     (elim-chat-add-users ((id . "035")))
+     (alist nil
+       (string  ((name . "account-name" )) "elim@irc.freenode.net")
+       (string  ((name . "im-protocol"  )) "prpl-irc" )
+       (int     ((name . "account-uid"  )) "268435500")
+       (int     ((name . "conv-uid"     )) "126313246")
+       (string  ((name . "conv-name"    )) "#emacs"   )
+       (string  ((name . "conv-title"   )) "#emacs"   )
+       (int     ((name . "conv-type"    )
+                 (type . ":conversation-type"))    "2")
+       (int     ((name . "conv-features")
+                 (type . "connection-flags"  ))  "129")
+ 
+       (bool    ((name . "new-arrivals" ))         "1")
+       (list    ((name . "participants" ))
+         (alist nil 
+           (string ((name . "name"     )) "rudybot")
+           (string ((name . "alias"    )) "rudebot")
+           (string ((name . "alias-key")) "???"    )
+           (bool   ((name . "on-blist" )) "1"      )
+           (int    ((name . "flags"    )
+                    (type . ":conv-chat-buddy-flags")) "1" ))) ))
+
+new-arrivals: user(s) have just arrived
+participants: a list of alists, one alist per channel participant
+              within which: on-blist - user is on your buddy list
+                            flags    - ORed values describing user 
+flags: 1  - VOICED user
+       2  - HALF-OP (privileged user)
+       4  - OP
+       8  - OWNER/super-op
+       16 - TYPING
+
+*) elim-chat-remove-users
+
+   Remove said users from the chat/room/channel/etc participant list
+
+   (function-call nil
+     (elim-chat-remove-users ((id . "036")))
+     (alist nil
+       (string  ((name . "account-name" )) "elim@irc.freenode.net")
+       (string  ((name . "im-protocol"  )) "prpl-irc" )
+       (int     ((name . "account-uid"  )) "268435500")
+       (int     ((name . "conv-uid"     )) "126313246")
+       (string  ((name . "conv-name"    )) "#emacs"   )
+       (string  ((name . "conv-title"   )) "#emacs"   )
+       (int     ((name . "conv-type"    )
+                 (type . ":conversation-type"))    "2")
+       (int     ((name . "conv-features")
+                 (type . "connection-flags"  ))  "129")
+       (list    ((name . "participants" ))
+         (string nil "rudybot"  )
+         (string nil "specbot"  )
+         (string nil "lisppaste")
+         (string nil "fsbot"    )) ))
+
+*) elim-chat-rename-user
+
+   A participant's chat/room/channel/etc name changed
+
+   (function-call nil
+     (elim-chat-rename-user ((id . "037")))
+     (alist nil
+       (string  ((name . "account-name" )) "elim@irc.freenode.net")
+       (string  ((name . "im-protocol"  )) "prpl-irc" )
+       (int     ((name . "account-uid"  )) "268435500")
+       (int     ((name . "conv-uid"     )) "126313246")
+       (string  ((name . "conv-name"    )) "#emacs"   )
+       (string  ((name . "conv-title"   )) "#emacs"   )
+       (int     ((name . "conv-type"    )
+                 (type . ":conversation-type"))    "2")
+       (int     ((name . "conv-features")
+                 (type . "connection-flags"  ))  "129")
+       (string  ((name . "old-name"     )) "rudebot"  )
+       (string  ((name . "new-name"     )) "rudybot"  )
+       (string  ((name . "new-alias"    )) "groucho-marx") ))
+
+*) elim-conv-present
+
+   The conversation in question should be shown to the user, probably
+   because it has become active in some interesting way.
+
+   (function-call nil 
+     (elim-conv-present ((id . "038")))
+     (alist nil
+       (string  ((name . "account-name" )) "elim@irc.freenode.net")
+       (string  ((name . "im-protocol"  )) "prpl-irc" )
+       (int     ((name . "account-uid"  )) "268435500")
+       (int     ((name . "conv-uid"     )) "126313246")
+       (string  ((name . "conv-name"    )) "rudybot"  )
+       (string  ((name . "conv-title"   )) "rudybot@freenode")
+       (int     ((name . "conv-type"    )
+                 (type . ":conversation-type"))    "1")
+       (int     ((name . "conv-features")
+                 (type . "connection-flags"  ))  "129") ))
+

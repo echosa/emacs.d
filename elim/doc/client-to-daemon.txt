@@ -1,0 +1,371 @@
+ELIM Sexp Protocol (ESP): Client to Daemon calls
+
+############################################################################
+Copyright © 2009, 2011 Vivek Dasmohapatra.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the file "COPYING".
+############################################################################
+General Notes:
+
+*) Either an account-uid OR (an account-name AND an im-protocol) are 
+   sufficient to identify an account: you need not supply all three.
+
+*) In general, objects should be identified to the daemon by their UIDs
+   as their names are subject to asynchronous change, not necessarily
+   triggered by you (the client), whereas UIDs are guaranteed to remain
+   valid for the lifetime of an elim process.
+
+*) In those cases where you wish to store objects in your own cache,
+   and not rely on the IM server and/or libpurple's local cache, you
+   should cache the information required to create said objects,
+   bearing in mind that all your UIDs will be invalid when you connect
+   to a new elim process.
+
+*) In general, a successful call (status of 0) does _not_ mean that 
+   any remote actions (communication with an IM server, establishing
+   an account connection etc) has completed: It only means that your 
+   request appeared syntactically valid, to the extent that libpurple
+   was able to determine without actually communicating with any remote
+   systems. 
+
+*) Actual notification of successful completion is usually delivered 
+   in the form of a daemon-to-client call, which will arrive asynchronously.
+   See daemon-to-client.txt for details of those calls and what they 
+   indicate.
+
+*) Call IDs for client-to-daemon calls (and their corresponding responses)
+   occupy a separate namespace than daemon-to-client calls: It is theoretically
+   possible for a client-to-daemon call to have the same ID as a 
+   daemon-to-client call, but this does not imply any relationship between 
+   them.
+
+############################################################################
+
+The following calls are provided:
+
+############################################################################
+
+Add an account to libpurple's list of IM accounts: New accounts will
+be disconnected by default, accounts which are already in libpurple's
+persistent cache will keep their old state, whatever it was:
+
+  (function-call nil
+    (add-account ((id . "100")))
+    (alist nil
+      (string ((name . "account-name")) "USER@irc.freenode.net")
+      (string ((name . "im-protocol" )) "prpl-irc"             ) 
+      (string ((name . "password"    )) "PASSWORD"             ) 
+      (alist  ((name . "options"     )) ...                    )))
+
+account-name : the "screen name" or canonical identifier for the IM account
+im-protocol  : the libpurple protocol id (see list-protocols)
+password     : OPTIONAL password
+options      : OPTIONAL alist of account options, varies with protocol
+               details to follow. Not normally needed.
+
+  (function-response nil
+    (add-account ((id . "100")))
+    (alist nil
+      (int   ((name . "status")) "0")
+      (alist ((name . "value" ))
+        (int    ((name . "account-uid" )) "268435456")
+        (string ((name . "account-name")) "USER@..." )
+        (string ((name . "im-protocol" )) "prpl-irc" )) )) 
+
+account-uid : integer (may exceed emacs integer limit) unique id for account
+account-name: [potentially] canonicalised screen name for IM account
+im-protocol : libpurple protocol id
+
+############################################################################
+
+Ask libpurple to add a buddy to an account's buddy list.
+Whether this results in a buddy being added to a server-side list 
+depends on the protocol (for most protocols it does).
+
+  (function-call nil
+    (add-buddy ((id . "101")))
+    (alist nil
+      (int    ((name . "account-uid" ))  "268435456"            )
+      (string ((name . "account-name"))  "USER@irc.freenode.net")
+      (string ((name . "im-protocol" ))  "prpl-irc"             )
+      (string ((name . "buddy-name"  ))  "fsbot"                )
+      (string ((name . "group"       ))  "irc-buddies"          )))
+
+buddy-name  : screen name of intended buddy. This can vary with protocol,
+              eg for irc it should not contain the @server part.
+group       : group into which this buddy should be placed. optional.
+
+  (function-response nil
+    (add-buddy ((id . "101")))
+    (alist nil
+      (int   ((name . "status")) "0")
+      (alist ((name . "value" ))
+        (alist nil
+          (int    ((name . "buddy-uid"   )) "268436024"  )
+          (string ((name . "buddy-name"  )) "fsbot"      )
+          (string ((name . "buddy-alias" )) "fsbot"      )
+          (int    ((name . "group-uid"   )) "268435500"  )
+          (string ((name . "group-name"  )) "irc-buddies")
+          (int    ((name . "account-uid" )) "268435456"  )
+          (string ((name . "account-name")) "USER@..."   )
+          (string ((name . "im-protocol" )) "prpl-irc"   ))) ))
+
+############################################################################
+
+This call triggers connection for an IM account. (sign on, log in, etc)
+
+  (function-call nil
+    (connect ((id . "102")))
+    (alist nil
+      (string ((name . "account-name")) "USER@..." )
+      (string ((name . "im-protocol" )) "prpl-irc" )
+      (int    ((name . "account-uid" )) "268435456")))
+
+  (function-response nil
+    (connect ((id . "103")))
+    (alist nil
+      (int   ((name . "status")) "0")
+      (alist ((name . "value" ))
+        (int    ((name . "account-uid" )) "268435456")
+        (string ((name . "account-name")) "USER@..." )
+        (string ((name . "im-protocol" )) "prpl-irc" )) )) 
+
+############################################################################
+
+This call toggles/sets/unsets libpurple debugging.
+
+
+  (function-call nil (debug-mode ((id . "103"))))                ;; toggle 
+  (function-call nil (debug-mode ((id . "103"))) (bool nil "1")) ;; turn on
+  (function-call nil (debug-mode ((id . "103"))) (bool nil "0")) ;; turn off
+
+  (function-response nil 
+    (debug-mode ((id . "103"))) (bool nil "1"))                  ;; new state
+
+The return value is the status after the call.
+
+############################################################################
+
+This call triggers an IM account disconnection (signing off, logging out):
+
+  (function-call nil
+    (disconnect ((id . "104")))
+    (alist nil
+      (string ((name . "account-name")) "USER@..." )
+      (string ((name . "im-protocol" )) "prpl-irc" )
+      (int    ((name . "account-uid" )) "268435456")))
+
+  (function-response nil
+    (disconnect ((id . "104")))
+    (alist nil
+      (int   ((name . "status")) "0")
+      (alist ((name . "value" ))
+        (int    ((name . "account-uid" )) "268435456")
+        (string ((name . "account-name")) "USER@..." )
+        (string ((name . "im-protocol" )) "prpl-irc" )) )) 
+
+############################################################################
+
+Initialise libpurple: Generally this will have to be your first call.
+You can call this as many times as you want but the ui-id should always 
+be the same. It would be fairly unusual to need to call this > once though.
+
+  (function-call nil
+    (init ((id . "105")))
+    (alist nil
+      (string ((name . "dot-dir")) "/home/fsbot/.emacs.d/elim" )
+      (string ((name . "ui-id"  )) "elim"                      )))
+
+dot-dir: the directory libpurple will use for its persistent cache and so forth
+ui-id  : OPTIONAL : a string identifying the libpurple instance internally
+
+  (function-response nil
+    (init ((id . "105")))
+    (alist nil
+      (int   ((name . "status")) "0")
+      (alist ((name . "value" ))
+        (string ((name . "ui-id")) "elim")) ))
+
+
+############################################################################
+
+Add a chat entry to your buddy list, and join that room/channel/etc.
+More or less idempotent.
+
+  (function-call nil
+    (join ((id . "106")))
+    (alist nil
+      (string ((name . "account-name")) "USER@irc.freenode.net")
+      (string ((name . "im-protocol" )) "prpl-irc"             ) 
+      (int    ((name . "account-uid" )) "268435456"            )
+      (string ((name . "chat-alias"  )) "#emacs"               ) 
+      (alist  ((name . "chat-options")) ...                    )))
+
+chat-options is an alist whose contents vary with protocol.
+( All its values will be strings, however: That much is guaranteed ).
+More details will follow here:
+
+For example for irc it has the form:
+
+  (alist ((name . "chat-options"))
+         (string ((name . "password")) "******")
+         (string ((name . "channel" )) "#emacs")) 
+
+password is optional in this case.
+
+If no conversation exists for this chat entry yet, the response will be:
+
+  (function-response mil
+    (join-chat ((id . "106")))
+    (alist nil
+      (int   ((name . "status")) "0")
+      (alist ((name . "value" ))
+        (int    ((name . "account-uid" )) "268435456")
+        (string ((name . "account-name")) "USER@..." )
+        (string ((name . "im-protocol" )) "prpl-irc" )
+        (string ((name . "chat-name"   )) "#emacs"   ))))
+
+If we already have a conversation:
+
+  (function-response mil
+    (join-chat ((id . "106")))
+    (alist nil
+      (int   ((name . "status")) "0")
+      (alist ((name . "value" ))
+        (int    ((name . "account-uid"  )) "268435456")
+        (string ((name . "account-name" )) "USER@..." )
+        (string ((name . "im-protocol"  )) "prpl-irc" )
+        (string ((name . "chat-name"    )) "#emacs"   )
+        (int    ((name . "conv-uid"     )) "268433200")
+        (int    ((name . "conv-type"    )
+                 (type . ":conversation-type"))    "2") ;; enum
+        (int    ((name . "conv-features")
+                 (type . ":connection-flags" ))   "16") ;; |ed flags enum
+        (string ((name . "conv-name"    )) "#emacs"   )
+        (string ((name . "conv-alias"   )) "#emacs"   ))))
+
+NOTE: enumerations are covered in enumerations.txt
+
+############################################################################
+
+List the protocol IDs and names supported by this instance of elim:
+
+  (function-call (list-protocols ((id . "107"))))
+
+  (function-response nil
+    (list-protocols ((id . "107")))
+    (alist  nil
+      (int    ((name . "status")) "0")
+      (alist  ((name . "value"))
+        (string ((name . "prpl-aim"      )) "AIM"       )
+        (string ((name . "prpl-bonjour"  )) "Bonjour"   )
+        (string ((name . "prpl-gg"       )) "Gadu-Gadu" )
+        (string ((name . "prpl-novell"   )) "GroupWise" )
+        (string ((name . "prpl-icq"      )) "ICQ"       )
+        (string ((name . "prpl-irc"      )) "IRC"       )
+        (string ((name . "prpl-msn"      )) "MSN"       )
+        (string ((name . "prpl-myspace"  )) "MySpaceIM" )
+        (string ((name . "prpl-qq"       )) "QQ"        )
+        (string ((name . "prpl-silc"     )) "SILC"      )
+        (string ((name . "prpl-simple"   )) "SIMPLE"    )
+        (string ((name . "prpl-meanwhile")) "Sametime"  )
+        (string ((name . "prpl-jabber"   )) "XMPP"      )
+        (string ((name . "prpl-yahoo"    )) "Yahoo"     )
+        (string ((name . "prpl-zephyr"   )) "Zephyr"    ))))
+
+The keys of the alist in "value" as the libpurple protocol ids.
+The corresponding values are the human friendly IM protocol names.
+
+############################################################################
+
+Send an IM message. Note that messages are sent not to a particular user,
+as such, but to a "conversation", which should be identified by UID.
+elim will inform you of conversation UIDs as they are created;
+( see daemon-to-client.txt for details. ):
+
+;; to continue an existing conversation, supply the uid:
+  (function-call 
+    (message ((id . "108")))
+    (alist nil
+      (int    ((name . "account-uid"  )) "268435456")
+      (string ((name . "account-name" )) "USER@..." )
+      (string ((name . "im-protocol"  )) "prpl-irc" )
+      (int    ((name . "conv-uid"     )) "268433200")
+      (string ((name . "text"         )) "møøse"    )))
+
+;; to start a new conversation with a user, supply that user's name
+;; as the conv-name argument:
+;; NOTE: to start a multi-user chat/room/channel conversation, use 
+;; join-chat instead.
+  (function-call 
+    (message ((id . "108")))
+    (alist nil
+      (int    ((name . "account-uid"  )) "268435456")
+      (string ((name . "account-name" )) "USER@..." )
+      (string ((name . "im-protocol"  )) "prpl-irc" )
+      (string ((name . "conv-name"    )) "fsbot"    ) 
+      (string ((name . "text"         )) "møøse"    )))
+
+;; to start a conversation without sending a message, omit the 
+;; "text" argument or pass the empty string:
+  (function-call 
+    (message ((id . "108")))
+    (alist nil
+      (int    ((name . "account-uid"  )) "268435456")
+      (string ((name . "account-name" )) "USER@..." )
+      (string ((name . "im-protocol"  )) "prpl-irc" )
+      (string ((name . "conv-name"    )) "fsbot"    )))
+
+  (function-response 
+    (message ((id . "108")))
+    (alist nil
+      (int   ((name . "status")) "0")
+      (alist ((name . "value"))
+        (int    ((name . "account-uid" )) "268435456")
+        (string ((name . "account-name")) "USER@..." )
+        (string ((name . "im-protocol" )) "prpl-irc" )
+        (int    ((name . "bytes"       )) "7"        ))))
+
+############################################################################
+
+Request a list of the parameters required to join a multi-user 
+chat/room/channel/etc on a given protocol.
+
+  (function-call 
+    (chat-params ((id . "109")))
+    (alist nil (string ((name . "im-protocol")) "prpl-jabber")))
+
+  (function-response
+    (chat-params ((id . "109")))
+    (alist nil 
+      (string ((name . "im-protocol")) "prpl-jabber")
+      (alist  ((name . "parameters" )) 
+        (alist ((name . "room")) 
+          (string ((name . "label"   )) "_Room:") 
+          (bool   ((name . "required")) "1") 
+          (bool   ((name . "secret"  )) "0"))
+        (alist ((name . "server")) 
+          (string ((name . "label"   )) "_Server:")
+          (bool   ((name . "required")) "1") 
+          (bool   ((name . "secret"  )) "0"))
+        (alist ((name . "handle")) 
+          (string ((name . "label"   )) "_Handle:")
+          (bool   ((name . "required")) "1") 
+          (bool   ((name . "secret"  )) "0"))
+        (alist ((name . "password")) 
+          (string ((name . "label"   )) "_Password:") 
+          (bool   ((name . "required")) "0") 
+          (bool   ((name . "secret"  )) "1"))
+        (alist ((name . "made-up-example")) 
+          (string ((name . "label"   )) "_A-Thing:") 
+          (bool   ((name . "is-integer")) "1")
+          (int    ((name . "minimum"   )) "1001" )
+          (int    ((name . "maximum"   )) "65534")
+          (bool   ((name . "required"  )) "0")
+          (bool   ((name . "secret"    )) "0")) )))
+
+############################################################################

@@ -1,0 +1,30 @@
+All function calls implemented by the daemon are implemented here.
+Each file implements one externally exposed function. Each file and 
+function should be named according to the following pattern, and have 
+the indicated signature: 
+
+daemon function: foo-bar
+files          : foo_bar.c; foo_bar.h
+c return type  : xmlnode * 
+c function name: _h_elim_foo_bar
+c signature    : const char *name, const char *id, SEXP_VALUE *a, gpointer data
+
+minimal contents of header:
+
+#ifndef _EMACSIM_HANDLER_FOO_BAR_H_
+#define _EMACSIM_HANDLER_FOO_BAR_H_
+
+#include <glib.h>
+#include "../elim-rpc.h"
+
+xmlnode * _h_elim_foo_bar ( const char *name , 
+                            const char *id   ,
+                            SEXP_VALUE *args , 
+                            gpointer    data );
+
+#endif
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without warranty of any kind.

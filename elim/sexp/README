@@ -1,0 +1,2 @@
+Functions for parsing, allocating, printing, freeing and manipulating sexps 
+(both in string form and unpacked data structure form)

@@ -1,0 +1,2 @@
+Scripts for creating those source files which are dynamically generated
+from the rest of the source, any other scripts used by the build system.

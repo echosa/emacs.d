@@ -1,0 +1,355 @@
+2010-04-13  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el:
+	(garak-mapbuffers): apply action to all garak buffers
+	(garak-buffer-account-matches): helper to find buffers for given account
+	(garak-network-down): handle network down event
+	(garak-disconnected): handle account disconnected event
+	(garak-network-up): handle network up event (reconnect accounts)
+	(garak-buddy-list-skip): better offline-contact check, buddies that go
+	offline now disappear if offline buddy hiding is ocnfigured
+	(garak-summarise-text): text summarisation (mainly for alerts)
+	(garak-alert-user): put content of message into alert
+
+	* elisp/elim.el (elim-parse-proto-args): allow empty arglist
+
+	* elisp/dbus-util.el:
+	(dbus-util-method-args-in): handle unnamed args
+	(dbus-util-argspec-to-cons): ibid
+	(dbus-util-call-method): allow elisp-style-names for dbus functions
+	(dbus-util-deuglify-name): utilities to de-and-re uglify dbus names
+	(dbus-util-deuglify-char): ibid
+	(dbus-util-uglify-name): ibid
+	(dbus-util-uglify-char): ibid
+
+2010-03-26  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el:
+	(garak-update-buddy): don't lose the proto icon from widgets on update
+
+	* elisp/notify.el: org.freedesktop.Notifications interface
+
+	* elisp/dbus-util.el: utility library for calling dbus methods
+
+	* elisp/garak.el:
+	(garak-alert-when): defcustom to pick when to alert the user
+	(garak-alert-methods): defcustom to pick how to issue alerts
+	(garak-recent-alerts): variable to track and throttle alerts
+	(garak-alert-user): handle actual logic of alerting the user
+	(garak-chat-message): hook up the alert function to the message handler
+
+2009-07-03  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* handlers/set_icon.c (_h_elim_set_icon): silence a warning.
+
+2009-07-02  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* sexp/sexp-util.h (ALIST_VAL_DATA): new alias for arg value macro
+
+	* handlers/set_icon.c (_h_elim_set_icon): implement setting account icon
+
+	* elisp/elim.el (elim-set-account-icon): call set-icon handler in daemon
+
+	* elisp/garak.el:
+	(garak-comp-account-file): completer for set-icon
+	(garak-cmd-set-icon): CLI handler for /set-icon
+	(garak-command-handlers): register CLI handler for /set-icon
+	(garak-command-match): regex for same
+	(garak-command-completers): register tab completer for /set-icon
+
+2009-06-21  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el: 
+	(garak-update-buddy): update label when buddy alias/name changes.
+	(garak-cmd-alias-buddy): cli command interpreter for /alias
+	(garak-command-handlers): register /alias handler
+	(garak-command-match): /alias command regexp
+	(garak-commands): /alias command added to list
+	(garak-command-completers): register tab completion handler for /alias
+
+	* elisp/elim.el (elim-alias-bnode): support daemon buddy node aliasing.
+
+2009-06-20  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el (garak-comp-msg): tab completion of buddies for /msg
+
+	* elisp/elim.el (elim-get-buddies): add util func to get buddies
+	based on user-defined filters.
+
+	* handlers/alias_bnode.h (_h_elim_alias_bnode): buddy aliasing support.
+	* handlers/alias_bnode.c (_h_elim_alias_bnode): buddy aliasing support.
+
+2009-06-19  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el:
+	(garak-buddy-list-node-widget): prefer: alias > contact alias > name
+	(garak-request-add-buddy): implement add buddy/cancel actions
+	reaulting from elim-request-add-buddy calls.
+
+2009-06-18  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* handlers/notify_search_callback.c (_h_elim_notify_search_callback): 
+	use the cached row data rather than the ephemeral row data which may 
+	have been freed by now ( judging by the example in the pidgin source, 
+	this is the right approach here ).
+	* ui_ops/notify_ui_ops.c (_elim_notify_search): call the standard purple
+	`more search rows' function instead of assuming our callback is in place
+	and calling it directly. Unlikely that we were wrong, but just in case.
+	(_elim_notify_search_rows): cache the ephemeral row data we get here
+	* elim-rpc.h (_NOTIFY_RESP): search row data is ephemeral: cache it here
+
+2009-06-17  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el:
+	(garak-callbacks): elim-blist-request-add-buddy handler registered
+	(garak-request-add-buddy): handler for above elim call.
+
+2009-06-14  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* handlers/notify_search_callback.c: 
+	(_h_elim_notify_search_callback): check gc, row & button are all valid
+	(_h_elim_notify_search_callback): get search cache with sid, not call id
+	(_h_elim_notify_search_callback): extract row data correctly
+
+	* elisp/garak.el (garak-search-results-buffer): cache args in buffer
+	(garak-notify-search-callback): pass search id back in callback
+
+	* elim-rpc.c (check_cb_data): abort if no key passed in
+
+2009-06-13  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el: implement search reulst display/action UI.
+	* ui_ops/notify_ui_ops.c (_elim_notify_search): pass on the account uid
+
+2009-06-05  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* handlers/notify_search_callback.c: search callbacks (add, join etc)
+	(_h_elim_notify_search_callback): handle search result action "buttons"
+
+	* ui_ops/notify_ui_ops.c: search results 
+	(_elim_notify_search): notification to send search meta-data
+	(_elim_notify_search_rows): sub-notification to sends search results
+
+	* xnode/xnode.c (xnode_list_item_string): add strimg item to sexp list
+
+	* elim-rpc.h (LS_STR): add string to sexp list structure
+	(LS_NODE): add generic node to sexp list structure
+	(NOTIFY_RESP): move typedef so it is visible to ui_ops _and_ handlers
+	(CB_HANDLER): add 'type' member to struct
+	(NOTIFY_RESP): add user_data and sres members
+
+	* elim-rpc.c (check_cb_data): peek at cb data without removing it
+
+2009-05-28  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el (garak-mode-map): start to define garak keymap
+	(garak-activate)  : connect account(s) associated with buffer
+	(garak-deactivate): disconnect account(s) or leave conversation
+	(garak-toggle-offline-buddies): hide/show offline buddies
+	(garak-mode): add `:group' to mode definition to allow customisation
+
+2009-05-23  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* icons/blocked.png: new icon.
+
+	* elisp/elim.el (elim-toggle-user-blocked): implement toggle privacy op
+
+	* elisp/garak.el (garak-icon-tags): new icon and tag
+	(garak-buddy-list-node-command): implement toggle privacy menu op
+	(garak-buddy-list-choose-icon): prioritise blocked icon over status icon
+
+	* handlers/buddy_privacy.c (_h_elim_buddy_privacy): toggle/set blocked
+
+	* handlers/add_buddy.c (_h_elim_add_buddy): zap clones in blist
+
+	* elim-rpc.h: consolidate definition of utility macros
+	(FETCH_ACCOUNT)      : fetch account by uid
+	(FIND_ACCOUNT)       : account by uid or name+proto
+	(BNODE_ACCOUNT_CHECK): buddy account/supplied account match
+	(HANDLER_FAIL)       : generic free args and bail out of handler
+
+	* handlers/remove_buddy.c (_h_elim_remove_buddy) : new macros
+
+	* handlers/buddy_menu_action.c (_h_elim_buddy_menu_action)    : ibid
+
+	* handlers/buddy_menu.c (_h_elim_buddy_menu)                  : ibid
+
+	* handlers/buddy_info.c (_h_elim_buddy_info)                  : ibid
+
+	* handlers/account_menu_action.c (_h_elim_account_menu_action): ibid
+
+	* handlers/account_menu.c (_h_elim_account_menu)              : ibid
+
+2009-05-22  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/elim.el (elim-data-to-proto): binary data protocol serialiser
+	(elim-atom-to-proto): detect and serialise binary data (contains NULs)
+
+	* elisp/garak.el (garak-maybe-remove-account): new acct menu command
+	(garak-account-list-node-command): new account menu command handled
+	(garak-buddy-list-node-widget)   : implement new gui command
+
+2009-05-20  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el (garak-error-handler): try to show async errors to user
+
+	* elisp/elim.el (elim-debug): no undo info in debug buffer
+	(elim-default-fail-handler): errors to default fail handler if available
+	(elim-call-client-handler) : ibid
+
+	* ui_ops/eventloop_ui_ops.c: remove input_get_error, harmful ui op defun
+
+2009-05-19  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* Makefile (OLD_GLIB): more old glib version detect-and-kludge work
+
+	* elim-glibcompat.h: define macros for pre-2.14 glib support.
+
+	* elim-glibcompat.c (elim_g_queue_init)
+	(elim_g_hash_table_get_keys): pre-2.14 glib substitute functions
+
+	* elim-client.c (main): use macro in case we're on a pre-2.14 glib
+
+	* handlers/set_prefs.c (_h_elim_set_prefs): ditto
+
+2009-05-18  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el (garak-account-list-node-widget): use fallback icon
+	(garak): pass in app name when starting elim
+
+	* ui_ops/core_ui_ops.c (_elim_get_ui_info): set app name and version
+	(_elim_quit): free up ui info (app name and version) on exit.
+
+2009-05-17  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* handlers/init.c (_h_elim_init): user can set debug on init
+	                                  set plugin path to include user dir
+
+	* elisp/garak.el (garak-buddy-list-node-widget): prefer alias in blist
+
+	* signals/file_transfers.c (XSIG, _elim_signal_ft): show ft event origin
+
+	* elisp/garak.el: 
+	(garak-ui-ft-update-progress)  : set ft status here too
+	(garak-ui-ft-update-display)   : check for done w byte count as well
+	(garak-buddy-list-node-command): ui menu send file op done
+	(garak-cmd-send-file)          : cli send file function
+	(garak-command-handlers, garak-command-match)
+	(garak-command-completers)     : ditto 
+
+	* elisp/elim.el: 
+	(elim-request-field-string): distinguish file/string/dir
+	(elim-request-item)        : ditto
+	(elim-send-file)           : initiate file transfer
+
+2009-05-16  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* handlers/send_file.c (_h_elim_send_file): support sending files
+
+	* signals/file_transfers.c (_elim_ft_ui_op_create): allocate unique uid
+	(_elim_ft_ui_op_destroy): emit transfer-status call
+	(_elim_ft_ui_op_add)    : emit transfer-status call
+	(_elim_ft_ui_op_cancel) : emit transfer-status call
+	(_elim_ft_ui_op_update) : emit transfer-progress call
+
+	* elisp/garak.el: handle file transfer status calls and provide
+	                  file transfer tracking UI.
+
+	* elisp/elim.el : handle new file transfer calls
+
+2009-05-15  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* make/elim-func-handlers-c.sh: echo -n not portable (OSX, maybe others)
+
+	* ui_ops/notify_ui_ops.c:
+	(_elim_notify_track_images, _elim_close_notify): 64 bit size warning.
+
+	* elisp/elim.el:
+	(elim-update-process-data): abstracted out process data alist faff.
+	(elim-request-item)       : label buttons correctly for file request.
+	                            improve widget layout/info for file request.
+	
+	* elisp/garak.el (garak-cmd-prefs): /prefs command
+	
+	* Makefile                : build/link new signals directory
+
+	* signals/file_transfers.c: 
+	(elim_ft_signals_init) : file transfer signals handled.
+	(_elim_ft_ui_op_update): file transfer progress support.
+	(_elim_signal_ft_file) : file transfer meta data to client on signals.
+
+	* elim-rpc.h (AL_NUM): protocol float alist member helper macro.
+
+	* xnode/xnode.c (xnode_alist_item_number): protocol float support.
+
+2009-05-14  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp/garak.el        : Fetch and display buddy info data, including
+	                          support for markup and images.
+
+	* elisp/elim.el         : interpret more markup (bold, italic, newline)
+	                          fetch image data by ID (synchronous call)
+
+	* handlers/image.c      : fetch image data by imgstore ID
+
+	* ui_ops/notify_ui_ops.c: track image id refs in _elim_notify_userinfo
+	                          and _elim_close_notify.
+
+	* xnode/xnode.c (xnode_alist_item_data): base64 data type support.
+
+2009-05-12  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* ui_ops/notify_ui_ops.c: implement server side of notify-userinfo
+
+	* elisp/garak.el: handle notify types: email, message, formatted, uri
+	                  still underway: emails, search, userinfo
+
+	* ui_ops/notify_ui_ops.c: rename _elim_notify_search_rows -> …_more
+
+2009-05-11  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* Makefile: target to generate tarballs (signed or non)
+
+	* handlers/account_menu.c       : generate dynamic extended account menu
+
+	* handlers/account_menu_action.c: execute account menu action
+
+	* elisp/garak.el                : extended account menu items 
+	                                  configure account menu item
+
+	* elisp/elim.el                 : fetch extended account menu
+
+	* ui_ops/request_ui_ops.c       : callbacks passed into us may be NULL.
+	                                  check for this.
+
+2009-05-10  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* doc                 : added copyright and GFDL notices, and GFDL
+
+	* elisp/garak.el      : finish prefs browse/edit/save functionality
+
+	* handlers/set_prefs.c: implement setting preferences.
+
+	* elisp/elim.el       : implement setting preferences.
+	                        provide alist -> proto alist function
+
+	* handlers/get_prefs.c: add some more 'choice' metadata for prefs
+
+2009-05-08  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* elisp   : re-use old dead garak buffers on restart (M-x garak)
+	* handlers: fetch preferences tree
+	* elisp   : display editable preferences widget (M-x garak-prefs)
+
+2009-05-07  Vivek Dasmohapatra  <vivek@etla.org>
+
+	* CHANGES : initial change log entry
+	* elisp   : handle elim process dying (update account statuses;
+	            put warning message in all live garak buffers)
+	* handlers: provide buddy-menu and buddy-menu-action handlers
+	* elisp   : implement (dynamic) extended buddy menu handling
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without warranty of any kind.
