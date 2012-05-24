@@ -3,7 +3,7 @@
       [(20110826)
        nil "Provides zsh like completion for minibuffer [source: github]" single])
  (zf-mode .
-	  [(20120507)
+	  [(20120523)
 	   nil "A better PHP mode with Zend Framework 1 support. [source: github]" tar])
  (zenburn-theme .
 		[(20120505)
@@ -440,7 +440,7 @@
 	   [(20120508)
 	    nil "JavaScript scanner [source: github]" single])
  (js2-mode .
-	   [(20120515)
+	   [(20120523)
 	    nil "an improved JavaScript editing mode [source: github]" single])
  (js-comint .
 	    [(20080530)
@@ -509,7 +509,7 @@
 	   [(20120505)
 	    nil "Helm extension for Git. [source: github]" single])
  (helm .
-       [(20120517)
+       [(20120523)
 	nil "Helm is an Emacs incremental and narrowing framework [source: github]" tar])
  (haskell-mode .
 	       [(20120521)
@@ -624,8 +624,10 @@
 	  [(20120403)
 	   nil "Enclose cursor within punctuation pairs [source: github]" single])
  (emacs-setup .
-	      [(20120514)
-	       nil "Package for maintaining your emacs configuration. Clean up your .emacs! [source: github]" tar])
+	      [(20120523)
+	       ((revive
+		 (2 19)))
+	       "Package for maintaining your emacs configuration. Clean up your .emacs! [source: github]" tar])
  (elscreen .
 	   [(20120413)
 	    nil "Emacs window session manager [source: github]" single])
@@ -648,7 +650,7 @@
        [(20081128)
 	nil "simplified find-file, revert-file, save-buffer interface [source: wiki]" single])
  (dired+ .
-	 [(20120522)
+	 [(20120523)
 	  nil "Extensions to Dired. [source: wiki]" single])
  (delim-kill .
 	     [(20100517)

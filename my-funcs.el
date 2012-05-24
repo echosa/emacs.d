@@ -45,12 +45,12 @@
 
 (defun my-term-hook ()
  (message "Running term hook.")
- (define-key term-raw-map "\C-y" 'my-term-paste)
- (define-key term-raw-map (kbd "C-c M-x") 'smex)
- (define-key term-raw-map (kbd "C-c M-:") 'eval-expression)
- (define-key term-raw-map (kbd "C-c C-c") 'send-control-c)
- (define-key term-raw-map (kbd "C-c C-x") 'send-control-x)
- (define-key term-raw-map (kbd "C-c C-z") 'send-control-z)
+ ;; (define-key term-raw-map "\C-y" 'my-term-paste)
+ ;; (define-key term-raw-map "\C-c\M-x" 'smex)
+ ;; (define-key term-raw-map (kbd "C-c M-:") 'eval-expression)
+ ;; (define-key term-raw-map (kbd "C-c C-c") 'send-control-c)
+ ;; (define-key term-raw-map (kbd "C-c C-x") 'send-control-x)
+ ;; (define-key term-raw-map (kbd "C-c C-z") 'send-control-z)
  (let ((base03  "#002b36")
        (base02  "#073642")
        (base01  "#586e75")
@@ -69,7 +69,8 @@
        (green   "#859900"))
    (setq ansi-term-color-vector 
          (vconcat `(unspecified ,base02 ,red ,green ,yellow ,blue ,magenta 
-                                ,cyan ,base2)))))
+                                ,cyan ,base2))))
+ )
 (add-hook 'term-mode-hook 'my-term-hook)
 
 ;; ***********
