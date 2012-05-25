@@ -193,8 +193,8 @@
 	    (2 0)))
 	  "Rinari Is Not A Rails IDE [source: github]" tar])
  (revive .
-	 [(20110510)
-	  nil "No description available. [source: github]" single])
+	 [(20120524)
+	  nil "Resume Emacs [source: github]" single])
  (redshank .
 	   [(20120510)
 	    nil "No description available. [source: git]" tar])
@@ -336,7 +336,7 @@
 		[(20120214)
 		 nil "Interface to the ArchLinux package manager [source: github]" single])
  (php-mode .
-	   [(20120428)
+	   [(20120519)
 	    nil "major mode for editing PHP code [source: github]" single])
  (pcache .
 	 [(20120408)
@@ -402,6 +402,9 @@
  (markdown-mode .
 		[(20120225)
 		 nil "Emacs Major mode for Markdown-formatted text files [source: github]" single])
+ (mark-multiple .
+		[(20120516)
+		 nil "A library that sorta lets you mark several regions at once [source: github]" tar])
  (magithub .
 	   [(20120209)
 	    ((magit
@@ -410,7 +413,7 @@
 	      (1 2)))
 	    "Magit extensions for using GitHub [source: github]" single])
  (magit .
-	[(20120507)
+	[(20120523)
 	 nil "Control Git from Emacs. [source: github]" tar])
  (lua-mode .
 	   [(20120514)
@@ -509,10 +512,10 @@
 	   [(20120505)
 	    nil "Helm extension for Git. [source: github]" single])
  (helm .
-       [(20120523)
+       [(20120524)
 	nil "Helm is an Emacs incremental and narrowing framework [source: github]" tar])
  (haskell-mode .
-	       [(20120521)
+	       [(20120524)
 		nil "A Haskell editing mode [source: github]" tar])
  (haml-mode .
 	    [(20101019)
@@ -604,7 +607,7 @@
 	      [(20111001)
 	       nil "No description available. [source: github]" single])
  (evil .
-       [(20120522)
+       [(20120525)
 	((undo-tree
 	  (0 5 1)))
 	"Extensible Vi layer for Emacs. [source: git]" tar])
@@ -618,13 +621,13 @@
 	 [(20111207)
 	  nil "No description available. [source: github]" tar])
  (ergoemacs-keybindings .
-			[(20120522)
+			[(20120525)
 			 nil "No description available. [source: svn]" tar])
  (enclose .
 	  [(20120403)
 	   nil "Enclose cursor within punctuation pairs [source: github]" single])
  (emacs-setup .
-	      [(20120523)
+	      [(20120524)
 	       ((revive
 		 (2 19)))
 	       "Package for maintaining your emacs configuration. Clean up your .emacs! [source: github]" tar])
@@ -749,13 +752,13 @@
        [(20110112)
 	nil "Turn string into ansi strings [source: github]" single])
  (ack-and-a-half .
-		 [(20120519)
+		 [(20120523)
 		  nil "Yet another front-end for ack [source: github]" single])
  (ace-jump-mode .
 		[(20120414)
 		 nil "a quick cursor location minor mode for emacs [source: github]" single])
  (ac-slime .
-	   [(20111011)
+	   [(20120524)
 	    nil "An auto-complete source using slime completions [source: github]" single])
  (ac-dabbrev .
 	     [(20091116)

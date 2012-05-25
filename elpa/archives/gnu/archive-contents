@@ -81,7 +81,7 @@
 	 [(0 4)
 	  nil "OAuth 2.0 Authorization Protocol" single])
  (org .
-      [(20120523)
+      [(20120525)
        nil "Outline-based notes management and organizer" tar])
  (quarter-plane .
 		[(0 1)
