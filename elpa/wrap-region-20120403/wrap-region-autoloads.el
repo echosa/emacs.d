@@ -5,8 +5,9 @@
 
 ;;;### (autoloads (wrap-region-global-mode turn-off-wrap-region-mode
 ;;;;;;  turn-on-wrap-region-mode wrap-region-mode) "wrap-region"
-;;;;;;  "wrap-region.el" (20369 31887))
-;;; Generated autoloads from wrap-region.el
+;;;;;;  "../../../../.emacs.d/elpa/wrap-region-20120403/wrap-region.el"
+;;;;;;  "9774e17e233d72ef336e239a73c84c61")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/wrap-region-20120403/wrap-region.el
 
 (autoload 'wrap-region-mode "wrap-region" "\
 Wrap region with stuff.
@@ -46,7 +47,9 @@ See `wrap-region-mode' for more information on Wrap-Region mode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("wrap-region-pkg.el") (20369 31887 654671))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/wrap-region-20120403/wrap-region-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/wrap-region-20120403/wrap-region.el")
+;;;;;;  (20498 60679 58406))
 
 ;;;***
 

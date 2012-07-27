@@ -3,8 +3,9 @@
 ;;; Code:
 
 
-;;;### (autoloads nil nil ("window-number-pkg.el" "window-number.el")
-;;;;;;  (20369 33663 827506))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/window-number-1.0.1/window-number-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/window-number-1.0.1/window-number.el")
+;;;;;;  (20498 60730 629857))
 
 ;;;***
 

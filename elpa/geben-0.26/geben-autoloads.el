@@ -5,8 +5,8 @@
 
 ;;;### (autoloads (dbgp-proxy-unregister-exec dbgp-proxy-unregister
 ;;;;;;  dbgp-proxy-register-exec dbgp-proxy-register dbgp-exec dbgp-start)
-;;;;;;  "dbgp" "dbgp.el" (20369 31025))
-;;; Generated autoloads from dbgp.el
+;;;;;;  "dbgp" "../../../../.emacs.d/elpa/geben-0.26/dbgp.el" "8f52fccf719d037b2435aea616f4eb10")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/geben-0.26/dbgp.el
 
 (autoload 'dbgp-start "dbgp" "\
 Start a new DBGp listener listening to PORT.
@@ -48,8 +48,9 @@ After unregistration, it kills the listener instance.
 
 ;;;***
 
-;;;### (autoloads (geben geben-mode) "geben" "geben.el" (20369 31025))
-;;; Generated autoloads from geben.el
+;;;### (autoloads (geben geben-mode) "geben" "../../../../.emacs.d/elpa/geben-0.26/geben.el"
+;;;;;;  "21315d759b36fa90a698b8adde4f42f0")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/geben-0.26/geben.el
 
 (autoload 'geben-mode "geben" "\
 Minor mode for debugging source code with GEBEN.
@@ -96,7 +97,9 @@ described its help page.
 
 ;;;***
 
-;;;### (autoloads nil nil ("geben-pkg.el") (20369 31025 618216))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/geben-0.26/dbgp.el"
+;;;;;;  "../../../../.emacs.d/elpa/geben-0.26/geben-pkg.el" "../../../../.emacs.d/elpa/geben-0.26/geben.el")
+;;;;;;  (20498 60780 827260))
 
 ;;;***
 

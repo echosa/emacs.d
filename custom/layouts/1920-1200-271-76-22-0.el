@@ -1,2 +1,0 @@
-;;;$Id: revive.el,v 2.19 2008/05/13 01:19:16 yuuji Exp yuuji $
-(1 (nil ((truncate-partial-width-windows) (make-backup-files . t) (version-control) (visible-bell) (file-name-history) (buffer-name-history "*scratch*" "*Warnings*" "*Messages*" "*scratch*" "*ansi-term*") (minibuffer-history "/bin/bash"))) (271 76 ((0 0 83 75) (83 0 166 75) (166 0 274 75)) ((nil "*scratch*" 1 1) (nil "*scratch*" 1 1) (nil "*scratch*" 1 1))))
