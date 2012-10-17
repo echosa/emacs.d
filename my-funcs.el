@@ -18,10 +18,40 @@
     (hs-show-block)
     (goto-line line)))
 
-(defun delete-to-end-of-buffer ()
-  "Deletes from point to end of buffer."
+(defun delete-to-end-of-buffer (add-to-kill-ring-p)
+  "Deletes from point to end of buffer.
+If prefix argument is given, kill the region, adding it to the kill ring."
+  (interactive "P")
+  (if add-to-kill-ring-p
+      (kill-region (point) (point-max))
+    (delete-region (point) (point-max))))
+
+;; http://www.emacswiki.org/emacs/ToggleWindowSplit
+(defun toggle-window-split ()
   (interactive)
-  (delete-region (point) (point-max)))
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+	     (next-win-buffer (window-buffer (next-window)))
+	     (this-win-edges (window-edges (selected-window)))
+	     (next-win-edges (window-edges (next-window)))
+	     (this-win-2nd (not (and (<= (car this-win-edges)
+					 (car next-win-edges))
+				     (<= (cadr this-win-edges)
+					 (cadr next-win-edges)))))
+	     (splitter
+	      (if (= (car this-win-edges)
+		     (car (window-edges (next-window))))
+		  'split-window-horizontally
+		'split-window-vertically)))
+	(delete-other-windows)
+	(let ((first-win (selected-window)))
+	  (funcall splitter)
+	  (if this-win-2nd (other-window 1))
+	  (set-window-buffer (selected-window) this-win-buffer)
+	  (set-window-buffer (next-window) next-win-buffer)
+	  (select-window first-win)
+	  (if this-win-2nd (other-window 1))))))
+(define-key ctl-x-4-map "t" 'toggle-window-split)
 
 ;; *********
 ;; ansi-term
@@ -123,52 +153,56 @@ Argument REPLACE String used to replace the matched strings in the buffer.
   (interactive)
   (save-excursion
     (beginning-of-line)
-    (when (looking-at ";")
-      (let ((count (- (save-excursion (end-of-line) (point)) (point))))
-        (open-line 1)
-        (insert ";; " (make-string (- count 3) ?\*))
-        (forward-line 2)
-        (beginning-of-line)
-        (open-line 1)
-        (insert ";; " (make-string (- count 3) ?\*))))))
+    (let ((use-semicolons (looking-at ";"))
+          (count (- (save-excursion (end-of-line) (point)) (point))))
+      (open-line 1)
+      (if use-semicolons
+          (insert ";; " (make-string (- count 3) ?\*))
+        (insert (make-string count ?\*)))
+      (forward-line 2)
+      (beginning-of-line)
+      (open-line 1)
+      (if use-semicolons
+          (insert ";; " (make-string (- count 3) ?\*))
+        (insert (make-string count ?\*))))))
 
 ;; *******
 ;; flymake
 ;; *******
-(defun flymake-create-temp-intemp (file-name prefix)
-  "Return file name in temporary directory for checking
-   FILE-NAME. This is a replacement for
-   `flymake-create-temp-inplace'. The difference is that it gives
-   a file name in `temporary-file-directory' instead of the same
-   directory as FILE-NAME.
+;; (defun flymake-create-temp-intemp (file-name prefix)
+;;   "Return file name in temporary directory for checking
+;;    FILE-NAME. This is a replacement for
+;;    `flymake-create-temp-inplace'. The difference is that it gives
+;;    a file name in `temporary-file-directory' instead of the same
+;;    directory as FILE-NAME.
 
-   For the use of PREFIX see that function.
+;;    For the use of PREFIX see that function.
 
-   Note that not making the temporary file in another directory
-   \(like here) will not if the file you are checking depends on
-   relative paths to other files \(for the type of checks flymake
-   makes)."
-  (unless (stringp file-name)
-    (error "Invalid file-name"))
-  (or prefix
-      (setq prefix "flymake"))
-  (let* ((name (concat
-                (file-name-nondirectory
-                 (file-name-sans-extension file-name))
-                "_" prefix))
-         (ext  (concat "." (file-name-extension file-name)))
-         (temp-name (make-temp-file name nil ext))
-         )
-    (flymake-log 3 "create-temp-intemp: file=%s temp=%s" file-name temp-name)
-    temp-name))
+;;    Note that not making the temporary file in another directory
+;;    \(like here) will not if the file you are checking depends on
+;;    relative paths to other files \(for the type of checks flymake
+;;    makes)."
+;;   (unless (stringp file-name)
+;;     (error "Invalid file-name"))
+;;   (or prefix
+;;       (setq prefix "flymake"))
+;;   (let* ((name (concat
+;;                 (file-name-nondirectory
+;;                  (file-name-sans-extension file-name))
+;;                 "_" prefix))
+;;          (ext  (concat "." (file-name-extension file-name)))
+;;          (temp-name (make-temp-file name nil ext))
+;;          )
+;;     (flymake-log 3 "create-temp-intemp: file=%s temp=%s" file-name temp-name)
+;;     temp-name))
 
-(defun flymake-php-init ()
-  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-intemp))
-	 (local-file  (file-relative-name
-                       temp-file
-                       (file-name-directory buffer-file-name))))
-    (list "php" (list "-f" local-file "-l"))))
+;; (defun flymake-php-init ()
+;;   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+;;                        'flymake-create-temp-intemp))
+;; 	 (local-file  (file-relative-name
+;;                        temp-file
+;;                        (file-name-directory buffer-file-name))))
+;;     (list "php" (list "-f" local-file "-l"))))
 
 ;; ***
 ;; js2
@@ -183,9 +217,65 @@ Argument REPLACE String used to replace the matched strings in the buffer.
   (make-local-variable (quote whitespace-style))
   (setf whitespace-style (quote (face lines-tail tab-mark)))
   (whitespace-mode t)
-  (subword-mode 1)
-  (linum-mode 1)
-  (flymake-mode))
+  (subword-mode 1))
+
+;; *********
+;; java-mode
+;; *********
+(defun my-java-mode-hook ()
+  (make-local-variable (quote whitespace-style))
+  (setf whitespace-style (quote (face lines-tail tab-mark)))
+  (whitespace-mode t)
+  (subword-mode 1))
+
+;; *****
+;; morse
+;; *****
+(defun fix-morse (string)
+  (with-temp-buffer
+    (insert (replace-regexp-in-string
+             "_" "-" (replace-regexp-in-string
+                      " " "" (replace-regexp-in-string
+                              "   " "/" string))))
+    (unmorse-region (point-min) (point-max))
+    (buffer-string)))
+
+(defun unfix-morse (string)
+  (replace-regexp-in-string
+   "-" "_" (replace-regexp-in-string
+            "/" " " (mapconcat (lambda (x) (make-string 1 x))
+                               (with-temp-buffer 
+                                 (insert string)
+                                 (morse-region (point-min) (point-max))
+                                 (buffer-string))
+                               " "))))
+
+;; *****
+;; CEDET
+;; *****
+;; (defadvice cogre-delete (after cogre-refresh-after-delete)
+;;   (cogre-refresh))
+;; (ad-activate 'cogre-delete)
+
+;; **************
+;; Tip of the Day
+;; **************
+(require 'cl)
+(defun totd ()
+  (interactive)
+  (with-output-to-temp-buffer "*Tip of the day*"
+    (let* ((commands (loop for s being the symbols
+                           when (commandp s) collect s))
+           (command (nth (random (length commands)) commands)))
+      (princ
+       (concat "Your tip for the day is:\n========================\n\n"
+               (with-temp-buffer
+                 (describe-function-1 command)
+                 (buffer-string))
+               "\n\nInvoke with:\n\n"
+               (with-temp-buffer
+                 (where-is command t)
+                 (buffer-string)))))))
 
 (provide 'my-funcs)
 

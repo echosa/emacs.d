@@ -2,9 +2,14 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("emacs-haikus"
+(("dad.txt"
+ (filename . "~/Dropbox/dad.txt")
+ (front-context-string)
+ (rear-context-string . "ss doing that.\n\n")
+ (position . 14225))
+("emacs-haikus"
  (filename . "~/Dropbox/emacs-haikus")
- (front-context-string . "magit makes git ")
+ (front-context-string . "imenu\noccur\nmult")
  (rear-context-string)
  (position . 1))
 ("notes"
@@ -22,11 +27,6 @@
  (front-context-string . ".DS_Store\n  drwx")
  (rear-context-string . "48 Apr 25 10:26 ")
  (position . 241))
-("occhealth"
- (filename . "~/projects/biosafety/occhealth/")
- (front-context-string . ".svn\n  drwxr-xr-")
- (rear-context-string . "38 Jul 13 14:06 ")
- (position . 247))
 ("my-funcs.el"
  (filename . "~/Dropbox/emacs/my-funcs.el")
  (front-context-string . "(defun set-windo")

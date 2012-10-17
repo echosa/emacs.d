@@ -1,0 +1,11 @@
+The way this is intended to work is to have this directory checked out in the Dropbox folder, and of course have Dropbox on the system.
+
+The following symlink should be created in ~:
+
+.emacs -> ~/Dropbox/emacs/custom/<APPROPRIATE FILE>.el
+
+The following items should be symlinked into ~/.emacs.d:
+
+bookmarks -> ~/Dropbox/emacs/bookmarks/<APPROPRIATE FILE>
+elpa -> ~/Dropbox/emacs/elpa
+my-term-theme-theme.el -> ~/Dropbox/emacs/my-term-theme-theme.el
