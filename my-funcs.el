@@ -226,7 +226,13 @@ Argument REPLACE String used to replace the matched strings in the buffer.
   (make-local-variable (quote whitespace-style))
   (setf whitespace-style (quote (face lines-tail tab-mark)))
   (whitespace-mode t)
-  (subword-mode 1))
+  (subword-mode 1)
+  (setq ac-sources (append '(ac-source-semantic) ac-sources))
+  (auto-complete-mode t)
+  (when (fboundp 'semantic-decoration-mode)
+    (semantic-decoration-mode 1))
+  (linum-mode)
+  (linum-relative-toggle))
 
 ;; *****
 ;; morse
@@ -276,6 +282,17 @@ Argument REPLACE String used to replace the matched strings in the buffer.
                (with-temp-buffer
                  (where-is command t)
                  (buffer-string)))))))
+
+;; *************************
+;; Paredit in the minibuffer
+;; *************************
+;; http://emacsredux.com/blog/2013/04/18/evaluate-emacs-lisp-in-the-minibuffer/
+(defun conditionally-enable-paredit-mode ()
+  "Enable `paredit-mode' in the minibuffer, during `eval-expression'."
+  (if (and (eq this-command 'eval-expression)
+           (fboundp 'paredit-mode))
+      (paredit-mode 1)))
+(add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
 
 (provide 'my-funcs)
 
