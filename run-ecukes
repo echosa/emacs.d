@@ -1,1 +1,0 @@
-EMACSLOADPATH=$(emacs -Q --batch --eval '(message (mapconcat (quote identity) (append (file-expand-wildcards "~/Dropbox/emacs/elpa/*" t) load-path) ":"))' 2>&1) ~/Dropbox/emacs/elpa/ecukes-20130413.1020/ecukes

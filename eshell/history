@@ -1,5 +1,0 @@
-ls
-ls layouts/
-rm layouts/
-rm -R layouts
-ls
