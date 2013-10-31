@@ -109,7 +109,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (global-set-key "\C-cv" 'eval-buffer)
 (define-key ctl-x-4-map "t" 'toggle-window-split)
 
-(toggle-scroll-bar nil)
+(when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
 (tool-bar-mode -1)
 (global-font-lock-mode t)
 (transient-mark-mode t)
