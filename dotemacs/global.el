@@ -7,9 +7,13 @@
 (require 'ido)
 (ido-mode)
 (icomplete-mode 99)
+(ido-vertical-mode 1)
 
-;; key chords
+(evil-mode 1)
 (key-chord-mode 1)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(define-key evil-ex-map "b " 'ido-switch-buffer)
+(define-key evil-ex-map "e " 'ido-find-file)
 
 (require 'pbcopy)
 (turn-on-pbcopy)

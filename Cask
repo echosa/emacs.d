@@ -9,6 +9,7 @@
 (depends-on "feature-mode")
 (depends-on "flymake-cursor")
 (depends-on "geben")
+(depends-on "ido-vertical-mode")
 (depends-on "key-chord")
 (depends-on "js2-mode")
 (depends-on "linum-relative")
