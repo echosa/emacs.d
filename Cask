@@ -5,6 +5,7 @@
 (depends-on "apache-mode")
 (depends-on "ecukes")
 (depends-on "evil")
+(depends-on "evil-leader")
 (depends-on "expand-region")
 (depends-on "feature-mode")
 (depends-on "flymake-cursor")

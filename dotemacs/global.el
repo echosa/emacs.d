@@ -14,6 +14,8 @@
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (define-key evil-ex-map "b " 'ido-switch-buffer)
 (define-key evil-ex-map "e " 'ido-find-file)
+(evil-leader/set-leader "<SPC>")
+(evil-leader/set-key "x" 'execute-extended-command)
 
 (require 'pbcopy)
 (turn-on-pbcopy)
@@ -112,6 +114,12 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (global-set-key "\C-cm" 'mc/mark-more-like-this-extended)
 (global-set-key "\C-cv" 'eval-buffer)
 (define-key ctl-x-4-map "t" 'toggle-window-split)
+
+(defun my-php-mode-hook ()
+  (make-local-variable (quote whitespace-style))
+  (setf whitespace-style (quote (face lines-tail tab-mark)))
+  (whitespace-mode t)
+  (subword-mode 1))
 
 (when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
 (tool-bar-mode -1)
