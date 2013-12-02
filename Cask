@@ -18,6 +18,7 @@
 (depends-on "multiple-cursors")
 (depends-on "paredit")
 (depends-on "pbcopy")
+(depends-on "php-mode")
 (depends-on "solarized-theme")
 (depends-on "web-mode")
 (depends-on "wrap-region")
