@@ -14,8 +14,10 @@
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (define-key evil-ex-map "b " 'ido-switch-buffer)
 (define-key evil-ex-map "e " 'ido-find-file)
+(evil-leader-mode 1)
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key "x" 'execute-extended-command)
+(evil-leader/set-key ":" 'eval-expression)
 
 (require 'pbcopy)
 (turn-on-pbcopy)
