@@ -12,7 +12,7 @@
 (depends-on "expand-region")
 (depends-on "feature-mode")
 (depends-on "flx-ido")
-(depends-on "flymake-cursor")
+(depends-on "flycheck")
 (depends-on "geben")
 (depends-on "ido-vertical-mode")
 (depends-on "key-chord")
