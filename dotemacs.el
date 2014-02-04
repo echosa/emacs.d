@@ -147,6 +147,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (add-to-list 'auto-mode-alist '("\\.phtml$" . web-mode))
 (setq web-mode-autocompletes-flag t)
 (put 'dired-find-alternate-file 'disabled nil)
+(setq default-directory (concat (getenv "HOME") "/"))
 
 (when (string= system-name "Saffron.local")
   (setenv "PATH" (mapconcat 'concat
