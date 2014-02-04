@@ -148,6 +148,20 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (setq web-mode-autocompletes-flag t)
 (put 'dired-find-alternate-file 'disabled nil)
 
+(when (string= system-name "Saffron.local")
+  (setenv "PATH" (mapconcat 'concat
+                            (append '("/usr/local/pear/bin"
+                                      "/usr/local/bin"
+                                      "/Users/echosa/.cask/bin")
+                                    (list (getenv "PATH")))
+                            ":"))
+  (server-start)
+  (set-face-attribute 'default nil :family "Consolas" :height 120)
+  (ns-set-resource nil "ApplePressAndHoldEnabled" "NO")
+  (load-file "~/quicklisp/slime-helper.el")
+  (setq slime-net-coding-system 'utf-8-unix)
+  (setq inferior-lisp-program "sbcl"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
