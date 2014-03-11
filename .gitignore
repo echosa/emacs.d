@@ -1,2 +1,8 @@
 .DS_Store
 .cask/
+.mc-lists.el
+ac-comphist.dat
+eshell/
+projectile-bookmarks.eld
+tramp
+url/

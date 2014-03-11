@@ -164,8 +164,6 @@ Argument REPLACE String used to replace the matched strings in the buffer.
   (set-face-attribute 'default nil :family "Consolas" :height 120)
   (when (window-system)
     (ns-set-resource nil "ApplePressAndHoldEnabled" "NO"))
-  (load-file "~/quicklisp/slime-helper.el")
-  (setq slime-net-coding-system 'utf-8-unix)
   (setq inferior-lisp-program "sbcl"))
 
 (custom-set-variables
