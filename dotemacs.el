@@ -1,6 +1,6 @@
-;; global settings
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
+(require 'pallet)
 
 (require 'uniquify)
 
@@ -12,9 +12,9 @@
 (evil-mode 1)
 (key-chord-mode 1)
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-(require 'evil-leader)
 (define-key evil-ex-map "b " 'ido-switch-buffer)
 (define-key evil-ex-map "e " 'ido-find-file)
+(require 'evil-leader)
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key "x" 'execute-extended-command)
 (evil-leader/set-key ":" 'eval-expression)
@@ -24,6 +24,11 @@
 
 (projectile-global-mode)
 
+(defun my-emacs-lisp-mode-hook ()
+  (eldoc-mode)
+  (linum-mode)
+  (lexbind-mode))
+(add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 (add-hook 'clojure-mode-hook 'linum-mode)
 
 (require 'pbcopy)
@@ -34,6 +39,11 @@
 (add-hook 'clojure-mode-hook 'paredit-mode)
 
 (require 'ecukes)
+
+(require 'twittering-mode)
+(require 'epa)
+(setq twittering-use-master-password t)
+(add-hook 'twittering-mode 'auto-fill-mode)
 
 (defun set-window-width-to-80 ()
   "Sets the current window column width to 80 columns."
@@ -99,6 +109,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
   (make-local-variable (quote whitespace-style))
   (setf whitespace-style (quote (face lines-tail tab-mark)))
   (whitespace-mode t)
+  (linum-mode 1)
   (subword-mode 1))
 
 (require 'cl)
@@ -134,7 +145,9 @@ Argument REPLACE String used to replace the matched strings in the buffer.
   (make-local-variable (quote whitespace-style))
   (setf whitespace-style (quote (face lines-tail tab-mark)))
   (whitespace-mode t)
+  (linum-mode 1)
   (subword-mode 1))
+(add-hook 'php-mode-hook 'my-php-mode-hook)
 
 (when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
 (tool-bar-mode -1)
@@ -178,13 +191,15 @@ Argument REPLACE String used to replace the matched strings in the buffer.
  '(c-basic-offset 4)
  '(case-fold-search t)
  '(case-replace t)
+ '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(display-buffer-reuse-frames t)
  '(display-time-24hr-format nil)
  '(display-time-day-and-date t)
  '(erc-nick "echosa")
  '(erc-user-full-name "Echosa")
  '(evil-default-cursor (quote (t)))
- '(evil-emacs-state-modes (quote (archive-mode bbdb-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-commit-mode magit-diff-mode magit-key-mode magit-log-mode magit-mode magit-reflog-mode magit-show-branches-mode magit-branch-manager-mode magit-stash-mode magit-status-mode magit-wazzup-mode mh-folder-mode monky-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode occur-mode org-agenda-mode package-menu-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode cider-repl-mode)))
+ '(evil-emacs-state-modes (quote (archive-mode bbdb-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-commit-mode magit-diff-mode magit-key-mode magit-log-mode magit-mode magit-reflog-mode magit-show-branches-mode magit-branch-manager-mode magit-stash-mode magit-status-mode magit-wazzup-mode mh-folder-mode monky-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode occur-mode org-agenda-mode package-menu-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode cider-repl-mode emacsagist-mode)))
+ '(exec-path (quote ("/usr/local/bin" "/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/24.3/libexec/emacs/24.3/x86_64-apple-darwin13.1.0")))
  '(fill-column 80)
  '(ido-completion-buffer "*Ido Completions*")
  '(ido-completion-buffer-all-completions t)
@@ -197,6 +212,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
  '(linum-format (lambda (line) (propertize (format (concat "%" (number-to-string (length (number-to-string (line-number-at-pos (point-max))))) "d ") line) (quote face) (quote linum))))
  '(magit-emacsclient-executable "/usr/local/bin/emacsclient")
  '(magit-server-window-for-commit (quote pop-to-buffer))
+ '(magit-use-overlays nil)
  '(message-kill-buffer-on-exit t)
  '(message-log-max 5000)
  '(org-agenda-compact-blocks nil)
@@ -221,6 +237,8 @@ Argument REPLACE String used to replace the matched strings in the buffer.
  '(truncate-partial-width-windows nil)
  '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
  '(vimgolf-key "2ccc64006e5b916b14d5fde44bd3dca4")
+ '(w3m-confirm-leaving-secure-page nil)
+ '(w3m-default-display-inline-images t)
  '(winner-mode t nil (winner))
  '(woman-use-own-frame nil))
 
