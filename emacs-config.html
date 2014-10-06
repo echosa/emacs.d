@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Echosa's Emacs Configuration</title>
-<!-- 2014-10-06 Mon 11:57 -->
+<!-- 2014-10-06 Mon 15:59 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Brian Zwahr" />
@@ -142,54 +142,105 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Packages</a>
+<li><a href="#sec-1">1. Introduction</a></li>
+<li><a href="#sec-2">2. Packages</a>
 <ul>
-<li><a href="#sec-1-1">1.1. Cask</a></li>
-<li><a href="#sec-1-2">1.2. Pallet</a></li>
-<li><a href="#sec-1-3">1.3. Package.el</a></li>
-<li><a href="#sec-1-4">1.4. Paradox</a></li>
+<li><a href="#sec-2-1">2.1. Cask</a></li>
+<li><a href="#sec-2-2">2.2. Pallet</a></li>
+<li><a href="#sec-2-3">2.3. Package.el</a></li>
+<li><a href="#sec-2-4">2.4. Paradox</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2. Uniquify</a></li>
-<li><a href="#sec-3">3. Ido</a></li>
-<li><a href="#sec-4">4. Evil</a></li>
-<li><a href="#sec-5">5. Line Numbers</a></li>
-<li><a href="#sec-6">6. Winner-mode</a></li>
-<li><a href="#sec-7">7. pbcopy</a></li>
-<li><a href="#sec-8">8. Programming</a>
+<li><a href="#sec-3">3. Uniquify</a></li>
+<li><a href="#sec-4">4. Ido</a></li>
+<li><a href="#sec-5">5. Evil</a></li>
+<li><a href="#sec-6">6. Line Numbers</a></li>
+<li><a href="#sec-7">7. Winner-mode</a></li>
+<li><a href="#sec-8">8. pbcopy</a></li>
+<li><a href="#sec-9">9. Programming</a>
 <ul>
-<li><a href="#sec-8-1">8.1. General</a></li>
-<li><a href="#sec-8-2">8.2. Git</a></li>
-<li><a href="#sec-8-3">8.3. Projectile</a></li>
-<li><a href="#sec-8-4">8.4. Paredit</a></li>
-<li><a href="#sec-8-5">8.5. Emacs Lisp</a></li>
-<li><a href="#sec-8-6">8.6. Javascript</a></li>
-<li><a href="#sec-8-7">8.7. PHP</a></li>
+<li><a href="#sec-9-1">9.1. General</a></li>
+<li><a href="#sec-9-2">9.2. Git</a></li>
+<li><a href="#sec-9-3">9.3. Projectile</a></li>
+<li><a href="#sec-9-4">9.4. Paredit</a></li>
+<li><a href="#sec-9-5">9.5. Emacs Lisp</a></li>
+<li><a href="#sec-9-6">9.6. Javascript</a></li>
+<li><a href="#sec-9-7">9.7. PHP</a></li>
 </ul>
 </li>
-<li><a href="#sec-9">9. Compilation</a></li>
-<li><a href="#sec-10">10. Org-mode</a></li>
-<li><a href="#sec-11">11. IRC</a></li>
-<li><a href="#sec-12">12. WWW</a></li>
-<li><a href="#sec-13">13. Email</a></li>
-<li><a href="#sec-14">14. Terminals</a></li>
-<li><a href="#sec-15">15. Man Pages</a></li>
-<li><a href="#sec-16">16. Miscellaneous Functions</a></li>
-<li><a href="#sec-17">17. Regular Expressions</a></li>
-<li><a href="#sec-18">18. Key Bindings</a></li>
-<li><a href="#sec-19">19. Theme</a></li>
-<li><a href="#sec-20">20. Backup and Auto Save</a></li>
-<li><a href="#sec-21">21. General Setup</a></li>
-<li><a href="#sec-22">22. Local Setup</a></li>
+<li><a href="#sec-10">10. Compilation</a></li>
+<li><a href="#sec-11">11. Org-mode</a></li>
+<li><a href="#sec-12">12. IRC</a></li>
+<li><a href="#sec-13">13. WWW</a></li>
+<li><a href="#sec-14">14. Email</a></li>
+<li><a href="#sec-15">15. Terminals</a></li>
+<li><a href="#sec-16">16. Man Pages</a></li>
+<li><a href="#sec-17">17. Miscellaneous Functions</a></li>
+<li><a href="#sec-18">18. Regular Expressions</a></li>
+<li><a href="#sec-19">19. Key Bindings</a></li>
+<li><a href="#sec-20">20. Theme</a></li>
+<li><a href="#sec-21">21. Backup and Auto Save</a></li>
+<li><a href="#sec-22">22. General Setup</a></li>
+<li><a href="#sec-23">23. Local Setup</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Packages</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Cask</h3>
-<div class="outline-text-3" id="text-1-1">
+<p>
+Inspired by <a href="http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/">Sacha Chua</a>, I have moved my Emacs configuration into an
+organized and descriptive <a href="http://orgmode.org">org-mode</a> file. What you are reading now
+is, in fact, my Emacs configuration file.
+</p>
+
+<p>
+Well, sort of.
+</p>
+
+<p>
+With org-mode, I can export the information to a number of
+formats. That means you could be reading this directly from the .org
+file itself, from a markdown file (like the <a href="https://github.com/echosa/emacs.d/blob/master/README.md">README</a> on my Emacs
+configuration GitHub repo), or from an HTML file somewhere on the
+web.
+</p>
+
+<p>
+How this works is based around a part of org-mode called
+org-babel. org-babel allows org-mode to execute code that is
+embedded into a .org file. If you look at the <a href="https://github.com/echosa/emacs.d/blob/master/dotemacs.el">actual .emacs file</a>
+that my Emacs loads, you'll see that all it does is load the .org
+file containing my configuration (the one you're reading now) and
+parse it through org-babel to execute only the blocks of elisp that
+make up the actual configuration, while ignoring the extra
+documetation and narrative, like this introdution section.
+</p>
+
+<p>
+If you're wondering about performance, org-babel doesn't do this
+parse every time I open Emacs. Instead, it sees that I'm trying to
+load `emacs-config.org` and checks for the existence of
+`emacs-config.el`. If it doesn't find that file, or finds an out of
+date version, only then does it parse the .org file to create a new
+.el file. This means there's a bit of a slow startup the first time
+after the org-mode file is changes, but after that there's no
+noticable change in performance (at least on my machine).
+</p>
+
+<p>
+Anyway, what follows is my actual Emacs configuration, embedded into
+a descriptive narrative.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Packages</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Cask</h3>
+<div class="outline-text-3" id="text-2-1">
 <p>
 Cask is a dependency manager for Emacs, similar to npm for Node.
 </p>
@@ -209,9 +260,9 @@ First, we require and initialize Cask.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Pallet</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Pallet</h3>
+<div class="outline-text-3" id="text-2-2">
 <p>
 Pallet keeps the Cask file up-to-date when installing packages through
 `M-x list-packages`.
@@ -227,9 +278,9 @@ Pallet keeps the Cask file up-to-date when installing packages through
 </div>
 </div>
 </div>
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Package.el</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Package.el</h3>
+<div class="outline-text-3" id="text-2-3">
 <p>
 Also, we need to set up the package repositories for Emacs' own package
 manager.
@@ -244,9 +295,9 @@ manager.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Paradox</h3>
-<div class="outline-text-3" id="text-1-4">
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Paradox</h3>
+<div class="outline-text-3" id="text-2-4">
 <p>
 Finally, paradox is a thing.
 </p>
@@ -258,9 +309,9 @@ Finally, paradox is a thing.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Uniquify</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Uniquify</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 If I have two buffers open with two files that have the same name, (e.g. two 
 different README files from two different projects), Emacs will, by default, 
@@ -276,9 +327,9 @@ parent directories: `README&lt;projdir1&gt;` and `README&lt;projectdir2&gt;`.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Ido</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Ido</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 Ido makes minibuffer completions much nicer, easier, and faster.
 </p>
@@ -296,9 +347,9 @@ Ido makes minibuffer completions much nicer, easier, and faster.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Evil</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Evil</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 Call me heathen if you wish, but I prefer Vim navigation keys.
 </p>
@@ -374,9 +425,9 @@ of Evil.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Line Numbers</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Line Numbers</h2>
+<div class="outline-text-2" id="text-6">
 <p>
 I like line numbers. They help quite a bit with moving around. Here
 I turn on linum-mode globally.
@@ -409,9 +460,9 @@ displayed to be right-justified.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> Winner-mode</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Winner-mode</h2>
+<div class="outline-text-2" id="text-7">
 <p>
 Winner-mode makes it really easy to handle window changes in
 Emacs. <code>C-c left-arrow</code> goes back to the previous window
@@ -427,9 +478,9 @@ your layout. Simply <code>C-c left-arrow</code> to get back to where you were.
 </div>
 </div>
 
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7"><span class="section-number-2">7</span> pbcopy</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> pbcopy</h2>
+<div class="outline-text-2" id="text-8">
 <p>
 Clipboard sharing. Copy in Emacs, paste in OS X, and vice versa.
 </p>
@@ -445,12 +496,12 @@ Clipboard sharing. Copy in Emacs, paste in OS X, and vice versa.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8"><span class="section-number-2">8</span> Programming</h2>
-<div class="outline-text-2" id="text-8">
-</div><div id="outline-container-sec-8-1" class="outline-3">
-<h3 id="sec-8-1"><span class="section-number-3">8.1</span> General</h3>
-<div class="outline-text-3" id="text-8-1">
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> Programming</h2>
+<div class="outline-text-2" id="text-9">
+</div><div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1"><span class="section-number-3">9.1</span> General</h3>
+<div class="outline-text-3" id="text-9-1">
 <p>
 Here are some general, all-purpose, language-agnostic default settings.
 </p>
@@ -462,9 +513,9 @@ Here are some general, all-purpose, language-agnostic default settings.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-8-2" class="outline-3">
-<h3 id="sec-8-2"><span class="section-number-3">8.2</span> Git</h3>
-<div class="outline-text-3" id="text-8-2">
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2"><span class="section-number-3">9.2</span> Git</h3>
+<div class="outline-text-3" id="text-9-2">
 <p>
 Magit is awesome.
 </p>
@@ -477,9 +528,9 @@ Magit is awesome.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-8-3" class="outline-3">
-<h3 id="sec-8-3"><span class="section-number-3">8.3</span> Projectile</h3>
-<div class="outline-text-3" id="text-8-3">
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3"><span class="section-number-3">9.3</span> Projectile</h3>
+<div class="outline-text-3" id="text-9-3">
 <p>
 Projectile is, quite simply and objectively, the shit. There's no other way to
 put it.
@@ -495,9 +546,9 @@ put it.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-8-4" class="outline-3">
-<h3 id="sec-8-4"><span class="section-number-3">8.4</span> Paredit</h3>
-<div class="outline-text-3" id="text-8-4">
+<div id="outline-container-sec-9-4" class="outline-3">
+<h3 id="sec-9-4"><span class="section-number-3">9.4</span> Paredit</h3>
+<div class="outline-text-3" id="text-9-4">
 <p>
 If you write any form of Lisp and don't use paredit, change that. 
 </p>
@@ -518,9 +569,9 @@ If you write any form of Lisp and don't use paredit, change that.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-8-5" class="outline-3">
-<h3 id="sec-8-5"><span class="section-number-3">8.5</span> Emacs Lisp</h3>
-<div class="outline-text-3" id="text-8-5">
+<div id="outline-container-sec-9-5" class="outline-3">
+<h3 id="sec-9-5"><span class="section-number-3">9.5</span> Emacs Lisp</h3>
+<div class="outline-text-3" id="text-9-5">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(defun my-emacs-lisp-mode-hook ()
@@ -533,9 +584,9 @@ If you write any form of Lisp and don't use paredit, change that.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-8-6" class="outline-3">
-<h3 id="sec-8-6"><span class="section-number-3">8.6</span> Javascript</h3>
-<div class="outline-text-3" id="text-8-6">
+<div id="outline-container-sec-9-6" class="outline-3">
+<h3 id="sec-9-6"><span class="section-number-3">9.6</span> Javascript</h3>
+<div class="outline-text-3" id="text-9-6">
 <p>
 Prefer js2-mode to javascript-mode.
 </p>
@@ -547,9 +598,9 @@ Prefer js2-mode to javascript-mode.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-8-7" class="outline-3">
-<h3 id="sec-8-7"><span class="section-number-3">8.7</span> PHP</h3>
-<div class="outline-text-3" id="text-8-7">
+<div id="outline-container-sec-9-7" class="outline-3">
+<h3 id="sec-9-7"><span class="section-number-3">9.7</span> PHP</h3>
+<div class="outline-text-3" id="text-9-7">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(defun my-php-mode-hook ()
@@ -565,9 +616,9 @@ Prefer js2-mode to javascript-mode.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-9" class="outline-2">
-<h2 id="sec-9"><span class="section-number-2">9</span> Compilation</h2>
-<div class="outline-text-2" id="text-9">
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> Compilation</h2>
+<div class="outline-text-2" id="text-10">
 <p>
 `M-x compile` has some issues with ansi color codes. This fixes
 it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer">StackOverflow</a>. 
@@ -585,9 +636,9 @@ it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-
 </div>
 </div>
 
-<div id="outline-container-sec-10" class="outline-2">
-<h2 id="sec-10"><span class="section-number-2">10</span> Org-mode</h2>
-<div class="outline-text-2" id="text-10">
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Org-mode</h2>
+<div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq org-agenda-compact-blocks nil)
@@ -610,9 +661,9 @@ it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-
 </div>
 </div>
 
-<div id="outline-container-sec-11" class="outline-2">
-<h2 id="sec-11"><span class="section-number-2">11</span> IRC</h2>
-<div class="outline-text-2" id="text-11">
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> IRC</h2>
+<div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq erc-nick "echosa")
@@ -622,9 +673,9 @@ it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-
 </div>
 </div>
 
-<div id="outline-container-sec-12" class="outline-2">
-<h2 id="sec-12"><span class="section-number-2">12</span> WWW</h2>
-<div class="outline-text-2" id="text-12">
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> WWW</h2>
+<div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq browse-url-browser-function 'eww-browse-url)
@@ -633,9 +684,9 @@ it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-
 </div>
 </div>
 
-<div id="outline-container-sec-13" class="outline-2">
-<h2 id="sec-13"><span class="section-number-2">13</span> Email</h2>
-<div class="outline-text-2" id="text-13">
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> Email</h2>
+<div class="outline-text-2" id="text-14">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq send-mail-function 'smtpmail-send-it)
@@ -644,9 +695,9 @@ it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-
 </div>
 </div>
 
-<div id="outline-container-sec-14" class="outline-2">
-<h2 id="sec-14"><span class="section-number-2">14</span> Terminals</h2>
-<div class="outline-text-2" id="text-14">
+<div id="outline-container-sec-15" class="outline-2">
+<h2 id="sec-15"><span class="section-number-2">15</span> Terminals</h2>
+<div class="outline-text-2" id="text-15">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq term-scroll-show-maximum-output nil)
@@ -656,9 +707,9 @@ it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-
 </div>
 </div>
 
-<div id="outline-container-sec-15" class="outline-2">
-<h2 id="sec-15"><span class="section-number-2">15</span> Man Pages</h2>
-<div class="outline-text-2" id="text-15">
+<div id="outline-container-sec-16" class="outline-2">
+<h2 id="sec-16"><span class="section-number-2">16</span> Man Pages</h2>
+<div class="outline-text-2" id="text-16">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq woman-use-own-frame nil)
@@ -667,9 +718,9 @@ it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-
 </div>
 </div>
 
-<div id="outline-container-sec-16" class="outline-2">
-<h2 id="sec-16"><span class="section-number-2">16</span> Miscellaneous Functions</h2>
-<div class="outline-text-2" id="text-16">
+<div id="outline-container-sec-17" class="outline-2">
+<h2 id="sec-17"><span class="section-number-2">17</span> Miscellaneous Functions</h2>
+<div class="outline-text-2" id="text-17">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">;; http://www.emacswiki.org/emacs/ToggleWindowSplit
@@ -702,9 +753,9 @@ it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-
 </div>
 </div>
 </div>
-<div id="outline-container-sec-17" class="outline-2">
-<h2 id="sec-17"><span class="section-number-2">17</span> Regular Expressions</h2>
-<div class="outline-text-2" id="text-17">
+<div id="outline-container-sec-18" class="outline-2">
+<h2 id="sec-18"><span class="section-number-2">18</span> Regular Expressions</h2>
+<div class="outline-text-2" id="text-18">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(defun reb-query-replace-this-regxp (replace)
@@ -730,9 +781,9 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 </div>
 </div>
 
-<div id="outline-container-sec-18" class="outline-2">
-<h2 id="sec-18"><span class="section-number-2">18</span> Key Bindings</h2>
-<div class="outline-text-2" id="text-18">
+<div id="outline-container-sec-19" class="outline-2">
+<h2 id="sec-19"><span class="section-number-2">19</span> Key Bindings</h2>
+<div class="outline-text-2" id="text-19">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(global-set-key "\M-n" 'scroll-up-line)
@@ -744,9 +795,9 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-19" class="outline-2">
-<h2 id="sec-19"><span class="section-number-2">19</span> Theme</h2>
-<div class="outline-text-2" id="text-19">
+<div id="outline-container-sec-20" class="outline-2">
+<h2 id="sec-20"><span class="section-number-2">20</span> Theme</h2>
+<div class="outline-text-2" id="text-20">
 <p>
 Solarized Dark is where it's at.
 </p>
@@ -765,9 +816,9 @@ Trust all themes.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-20" class="outline-2">
-<h2 id="sec-20"><span class="section-number-2">20</span> Backup and Auto Save</h2>
-<div class="outline-text-2" id="text-20">
+<div id="outline-container-sec-21" class="outline-2">
+<h2 id="sec-21"><span class="section-number-2">21</span> Backup and Auto Save</h2>
+<div class="outline-text-2" id="text-21">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq auto-save-file-name-transforms '((".*" "~/.emacs.tmp/" nil)))
@@ -777,9 +828,9 @@ Trust all themes.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-21" class="outline-2">
-<h2 id="sec-21"><span class="section-number-2">21</span> General Setup</h2>
-<div class="outline-text-2" id="text-21">
+<div id="outline-container-sec-22" class="outline-2">
+<h2 id="sec-22"><span class="section-number-2">22</span> General Setup</h2>
+<div class="outline-text-2" id="text-22">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
@@ -815,9 +866,9 @@ Trust all themes.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-22" class="outline-2">
-<h2 id="sec-22"><span class="section-number-2">22</span> Local Setup</h2>
-<div class="outline-text-2" id="text-22">
+<div id="outline-container-sec-23" class="outline-2">
+<h2 id="sec-23"><span class="section-number-2">23</span> Local Setup</h2>
+<div class="outline-text-2" id="text-23">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(pcase system-name
@@ -840,7 +891,7 @@ Trust all themes.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Brian Zwahr</p>
-<p class="date">Created: 2014-10-06 Mon 11:57</p>
+<p class="date">Created: 2014-10-06 Mon 15:59</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.50.1 (<a href="http://orgmode.org">Org</a> mode 8.2.6)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

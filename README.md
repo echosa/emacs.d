@@ -2,49 +2,85 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Packages</a>
+<li><a href="#sec-1">1. Introduction</a></li>
+<li><a href="#sec-2">2. Packages</a>
 <ul>
-<li><a href="#sec-1-1">1.1. Cask</a></li>
-<li><a href="#sec-1-2">1.2. Pallet</a></li>
-<li><a href="#sec-1-3">1.3. Package.el</a></li>
-<li><a href="#sec-1-4">1.4. Paradox</a></li>
+<li><a href="#sec-2-1">2.1. Cask</a></li>
+<li><a href="#sec-2-2">2.2. Pallet</a></li>
+<li><a href="#sec-2-3">2.3. Package.el</a></li>
+<li><a href="#sec-2-4">2.4. Paradox</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2. Uniquify</a></li>
-<li><a href="#sec-3">3. Ido</a></li>
-<li><a href="#sec-4">4. Evil</a></li>
-<li><a href="#sec-5">5. Line Numbers</a></li>
-<li><a href="#sec-6">6. Winner-mode</a></li>
-<li><a href="#sec-7">7. pbcopy</a></li>
-<li><a href="#sec-8">8. Programming</a>
+<li><a href="#sec-3">3. Uniquify</a></li>
+<li><a href="#sec-4">4. Ido</a></li>
+<li><a href="#sec-5">5. Evil</a></li>
+<li><a href="#sec-6">6. Line Numbers</a></li>
+<li><a href="#sec-7">7. Winner-mode</a></li>
+<li><a href="#sec-8">8. pbcopy</a></li>
+<li><a href="#sec-9">9. Programming</a>
 <ul>
-<li><a href="#sec-8-1">8.1. General</a></li>
-<li><a href="#sec-8-2">8.2. Git</a></li>
-<li><a href="#sec-8-3">8.3. Projectile</a></li>
-<li><a href="#sec-8-4">8.4. Paredit</a></li>
-<li><a href="#sec-8-5">8.5. Emacs Lisp</a></li>
-<li><a href="#sec-8-6">8.6. Javascript</a></li>
-<li><a href="#sec-8-7">8.7. PHP</a></li>
+<li><a href="#sec-9-1">9.1. General</a></li>
+<li><a href="#sec-9-2">9.2. Git</a></li>
+<li><a href="#sec-9-3">9.3. Projectile</a></li>
+<li><a href="#sec-9-4">9.4. Paredit</a></li>
+<li><a href="#sec-9-5">9.5. Emacs Lisp</a></li>
+<li><a href="#sec-9-6">9.6. Javascript</a></li>
+<li><a href="#sec-9-7">9.7. PHP</a></li>
 </ul>
 </li>
-<li><a href="#sec-9">9. Compilation</a></li>
-<li><a href="#sec-10">10. Org-mode</a></li>
-<li><a href="#sec-11">11. IRC</a></li>
-<li><a href="#sec-12">12. WWW</a></li>
-<li><a href="#sec-13">13. Email</a></li>
-<li><a href="#sec-14">14. Terminals</a></li>
-<li><a href="#sec-15">15. Man Pages</a></li>
-<li><a href="#sec-16">16. Miscellaneous Functions</a></li>
-<li><a href="#sec-17">17. Regular Expressions</a></li>
-<li><a href="#sec-18">18. Key Bindings</a></li>
-<li><a href="#sec-19">19. Theme</a></li>
-<li><a href="#sec-20">20. Backup and Auto Save</a></li>
-<li><a href="#sec-21">21. General Setup</a></li>
-<li><a href="#sec-22">22. Local Setup</a></li>
+<li><a href="#sec-10">10. Compilation</a></li>
+<li><a href="#sec-11">11. Org-mode</a></li>
+<li><a href="#sec-12">12. IRC</a></li>
+<li><a href="#sec-13">13. WWW</a></li>
+<li><a href="#sec-14">14. Email</a></li>
+<li><a href="#sec-15">15. Terminals</a></li>
+<li><a href="#sec-16">16. Man Pages</a></li>
+<li><a href="#sec-17">17. Miscellaneous Functions</a></li>
+<li><a href="#sec-18">18. Regular Expressions</a></li>
+<li><a href="#sec-19">19. Key Bindings</a></li>
+<li><a href="#sec-20">20. Theme</a></li>
+<li><a href="#sec-21">21. Backup and Auto Save</a></li>
+<li><a href="#sec-22">22. General Setup</a></li>
+<li><a href="#sec-23">23. Local Setup</a></li>
 </ul>
 </div>
 </div>
 
+
+# Introduction
+
+Inspired by [Sacha Chua](http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/), I have moved my Emacs configuration into an
+organized and descriptive [org-mode](http://orgmode.org) file. What you are reading now
+is, in fact, my Emacs configuration file.
+
+Well, sort of.
+
+With org-mode, I can export the information to a number of
+formats. That means you could be reading this directly from the .org
+file itself, from a markdown file (like the [README](https://github.com/echosa/emacs.d/blob/master/README.md) on my Emacs
+configuration GitHub repo), or from an HTML file somewhere on the
+web.
+
+How this works is based around a part of org-mode called
+org-babel. org-babel allows org-mode to execute code that is
+embedded into a .org file. If you look at the [actual .emacs file](https://github.com/echosa/emacs.d/blob/master/dotemacs.el)
+that my Emacs loads, you'll see that all it does is load the .org
+file containing my configuration (the one you're reading now) and
+parse it through org-babel to execute only the blocks of elisp that
+make up the actual configuration, while ignoring the extra
+documetation and narrative, like this introdution section.
+
+If you're wondering about performance, org-babel doesn't do this
+parse every time I open Emacs. Instead, it sees that I'm trying to
+load \`emacs-config.org\` and checks for the existence of
+\`emacs-config.el\`. If it doesn't find that file, or finds an out of
+date version, only then does it parse the .org file to create a new
+.el file. This means there's a bit of a slow startup the first time
+after the org-mode file is changes, but after that there's no
+noticable change in performance (at least on my machine).
+
+Anyway, what follows is my actual Emacs configuration, embedded into
+a descriptive narrative.
 
 # Packages
 
