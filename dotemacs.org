@@ -3,6 +3,7 @@
 * Packages
 ** Cask
   Cask is a dependency manager for Emacs, similar to npm for Node.
+
   [[http://cask.github.io][Cask website]]
   
   First, we require and initialize Cask.
@@ -11,9 +12,10 @@
 (cask-initialize)
 #+end_src
 ** Pallet
-  Then we require Pallet
    Pallet keeps the Cask file up-to-date when installing packages through
-   `M-x list-packages`. [[https://github.com/rdallasgray/pallet][Pallet website]]
+   `M-x list-packages`.
+
+   [[https://github.com/rdallasgray/pallet][Pallet website]]
 #+begin_src emacs-lisp
 (require 'pallet)
 #+end_src
@@ -31,8 +33,6 @@
 #+begin_src emacs-lisp
 (setq paradox-github-token t)
 #+end_src
-
-
 * Uniquify
   If I have two buffers open with two files that have the same name, (e.g. two 
   different README files from two different projects), Emacs will, by default, 
@@ -43,7 +43,6 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 #+end_src
-  
 * Ido
   Ido makes minibuffer completions much nicer, easier, and faster.
 #+begin_src emacs-lisp
@@ -56,9 +55,9 @@
 (icomplete-mode 99)
 (ido-vertical-mode 1)
 #+end_src
-
 * Evil
   Call me heathen if you wish, but I prefer Vim navigation keys.
+
   [[https://gitorious.org/evil/pages/Home][Evil website]]
 #+begin_src emacs-lisp
 (evil-mode 1)
@@ -104,11 +103,15 @@
 (setq evil-emacs-state-modes
       '(archive-mode bbdb-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-commit-mode magit-diff-mode magit-key-mode magit-log-mode magit-mode magit-reflog-mode magit-show-branches-mode magit-branch-manager-mode magit-stash-mode magit-status-mode magit-wazzup-mode mh-folder-mode monky-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode occur-mode org-agenda-mode package-menu-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode cider-repl-mode emacsagist-mode elfeed-show-mode elfeed-search-mode notmuch-tree term-mode))
 #+end_src
-
 * Line Numbers
-  I like line numbers. They help quite a bit with moving around.
+  I like line numbers. They help quite a bit with moving around. Here
+  I turn on linum-mode globally.
 #+begin_src emacs-lisp
 (global-linum-mode)
+#+end_src
+  Then I change the way line numbers are
+  displayed to be right-justified.
+#+begin_src emacs-lisp
 (setq linum-format (lambda
                      (line)
                      (propertize
@@ -124,18 +127,23 @@
                       'linum)))
 #+end_src
 * Winner-mode
+  Winner-mode makes it really easy to handle window changes in
+  Emacs. =C-c left-arrow= goes back to the previous window
+  configuration (undo), and =C-c right-arrow= goes forward
+  (redo). This is especially helpful for when a popop window ruins
+  your layout. Simply =C-c left-arrow= to get back to where you were.
 #+begin_src emacs-lisp
 (winner-mode 1)
 #+end_src
 
 * pbcopy
-  Copy in Emacs, paste in OS X, and vice versa.
+  Clipboard sharing. Copy in Emacs, paste in OS X, and vice versa.
+
   [[https://github.com/jkp/pbcopy.el][pbcopy source]]
 #+begin_src emacs-lisp
 (require 'pbcopy)
 (turn-on-pbcopy)
 #+end_src
-
 * Programming
 ** General
    Here are some general, all-purpose, language-agnostic default settings.
@@ -143,7 +151,6 @@
 (setq c-basic-offset 4)
 (setq tab-width 4)
 #+end_src
-
 ** Git
    Magit is awesome.
 #+begin_src emacs-lisp
@@ -151,24 +158,25 @@
 (setq magit-server-window-for-commit 'pop-to-buffer)
 (setq magit-use-overlays nil)
 #+end_src
-
 ** Projectile
   Projectile is, quite simply and objectively, the shit. There's no other way to
-  put it. [[https://github.com/bbatsov/projectile][Projectile on Github]]
+  put it.
+
+  [[https://github.com/bbatsov/projectile][Projectile on Github]]
 #+begin_src emacs-lisp
 (projectile-global-mode)
 #+end_src
-
 ** Paredit
   If you write any form of Lisp and don't use paredit, change that. 
+
   [[http://mumble.net/~campbell/emacs/paredit.el][Paredit website]]
+
   [[http://emacsrocks.com/e14.html][Emacs Rocks episode on paredit]]
 #+begin_src emacs-lisp
 (require 'paredit)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)
 #+end_src
-
 ** Emacs Lisp
 #+begin_src emacs-lisp
 (defun my-emacs-lisp-mode-hook ()
@@ -178,7 +186,6 @@
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 (add-hook 'clojure-mode-hook 'linum-mode)
 #+end_src
-
 ** Javascript
   Prefer js2-mode to javascript-mode.
 #+begin_src emacs-lisp
@@ -197,8 +204,8 @@
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 #+end_src
 * Compilation
-  `M-x compile` has some issues with ansi color codes. This fixes it.
-  Found at [[http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer][StackOverflow]]
+  `M-x compile` has some issues with ansi color codes. This fixes
+  it. Found at [[http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer][StackOverflow]]. 
 #+begin_src emacs-lisp
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
@@ -317,17 +324,17 @@ Argument REPLACE String used to replace the matched strings in the buffer.
   Solarized Dark is where it's at.
 #+begin_src emacs-lisp
 (when window-system (load-theme 'solarized-dark t))
-(setq custom-safe-themes
-      '("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
 #+end_src
-
+  Trust all themes.
+#+begin_src emacs-lisp
+(setq custom-safe-themes t)
+#+end_src
 * Backup and Auto Save
 #+begin_src emacs-lisp
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.tmp/" nil)))
 (setq auto-save-list-file-prefix "~/.emacs.tmp/.saves-")
 (setq backup-directory-alist '(("" . "~/.emacs.tmp")))
 #+end_src
-
 * General Setup
 #+begin_src emacs-lisp
 (when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))

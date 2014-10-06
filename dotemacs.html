@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Echosa's Emacs Configuration</title>
-<!-- 2014-09-02 Tue 23:18 -->
+<!-- 2014-09-02 Tue 23:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Brian Zwahr" />
@@ -192,6 +192,9 @@ for the JavaScript code in this tag.
 <div class="outline-text-3" id="text-1-1">
 <p>
 Cask is a dependency manager for Emacs, similar to npm for Node.
+</p>
+
+<p>
 <a href="http://cask.github.io">Cask website</a>
 </p>
 
@@ -210,9 +213,12 @@ First, we require and initialize Cask.
 <h3 id="sec-1-2"><span class="section-number-3">1.2</span> Pallet</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-Then we require Pallet
- Pallet keeps the Cask file up-to-date when installing packages through
- `M-x list-packages`. <a href="https://github.com/rdallasgray/pallet">Pallet website</a>
+Pallet keeps the Cask file up-to-date when installing packages through
+`M-x list-packages`.
+</p>
+
+<p>
+<a href="https://github.com/rdallasgray/pallet">Pallet website</a>
 </p>
 <div class="org-src-container">
 
@@ -252,8 +258,6 @@ Finally, paradox is a thing.
 </div>
 </div>
 </div>
-
-
 <div id="outline-container-sec-2" class="outline-2">
 <h2 id="sec-2"><span class="section-number-2">2</span> Uniquify</h2>
 <div class="outline-text-2" id="text-2">
@@ -272,7 +276,6 @@ parent directories: `README&lt;projdir1&gt;` and `README&lt;projectdir2&gt;`.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-3" class="outline-2">
 <h2 id="sec-3"><span class="section-number-2">3</span> Ido</h2>
 <div class="outline-text-2" id="text-3">
@@ -293,12 +296,14 @@ Ido makes minibuffer completions much nicer, easier, and faster.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-4" class="outline-2">
 <h2 id="sec-4"><span class="section-number-2">4</span> Evil</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Call me heathen if you wish, but I prefer Vim navigation keys.
+</p>
+
+<p>
 <a href="https://gitorious.org/evil/pages/Home">Evil website</a>
 </p>
 <div class="org-src-container">
@@ -369,17 +374,25 @@ of Evil.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-5" class="outline-2">
 <h2 id="sec-5"><span class="section-number-2">5</span> Line Numbers</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-I like line numbers. They help quite a bit with moving around.
+I like line numbers. They help quite a bit with moving around. Here
+I turn on linum-mode globally.
 </p>
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(global-linum-mode)
-(setq linum-format (lambda
+</pre>
+</div>
+<p>
+Then I change the way line numbers are
+displayed to be right-justified.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq linum-format (lambda
 		     (line)
 		     (propertize
 		      (format (concat "%"
@@ -399,6 +412,13 @@ I like line numbers. They help quite a bit with moving around.
 <div id="outline-container-sec-6" class="outline-2">
 <h2 id="sec-6"><span class="section-number-2">6</span> Winner-mode</h2>
 <div class="outline-text-2" id="text-6">
+<p>
+Winner-mode makes it really easy to handle window changes in
+Emacs. <code>C-c left-arrow</code> goes back to the previous window
+configuration (undo), and <code>C-c right-arrow</code> goes forward
+(redo). This is especially helpful for when a popop window ruins
+your layout. Simply <code>C-c left-arrow</code> to get back to where you were.
+</p>
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(winner-mode 1)
@@ -411,7 +431,10 @@ I like line numbers. They help quite a bit with moving around.
 <h2 id="sec-7"><span class="section-number-2">7</span> pbcopy</h2>
 <div class="outline-text-2" id="text-7">
 <p>
-Copy in Emacs, paste in OS X, and vice versa.
+Clipboard sharing. Copy in Emacs, paste in OS X, and vice versa.
+</p>
+
+<p>
 <a href="https://github.com/jkp/pbcopy.el">pbcopy source</a>
 </p>
 <div class="org-src-container">
@@ -422,7 +445,6 @@ Copy in Emacs, paste in OS X, and vice versa.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-8" class="outline-2">
 <h2 id="sec-8"><span class="section-number-2">8</span> Programming</h2>
 <div class="outline-text-2" id="text-8">
@@ -440,7 +462,6 @@ Here are some general, all-purpose, language-agnostic default settings.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-8-2" class="outline-3">
 <h3 id="sec-8-2"><span class="section-number-3">8.2</span> Git</h3>
 <div class="outline-text-3" id="text-8-2">
@@ -456,13 +477,16 @@ Magit is awesome.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-8-3" class="outline-3">
 <h3 id="sec-8-3"><span class="section-number-3">8.3</span> Projectile</h3>
 <div class="outline-text-3" id="text-8-3">
 <p>
 Projectile is, quite simply and objectively, the shit. There's no other way to
-put it. <a href="https://github.com/bbatsov/projectile">Projectile on Github</a>
+put it.
+</p>
+
+<p>
+<a href="https://github.com/bbatsov/projectile">Projectile on Github</a>
 </p>
 <div class="org-src-container">
 
@@ -471,13 +495,18 @@ put it. <a href="https://github.com/bbatsov/projectile">Projectile on Github</a>
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-8-4" class="outline-3">
 <h3 id="sec-8-4"><span class="section-number-3">8.4</span> Paredit</h3>
 <div class="outline-text-3" id="text-8-4">
 <p>
 If you write any form of Lisp and don't use paredit, change that. 
+</p>
+
+<p>
 <a href="http://mumble.net/~campbell/emacs/paredit.el">Paredit website</a>
+</p>
+
+<p>
 <a href="http://emacsrocks.com/e14.html">Emacs Rocks episode on paredit</a>
 </p>
 <div class="org-src-container">
@@ -489,7 +518,6 @@ If you write any form of Lisp and don't use paredit, change that.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-8-5" class="outline-3">
 <h3 id="sec-8-5"><span class="section-number-3">8.5</span> Emacs Lisp</h3>
 <div class="outline-text-3" id="text-8-5">
@@ -505,7 +533,6 @@ If you write any form of Lisp and don't use paredit, change that.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-8-6" class="outline-3">
 <h3 id="sec-8-6"><span class="section-number-3">8.6</span> Javascript</h3>
 <div class="outline-text-3" id="text-8-6">
@@ -542,8 +569,8 @@ Prefer js2-mode to javascript-mode.
 <h2 id="sec-9"><span class="section-number-2">9</span> Compilation</h2>
 <div class="outline-text-2" id="text-9">
 <p>
-`M-x compile` has some issues with ansi color codes. This fixes it.
-Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer">StackOverflow</a>
+`M-x compile` has some issues with ansi color codes. This fixes
+it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer">StackOverflow</a>. 
 </p>
 <div class="org-src-container">
 
@@ -726,13 +753,18 @@ Solarized Dark is where it's at.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(when window-system (load-theme 'solarized-dark t))
-(setq custom-safe-themes
-      '("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
+</pre>
+</div>
+<p>
+Trust all themes.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq custom-safe-themes t)
 </pre>
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-20" class="outline-2">
 <h2 id="sec-20"><span class="section-number-2">20</span> Backup and Auto Save</h2>
 <div class="outline-text-2" id="text-20">
@@ -745,7 +777,6 @@ Solarized Dark is where it's at.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-21" class="outline-2">
 <h2 id="sec-21"><span class="section-number-2">21</span> General Setup</h2>
 <div class="outline-text-2" id="text-21">
@@ -761,7 +792,6 @@ Solarized Dark is where it's at.
 (add-hook 'before-save-hook 'time-stamp)
 (menu-bar-mode -1)
 (wrap-region-global-mode)
-(add-hook 'java-mode-hook 'my-java-mode-hook)
 (add-hook 'sgml-mode-hook 'zencoding-mode)
 (add-to-list 'auto-mode-alist '("\\.phtml$" . web-mode))
 (setq web-mode-autocompletes-flag t)
@@ -790,18 +820,19 @@ Solarized Dark is where it's at.
 <div class="outline-text-2" id="text-22">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq exec-path
-      '("/usr/local/bin" "/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/24.3/libexec/emacs/24.3/x86_64-apple-darwin13.1.0"))
-(when (string= system-name "Saffron.local")
-  (setenv "PATH" (mapconcat 'concat
-			    (append '("/usr/local/pear/bin"
-				      "/usr/local/bin"
-				      "/Users/echosa/.cask/bin")
-				    (list (getenv "PATH")))
-			    ":"))
-  (set-face-attribute 'default nil :family "Consolas" :height 120)
-  (when (window-system)
-    (ns-set-resource nil "ApplePressAndHoldEnabled" "NO")))
+<pre class="src src-emacs-lisp">(pcase system-name
+  ("Saffron.local" (progn
+		     (setq exec-path
+			   '("/usr/local/bin" "/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/24.3/libexec/emacs/24.3/x86_64-apple-darwin13.1.0"))
+		     (setenv "PATH" (mapconcat 'concat
+					       (append '("/usr/local/pear/bin"
+							 "/usr/local/bin"
+							 "/Users/echosa/.cask/bin")
+						       (list (getenv "PATH")))
+					       ":"))
+		     (set-face-attribute 'default nil :family "Consolas" :height 120)
+		     (when (window-system)
+		       (ns-set-resource nil "ApplePressAndHoldEnabled" "NO")))))
 </pre>
 </div>
 </div>
@@ -809,7 +840,7 @@ Solarized Dark is where it's at.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Brian Zwahr</p>
-<p class="date">Created: 2014-09-02 Tue 23:18</p>
+<p class="date">Created: 2014-09-02 Tue 23:51</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.50.1 (<a href="http://orgmode.org">Org</a> mode 8.2.6)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
