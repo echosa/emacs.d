@@ -35,6 +35,8 @@
   a descriptive narrative.
 
 * Packages
+  External and third-party packages are great. They make adding new things to
+  Emacs much nicer and less complicated.
 ** Cask
   Cask is a dependency manager for Emacs, similar to npm for Node.
 
@@ -45,14 +47,6 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 #+end_src
-** Pallet
-   Pallet keeps the Cask file up-to-date when installing packages through
-   `M-x list-packages`.
-
-   [[https://github.com/rdallasgray/pallet][Pallet website]]
-#+begin_src emacs-lisp
-(require 'pallet)
-#+end_src
 ** Package.el
    Also, we need to set up the package repositories for Emacs' own package
    manager.
@@ -60,12 +54,25 @@
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade-repo.org/packages/")
-        ("melpa" . "http://melpa.milkbox.net/packages/")))
+        ("melpa" . "http://melpa.org/packages/")))
 #+end_src
-** Paradox
-   Finally, paradox is a thing.
+* General Setup
+#+begin_src
+(temp-buffer-resize-mode 0)
+(add-hook 'before-save-hook 'time-stamp)
+(setq fill-column 80)
+(setq scroll-conservatively 101)
+(setq case-fold-search t)
+(setq case-replace t)
+(setq display-buffer-reuse-frames t)
+(setq display-time-24hr-format nil)
+(setq display-time-day-and-date t)
+(setq large-file-warning-threshold nil)
+(setq truncate-partial-width-windows nil)
+#+end_src
+  Don't load outdated complied files.
 #+begin_src emacs-lisp
-(setq paradox-github-token t)
+(setq load-prefer-newer t)
 #+end_src
 * Uniquify
   If I have two buffers open with two files that have the same name, (e.g. two 
@@ -126,9 +133,7 @@
 (evil-leader/set-key ":" 'eval-expression)
 (evil-leader/set-key "k" 'ido-kill-buffer)
 (evil-leader/set-key "p" 'projectile-commander)
-(evil-leader/set-key "e" 'mu4e)
-(evil-leader/set-key "j" 'ace-jump-mode)
-(evil-leader/set-key "J" 'ace-window)
+(evil-leader/set-key "d" 'dired)
 (global-evil-leader-mode)
 #+end_src
   Finally, there are some modes that I want to always be in Emacs mode instead
@@ -178,12 +183,21 @@
 (require 'pbcopy)
 (turn-on-pbcopy)
 #+end_src
+
+* Minibuffer
+  This little snippet adds eldoc support to the minibuffer. Requires Emacs 24.4.
+  [[http://endlessparentheses.com/sweet-new-features-in-24-4.html][Found on EndlessParenthesis.com.]]
+#+begin_src emacs-lisp
+(add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
+#+end_src
+
 * Programming
 ** General
-   Here are some general, all-purpose, language-agnostic default settings.
+   Indent with 4 spaces, not a tabstop.
 #+begin_src emacs-lisp
 (setq c-basic-offset 4)
 (setq tab-width 4)
+(setq indent-tabs-mode nil)
 #+end_src
 ** Git
    Magit is awesome.
@@ -215,9 +229,11 @@
 #+begin_src emacs-lisp
 (defun my-emacs-lisp-mode-hook ()
   (eldoc-mode)
-  (linum-mode)
-  (lexbind-mode))
+  (linum-mode))
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
+#+end_src
+** Clojure
+#+begin_src emacs-lisp
 (add-hook 'clojure-mode-hook 'linum-mode)
 #+end_src
 ** Javascript
@@ -237,6 +253,11 @@
   (php-enable-symfony2-coding-style))
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 #+end_src
+** HTML
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.phtml$" . web-mode))
+(setq web-mode-autocompletes-flag t)
+#+end_src
 * Compilation
   `M-x compile` has some issues with ansi color codes. This fixes
   it. Found at [[http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer][StackOverflow]]. 
@@ -247,25 +268,6 @@
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-#+end_src
-
-* Org-mode
-#+begin_src emacs-lisp
-(setq org-agenda-compact-blocks nil)
-(setq org-agenda-restore-windows-after-quit t)
-(setq org-agenda-show-all-dates nil)
-(setq org-agenda-start-on-weekday nil)
-(setq org-agenda-window-setup 'current-window)
-(setq org-link-frame-setup
-      '((vm . vm-visit-folder-other-frame)
-        (gnus . gnus-other-frame)
-        (file . find-file)))
-(setq org-log-done 'note)
-(setq org-log-into-drawer t)
-(setq org-timeline-show-empty-dates nil)
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "IN PROGRESS(i!)" "|" "DONE(d@/!)")
-        (sequence "ON HOLD(h!)" "|" "CANCELLED(c@/!)")))
 #+end_src
 
 * IRC
@@ -369,44 +371,62 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (setq auto-save-list-file-prefix "~/.emacs.tmp/.saves-")
 (setq backup-directory-alist '(("" . "~/.emacs.tmp")))
 #+end_src
-* General Setup
+* Prettyify Emacs
+** Things I don't want to see
+*** Scroll bars
 #+begin_src emacs-lisp
 (when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
-(tool-bar-mode -1)
-(global-font-lock-mode t)
-(transient-mark-mode t)
-(show-paren-mode t)
-(column-number-mode t)
-(temp-buffer-resize-mode 0)
-(add-hook 'before-save-hook 'time-stamp)
-(menu-bar-mode -1)
-(wrap-region-global-mode)
-(add-hook 'sgml-mode-hook 'zencoding-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml$" . web-mode))
-(setq web-mode-autocompletes-flag t)
-(put 'dired-find-alternate-file 'disabled nil)
-(setq default-directory (concat (getenv "HOME") "/"))
-(setq blink-cursor-mode t)
-(setq visible-bell t)
-(setq fill-column 80)
-(setq inhibit-startup-screen t)
-(setq scroll-conservatively 101)
-(setq case-fold-search t)
-(setq case-replace t)
-(setq display-buffer-reuse-frames t)
-(setq display-time-24hr-format nil)
-(setq display-time-day-and-date t)
-(setq indent-tabs-mode nil)
-(setq indicate-empty-lines t)
-(setq large-file-warning-threshold nil)
-(setq truncate-partial-width-windows nil)
 #+end_src
+*** Tool bar
+#+begin_src emacs-lisp
+(tool-bar-mode -1)
+#+end_src
+*** Menu bar
+#+begin_src emacs-lisp
+(menu-bar-mode -1)
+#+end_src
+*** Splash screen
+    It's unnecessary, really.
+#+begin_src emacs-lisp
+(setq inhibit-startup-screen t)
+#+end_src
+** Things I do want to see
+*** Highlight current region/selection
+#+begin_src emacs-lisp
+(transient-mark-mode t)
+#+end_src
+*** Syntax highlighting
+#+begin_src emacs-lisp
+(global-font-lock-mode t)
+#+end_src
+*** Column number
+#+begin_src emacs-lisp
+(column-number-mode t)
+#+end_src
+*** Show matching parenthesis
+#+begin_src emacs-lisp
+(show-paren-mode t)
+#+end_src
+*** Blinking cursor
+#+begin_src emacs-lisp
+(setq blink-cursor-mode t)
+#+end_src
+*** Visual bell 
+    This blinks the screen when ever an error would normally make a sound.
+#+begin_src emacs-lisp
+(setq visible-bell t)
+#+end_src
+*** Show empty lines
+#+begin_src emacs-lisp
+(setq indicate-empty-lines t)
+#+end_src
+
 * Local Setup
 #+begin_src emacs-lisp
   (pcase system-name
     ("Saffron.local" (progn
                        (setq exec-path
-                             '("/usr/local/bin" "/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/24.3/libexec/emacs/24.3/x86_64-apple-darwin13.1.0"))
+                             '("/usr/local/bin" "/usr/bin" "/bin" "/usr/sbin" "/sbin"))
                        (setenv "PATH" (mapconcat 'concat
                                                  (append '("/usr/local/pear/bin"
                                                            "/usr/local/bin"

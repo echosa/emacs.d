@@ -2,14 +2,12 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
-(require 'pallet)
-
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade-repo.org/packages/")
-        ("melpa" . "http://melpa.milkbox.net/packages/")))
+        ("melpa" . "http://melpa.org/packages/")))
 
-(setq paradox-github-token t)
+(setq load-prefer-newer t)
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -44,9 +42,7 @@
 (evil-leader/set-key ":" 'eval-expression)
 (evil-leader/set-key "k" 'ido-kill-buffer)
 (evil-leader/set-key "p" 'projectile-commander)
-(evil-leader/set-key "e" 'mu4e)
-(evil-leader/set-key "j" 'ace-jump-mode)
-(evil-leader/set-key "J" 'ace-window)
+(evil-leader/set-key "d" 'dired)
 (global-evil-leader-mode)
 
 (setq evil-emacs-state-modes
@@ -73,8 +69,11 @@
 (require 'pbcopy)
 (turn-on-pbcopy)
 
+(add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
+
 (setq c-basic-offset 4)
 (setq tab-width 4)
+(setq indent-tabs-mode nil)
 
 (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
 (setq magit-server-window-for-commit 'pop-to-buffer)
@@ -88,9 +87,9 @@
 
 (defun my-emacs-lisp-mode-hook ()
   (eldoc-mode)
-  (linum-mode)
-  (lexbind-mode))
+  (linum-mode))
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
+
 (add-hook 'clojure-mode-hook 'linum-mode)
 
 (autoload 'js2-mode "js2" nil t)
@@ -105,28 +104,15 @@
   (php-enable-symfony2-coding-style))
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
+(add-to-list 'auto-mode-alist '("\\.phtml$" . web-mode))
+(setq web-mode-autocompletes-flag t)
+
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
   (toggle-read-only)
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-
-(setq org-agenda-compact-blocks nil)
-(setq org-agenda-restore-windows-after-quit t)
-(setq org-agenda-show-all-dates nil)
-(setq org-agenda-start-on-weekday nil)
-(setq org-agenda-window-setup 'current-window)
-(setq org-link-frame-setup
-      '((vm . vm-visit-folder-other-frame)
-        (gnus . gnus-other-frame)
-        (file . find-file)))
-(setq org-log-done 'note)
-(setq org-log-into-drawer t)
-(setq org-timeline-show-empty-dates nil)
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "IN PROGRESS(i!)" "|" "DONE(d@/!)")
-        (sequence "ON HOLD(h!)" "|" "CANCELLED(c@/!)")))
 
 (setq erc-nick "echosa")
 (setq erc-user-full-name "Echosa")
@@ -201,39 +187,31 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (setq backup-directory-alist '(("" . "~/.emacs.tmp")))
 
 (when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
+
 (tool-bar-mode -1)
-(global-font-lock-mode t)
-(transient-mark-mode t)
-(show-paren-mode t)
-(column-number-mode t)
-(temp-buffer-resize-mode 0)
-(add-hook 'before-save-hook 'time-stamp)
+
 (menu-bar-mode -1)
-(wrap-region-global-mode)
-(add-hook 'sgml-mode-hook 'zencoding-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml$" . web-mode))
-(setq web-mode-autocompletes-flag t)
-(put 'dired-find-alternate-file 'disabled nil)
-(setq default-directory (concat (getenv "HOME") "/"))
-(setq blink-cursor-mode t)
-(setq visible-bell t)
-(setq fill-column 80)
+
 (setq inhibit-startup-screen t)
-(setq scroll-conservatively 101)
-(setq case-fold-search t)
-(setq case-replace t)
-(setq display-buffer-reuse-frames t)
-(setq display-time-24hr-format nil)
-(setq display-time-day-and-date t)
-(setq indent-tabs-mode nil)
+
+(transient-mark-mode t)
+
+(global-font-lock-mode t)
+
+(column-number-mode t)
+
+(show-paren-mode t)
+
+(setq blink-cursor-mode t)
+
+(setq visible-bell t)
+
 (setq indicate-empty-lines t)
-(setq large-file-warning-threshold nil)
-(setq truncate-partial-width-windows nil)
 
 (pcase system-name
   ("Saffron.local" (progn
                      (setq exec-path
-                           '("/usr/local/bin" "/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/24.3/libexec/emacs/24.3/x86_64-apple-darwin13.1.0"))
+                           '("/usr/local/bin" "/usr/bin" "/bin" "/usr/sbin" "/sbin"))
                      (setenv "PATH" (mapconcat 'concat
                                                (append '("/usr/local/pear/bin"
                                                          "/usr/local/bin"

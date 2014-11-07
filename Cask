@@ -2,57 +2,41 @@
 (source marmalade)
 (source melpa)
 
-(depends-on "ace-jump-mode")
-(depends-on "ace-window")
-(depends-on "alert")
-(depends-on "ansi")
-(depends-on "apache-mode")
+;; Needed for Emacs to use packages installed via Cask
 (depends-on "cask")
-(depends-on "cider")
-(depends-on "clojure-mode")
-(depends-on "clojure-test-mode")
-(depends-on "color-identifiers-mode")
-(depends-on "dash")
-(depends-on "dash-functional")
-(depends-on "emacsagist")
-(depends-on "epl")
+
+;; Vim keys
 (depends-on "evil")
 (depends-on "evil-leader")
-(depends-on "expand-region")
-(depends-on "f")
-(depends-on "feature-mode")
-(depends-on "flx")
-(depends-on "flx-ido")
-(depends-on "git-commit-mode")
-(depends-on "git-rebase-mode")
-(depends-on "gntp")
-(depends-on "goto-chg")
-(depends-on "ido-vertical-mode")
-(depends-on "js2-mode")
-(depends-on "key-chord")
-(depends-on "lexbind-mode")
-(depends-on "magit")
-(depends-on "manage-minor-mode")
-(depends-on "markdown-mode")
-(depends-on "multiple-cursors")
-(depends-on "package-build")
-(depends-on "pallet")
-(depends-on "paradox")
-(depends-on "paredit")
-(depends-on "pbcopy")
-(depends-on "php-mode")
-(depends-on "pkg-info")
-(depends-on "projectile")
-(depends-on "s")
-(depends-on "shut-up")
-(depends-on "solarized-theme")
 (depends-on "surround")
-(depends-on "tabulated-list")
+(depends-on "key-chord")
+
+;; Improve ido
+(depends-on "flx-ido")
+(depends-on "ido-vertical-mode")
+
+;; Who needs an IDE?
+(depends-on "projectile")
+(depends-on "magit")
+(depends-on "cider")
+
+;; Editing++
+(depends-on "paredit")
+(depends-on "expand-region")
+(depends-on "multiple-cursors")
+
+;; Syntax highlighting and such
+(depends-on "apache-mode")
+(depends-on "feature-mode")
+(depends-on "js2-mode")
+(depends-on "markdown-mode")
+(depends-on "php-mode")
 (depends-on "twig-mode")
-(depends-on "typed-clojure-mode")
-(depends-on "undo-tree")
 (depends-on "web-mode")
-(depends-on "wrap-region")
 (depends-on "yaml-mode")
-(depends-on "yasnippet")
-(depends-on "zencoding-mode")
+
+;; <3 Solarized http://ethanschoonover.com/solarized
+(depends-on "solarized-theme")
+
+;; Sync copy/paste with OS X
+(depends-on "pbcopy")
