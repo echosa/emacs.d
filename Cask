@@ -14,11 +14,16 @@
 ;; Improve ido
 (depends-on "flx-ido")
 (depends-on "ido-vertical-mode")
+(depends-on "ido-ubiquitous")
 
 ;; Who needs an IDE?
 (depends-on "projectile")
+(depends-on "ag")
 (depends-on "magit")
 (depends-on "cider")
+(depends-on "auto-complete")
+(depends-on "ac-cider")
+(depends-on "geben")
 
 ;; Editing++
 (depends-on "paredit")

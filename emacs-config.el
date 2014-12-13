@@ -20,6 +20,7 @@
 (setq ido-everywhere t)
 (icomplete-mode 99)
 (ido-vertical-mode 1)
+(flx-ido-mode 1)
 
 (evil-mode 1)
 (setq evil-default-cursor '(t))
@@ -43,6 +44,8 @@
 (evil-leader/set-key "k" 'ido-kill-buffer)
 (evil-leader/set-key "p" 'projectile-commander)
 (evil-leader/set-key "d" 'dired)
+(evil-leader/set-key "e" 'er/expand-region)
+(evil-leader/set-key "m" 'mc/mark-more-like-this-extended)
 (global-evil-leader-mode)
 
 (setq evil-emacs-state-modes
@@ -75,7 +78,6 @@
 (setq tab-width 4)
 (setq indent-tabs-mode nil)
 
-(setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
 (setq magit-server-window-for-commit 'pop-to-buffer)
 (setq magit-use-overlays nil)
 
@@ -91,10 +93,17 @@
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
 (add-hook 'clojure-mode-hook 'linum-mode)
+(require 'ac-cider)
+(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
+(add-hook 'cider-mode-hook 'ac-cider-setup)
+(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+(eval-after-load "auto-complete"
+  '(add-to-list 'ac-modes 'cider-mode))
 
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
+(require 'cl)
 (defun my-php-mode-hook ()
   (make-local-variable (quote whitespace-style))
   (setf whitespace-style (quote (face lines-tail tab-mark)))
@@ -102,7 +111,6 @@
   (linum-mode 1)
   (subword-mode 1)
   (php-enable-symfony2-coding-style))
-(add-hook 'php-mode-hook 'my-php-mode-hook)
 
 (add-to-list 'auto-mode-alist '("\\.phtml$" . web-mode))
 (setq web-mode-autocompletes-flag t)

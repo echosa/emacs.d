@@ -95,6 +95,7 @@
 (setq ido-everywhere t)
 (icomplete-mode 99)
 (ido-vertical-mode 1)
+(flx-ido-mode 1)
 #+end_src
 * Evil
   Call me heathen if you wish, but I prefer Vim navigation keys.
@@ -134,6 +135,8 @@
 (evil-leader/set-key "k" 'ido-kill-buffer)
 (evil-leader/set-key "p" 'projectile-commander)
 (evil-leader/set-key "d" 'dired)
+(evil-leader/set-key "e" 'er/expand-region)
+(evil-leader/set-key "m" 'mc/mark-more-like-this-extended)
 (global-evil-leader-mode)
 #+end_src
   Finally, there are some modes that I want to always be in Emacs mode instead
@@ -202,7 +205,6 @@
 ** Git
    Magit is awesome.
 #+begin_src emacs-lisp
-(setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
 (setq magit-server-window-for-commit 'pop-to-buffer)
 (setq magit-use-overlays nil)
 #+end_src
@@ -235,6 +237,12 @@
 ** Clojure
 #+begin_src emacs-lisp
 (add-hook 'clojure-mode-hook 'linum-mode)
+(require 'ac-cider)
+(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
+(add-hook 'cider-mode-hook 'ac-cider-setup)
+(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+(eval-after-load "auto-complete"
+  '(add-to-list 'ac-modes 'cider-mode))
 #+end_src
 ** Javascript
   Prefer js2-mode to javascript-mode.
@@ -244,6 +252,7 @@
 #+end_src
 ** PHP
 #+begin_src emacs-lisp
+(require 'cl)
 (defun my-php-mode-hook ()
   (make-local-variable (quote whitespace-style))
   (setf whitespace-style (quote (face lines-tail tab-mark)))
@@ -251,7 +260,6 @@
   (linum-mode 1)
   (subword-mode 1)
   (php-enable-symfony2-coding-style))
-(add-hook 'php-mode-hook 'my-php-mode-hook)
 #+end_src
 ** HTML
 #+begin_src emacs-lisp
