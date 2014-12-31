@@ -137,6 +137,7 @@
 (evil-leader/set-key "d" 'dired)
 (evil-leader/set-key "e" 'er/expand-region)
 (evil-leader/set-key "m" 'mc/mark-more-like-this-extended)
+(evil-leader/set-key "s" 'string-inflection-toggle)
 (global-evil-leader-mode)
 #+end_src
   Finally, there are some modes that I want to always be in Emacs mode instead

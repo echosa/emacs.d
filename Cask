@@ -29,6 +29,7 @@
 (depends-on "paredit")
 (depends-on "expand-region")
 (depends-on "multiple-cursors")
+(depends-on "string-inflection")
 
 ;; Syntax highlighting and such
 (depends-on "apache-mode")
