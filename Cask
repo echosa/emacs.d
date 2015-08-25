@@ -40,6 +40,7 @@
 (depends-on "twig-mode")
 (depends-on "web-mode")
 (depends-on "yaml-mode")
+(depends-on "zencoding-mode")
 
 ;; <3 Solarized http://ethanschoonover.com/solarized
 (depends-on "solarized-theme")
