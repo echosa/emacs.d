@@ -41,11 +41,18 @@
   Cask is a dependency manager for Emacs, similar to npm for Node.
 
   [[http://cask.github.io][Cask website]]
-  
-  First, we require and initialize Cask.
 #+begin_src emacs-lisp
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
+#+end_src
+** Pallet
+  Pallet keeps your Cask file up-to-date when you install packages through
+  Emacs's package manager.
+
+  [[https://github.com/rdallasgray/pallet][Pallet website]]
+#+begin_src emacs-lisp
+(require 'pallet)
+(pallet-mode t)
 #+end_src
 ** Package.el
    Also, we need to set up the package repositories for Emacs' own package
