@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Echosa's Emacs Configuration</title>
-<!-- 2015-08-25 Tue 09:58 -->
+<!-- 2015-10-06 Tue 11:36 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Brian Zwahr" />
@@ -146,7 +146,8 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2">2. Packages</a>
 <ul>
 <li><a href="#sec-2-1">2.1. Cask</a></li>
-<li><a href="#sec-2-2">2.2. Package.el</a></li>
+<li><a href="#sec-2-2">2.2. Pallet</a></li>
+<li><a href="#sec-2-3">2.3. Package.el</a></li>
 </ul>
 </li>
 <li><a href="#sec-3">3. General Setup</a></li>
@@ -276,10 +277,6 @@ Cask is a dependency manager for Emacs, similar to npm for Node.
 <p>
 <a href="http://cask.github.io">Cask website</a>
 </p>
-
-<p>
-First, we require and initialize Cask.
-</p>
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(require 'cask "~/.cask/cask.el")
@@ -289,8 +286,27 @@ First, we require and initialize Cask.
 </div>
 </div>
 <div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Package.el</h3>
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Pallet</h3>
 <div class="outline-text-3" id="text-2-2">
+<p>
+Pallet keeps your Cask file up-to-date when you install packages through
+Emacs's package manager.
+</p>
+
+<p>
+<a href="https://github.com/rdallasgray/pallet">Pallet website</a>
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(require 'pallet)
+(pallet-mode t)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Package.el</h3>
+<div class="outline-text-3" id="text-2-3">
 <p>
 Also, we need to set up the package repositories for Emacs' own package
 manager.
@@ -300,7 +316,8 @@ manager.
 <pre class="src src-emacs-lisp">(setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
 	("marmalade" . "http://marmalade-repo.org/packages/")
-	("melpa" . "http://melpa.org/packages/")))
+	("melpa" . "https://melpa.org/packages/")
+	("melpa-stable" . "https://stable.melpa.org/packages/")))
 </pre>
 </div>
 </div>
@@ -454,7 +471,7 @@ of Evil.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq evil-emacs-state-modes
-      '(archive-mode bbdb-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode geben-mode gist-list-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-popup-mode magit-commit-mode magit-diff-mode magit-key-mode magit-log-mode magit-mode magit-reflog-mode magit-show-branches-mode magit-branch-manager-mode magit-stash-mode magit-status-mode magit-wazzup-mode magit-refs-mode mh-folder-mode monky-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode occur-mode org-agenda-mode package-menu-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode cider-repl-mode emacsagist-mode elfeed-show-mode elfeed-search-mode notmuch-tree term-mode))
+      '(archive-mode bbdb-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode geben-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-popup-mode magit-popup-sequence-mode magit-commit-mode magit-revision-mode magit-diff-mode magit-key-mode magit-log-mode magit-mode magit-reflog-mode magit-show-branches-mode magit-branch-manager-mode magit-stash-mode magit-status-mode magit-wazzup-mode magit-refs-mode mh-folder-mode monky-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode occur-mode org-agenda-mode package-menu-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode cider-repl-mode emacsagist-mode elfeed-show-mode elfeed-search-mode notmuch-tree term-mode))
 </pre>
 </div>
 </div>
@@ -639,6 +656,11 @@ If you write any form of Lisp and don't use paredit, change that.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(add-hook 'clojure-mode-hook 'linum-mode)
+(defun my-clojure-mode-hook ()
+  (clj-refactor-mode 1)
+  (yas-minor-mode 1)
+  (cljr-add-keybindings-with-prefix "C-c C-m"))
+(add-hook 'clojure-mode-hook 'my-clojure-mode-hook)
 (require 'ac-cider)
 (add-hook 'cider-mode-hook 'ac-flyspell-workaround)
 (add-hook 'cider-mode-hook 'ac-cider-setup)
@@ -803,6 +825,13 @@ it. Found at <a href="http://stackoverflow.com/questions/3072648/cucumbers-ansi-
 	  (select-window first-win)
 	  (if this-win-2nd (other-window 1))))))
 (define-key ctl-x-4-map "t" 'toggle-window-split)
+
+(defvar chess-dir "~/dev/chess.com")
+(defun chess-cmd (cmd)
+  (interactive "sCommand: ")
+  (compile (concat "cd " chess-dir " &amp;&amp; vagrant ssh web3 -c '"
+		   cmd
+		   "'; RETVAL=$?; terminal-notifier -message \"Chess command complete.\" -sound \"default\"; exit $RETVAL")))
 </pre>
 </div>
 </div>
@@ -857,7 +886,7 @@ Solarized Dark is where it's at.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">;;(when window-system (load-theme 'solarized-dark t))
+<pre class="src src-emacs-lisp">(when window-system (load-theme 'solarized-dark t))
 </pre>
 </div>
 <p>
@@ -865,7 +894,7 @@ Trust all themes.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">;;(setq custom-safe-themes t)
+<pre class="src src-emacs-lisp">(setq custom-safe-themes t)
 </pre>
 </div>
 </div>
@@ -996,6 +1025,14 @@ This blinks the screen when ever an error would normally make a sound.
 <pre class="src src-emacs-lisp">(setq visible-bell t)
 </pre>
 </div>
+<p>
+Adding this in because Emacs on El Capitan has graphics glitches with the visible bell.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq ring-bell-function 'ignore)
+</pre>
+</div>
 </div>
 </div>
 <div id="outline-container-sec-23-2-7" class="outline-4">
@@ -1026,7 +1063,7 @@ This blinks the screen when ever an error would normally make a sound.
 							 "/Users/echosa/.cask/bin")
 						       (list (getenv "PATH")))
 					       ":"))
-		     (set-face-attribute 'default nil :family "Consolas" :height 120)
+		     (set-face-attribute 'default nil :family "Monaco" :height 110)
 		     (when (window-system)
 		       (ns-set-resource nil "ApplePressAndHoldEnabled" "NO")))))
 </pre>
@@ -1036,7 +1073,7 @@ This blinks the screen when ever an error would normally make a sound.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Brian Zwahr</p>
-<p class="date">Created: 2015-08-25 Tue 09:58</p>
+<p class="date">Created: 2015-10-06 Tue 11:36</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
