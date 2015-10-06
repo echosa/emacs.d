@@ -177,6 +177,13 @@
           (if this-win-2nd (other-window 1))))))
 (define-key ctl-x-4-map "t" 'toggle-window-split)
 
+(defvar chess-dir "~/dev/chess.com")
+(defun chess-cmd (cmd)
+  (interactive "sCommand: ")
+  (compile (concat "cd " chess-dir " && vagrant ssh web3 -c '"
+                   cmd
+                   "'; RETVAL=$?; terminal-notifier -message \"Chess command complete.\" -sound \"default\"; exit $RETVAL")))
+
 (defun reb-query-replace-this-regxp (replace)
   "Uses the regexp built with re-builder to query the target buffer.
 This function must be run from within the re-builder buffer, not the target
@@ -229,6 +236,8 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (setq blink-cursor-mode t)
 
 (setq visible-bell t)
+
+(setq ring-bell-function 'ignore)
 
 (setq indicate-empty-lines t)
 

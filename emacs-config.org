@@ -356,6 +356,13 @@
           (select-window first-win)
           (if this-win-2nd (other-window 1))))))
 (define-key ctl-x-4-map "t" 'toggle-window-split)
+
+(defvar chess-dir "~/dev/chess.com")
+(defun chess-cmd (cmd)
+  (interactive "sCommand: ")
+  (compile (concat "cd " chess-dir " && vagrant ssh web3 -c '"
+                   cmd
+                   "'; RETVAL=$?; terminal-notifier -message \"Chess command complete.\" -sound \"default\"; exit $RETVAL")))
 #+end_src
 * Regular Expressions
 #+begin_src emacs-lisp
@@ -446,6 +453,10 @@ Argument REPLACE String used to replace the matched strings in the buffer.
     This blinks the screen when ever an error would normally make a sound.
 #+begin_src emacs-lisp
 (setq visible-bell t)
+#+end_src
+    Adding this in because Emacs on El Capitan has graphics glitches with the visible bell.
+#+begin_src emacs-lisp
+(setq ring-bell-function 'ignore)
 #+end_src
 *** Show empty lines
 #+begin_src emacs-lisp
