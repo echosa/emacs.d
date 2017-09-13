@@ -34,6 +34,9 @@
   Anyway, what follows is my actual Emacs configuration, embedded into
   a descriptive narrative.
 
+* Pre-Requisites
+  Before loading, the `dotemacs.el` file needs to be symlinked to `~/.emacs`.
+
 * Packages
   External and third-party packages are great. They make adding new things to
   Emacs much nicer and less complicated.
