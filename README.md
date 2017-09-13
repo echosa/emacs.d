@@ -7,6 +7,7 @@
 <li><a href="#sec-3">3. Packages</a>
 <ul>
 <li><a href="#sec-3-1">3.1. Repositories</a></li>
+<li><a href="#sec-3-2">3.2. Installation</a></li>
 </ul>
 </li>
 <li><a href="#sec-4">4. General Setup</a></li>
@@ -110,6 +111,18 @@ We need to set up the package repositories for Emacs' own package manager.
             ("marmalade" . "http://marmalade-repo.org/packages/")
             ("melpa" . "https://melpa.org/packages/")
             ("melpa-stable" . "https://stable.melpa.org/packages/")))
+
+## Installation<a id="sec-3-2" name="sec-3-2"></a>
+
+The packages obviously need to be installed. Newer versions of Emacs include
+a variable called \`package-selected-packages\` which can automatically track
+the packages you install \`M-x list-packages\` and \`M-x package install\`. So,
+you can just keep using the package.el functionality as usual without any
+habit changes, and Emacs will remember what you need. Then, if you ever need
+to reinstall Emacs fresh, you can run \`package-install-selected-packages\`,
+and Emacs will reinstall all your required and desired packages. It's pretty
+nice, to be honest, and has replaced the Cask/Pallet combo I used to use
+for this very purpose.
 
 # General Setup<a id="sec-4" name="sec-4"></a>
 

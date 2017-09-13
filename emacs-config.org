@@ -50,6 +50,18 @@
         ("melpa" . "https://melpa.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 #+end_src
+
+** Installation
+   The packages obviously need to be installed. Newer versions of Emacs include
+   a variable called `package-selected-packages` which can automatically track
+   the packages you install `M-x list-packages` and `M-x package install`. So,
+   you can just keep using the package.el functionality as usual without any
+   habit changes, and Emacs will remember what you need. Then, if you ever need
+   to reinstall Emacs fresh, you can run `package-install-selected-packages`,
+   and Emacs will reinstall all your required and desired packages. It's pretty
+   nice, to be honest, and has replaced the Cask/Pallet combo I used to use
+   for this very purpose.
+
 * General Setup
 #+begin_src
 (temp-buffer-resize-mode 0)
