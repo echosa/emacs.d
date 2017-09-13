@@ -112,7 +112,7 @@
 (setq evil-default-cursor '(t))
 #+end_src
   Using `key-chord-mode`, I have the vim equivalent of `imap jk <Esc>`, which 
-  allows me to to `jk` instead of `Esc` to get out of insert mode.
+  allows me to use `jk` instead of `Esc` to get out of insert mode.
 #+begin_src emacs-lisp
 (key-chord-mode 1)
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)

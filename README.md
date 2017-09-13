@@ -174,7 +174,7 @@ Call me heathen if you wish, but I prefer Vim navigation keys.
     (setq evil-default-cursor '(t))
 
 Using \`key-chord-mode\`, I have the vim equivalent of \`imap jk <Esc>\`, which 
-allows me to to \`jk\` instead of \`Esc\` to get out of insert mode.
+allows me to use \`jk\` instead of \`Esc\` to get out of insert mode.
 
     (key-chord-mode 1)
     (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
