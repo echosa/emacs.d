@@ -1,9 +1,5 @@
 
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-
-(require 'pallet)
-(pallet-mode t)
+(package-initialize)
 
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -15,18 +11,22 @@
 
 (setq load-prefer-newer t)
 
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+(icomplete-mode)
 (require 'ido)
-(ido-mode)
-(setq ido-completion-buffer "*Ido Completions*")
-(setq ido-completion-buffer-all-completions t)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(icomplete-mode 99)
-(ido-vertical-mode 1)
+(ido-mode 1)
+(ido-everywhere 1)
+(require 'flx-ido)
 (flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
+(ido-vertical-mode 1)
 
 (evil-mode 1)
 (setq evil-default-cursor '(t))
@@ -39,9 +39,6 @@
 
 (define-key evil-ex-map "b " 'ido-switch-buffer)
 (define-key evil-ex-map "e " 'ido-find-file)
-
-(require 'surround)
-(global-surround-mode 1)
 
 (require 'evil-leader)
 (evil-leader/set-leader "<SPC>")
@@ -56,7 +53,9 @@
 (global-evil-leader-mode)
 
 (setq evil-emacs-state-modes
-      '(archive-mode bbdb-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode geben-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-popup-mode magit-popup-sequence-mode magit-commit-mode magit-revision-mode magit-diff-mode magit-key-mode magit-log-mode magit-mode magit-reflog-mode magit-show-branches-mode magit-branch-manager-mode magit-stash-mode magit-status-mode magit-wazzup-mode magit-refs-mode mh-folder-mode monky-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode occur-mode org-agenda-mode package-menu-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode cider-repl-mode emacsagist-mode elfeed-show-mode elfeed-search-mode notmuch-tree term-mode))
+      '(archive-mode bbdb-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-popup-mode magit-popup-sequence-mode magit-commit-mode magit-revision-mode magit-diff-mode magit-key-mode magit-log-mode magit-mode magit-reflog-mode magit-show-branches-mode magit-branch-manager-mode magit-stash-mode magit-status-mode magit-wazzup-mode magit-refs-mode mh-folder-mode monky-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode occur-mode org-agenda-mode package-menu-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode cider-repl-mode emacsagist-mode elfeed-show-mode elfeed-search-mode notmuch-tree term-mode))
+
+(add-hook 'geben-mode-hook 'evil-emacs-state)
 
 (global-linum-mode)
 
@@ -86,8 +85,6 @@
 (setq indent-tabs-mode nil)
 
 (require 'magit)
-(setq magit-server-window-for-commit 'pop-to-buffer)
-(setq magit-use-overlays nil)
 
 (projectile-global-mode)
 
@@ -99,56 +96,6 @@
   (eldoc-mode)
   (linum-mode))
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
-
-(add-hook 'clojure-mode-hook 'linum-mode)
-(defun my-clojure-mode-hook ()
-  (clj-refactor-mode 1)
-  (yas-minor-mode 1)
-  (cljr-add-keybindings-with-prefix "C-c C-m"))
-(add-hook 'clojure-mode-hook 'my-clojure-mode-hook)
-(require 'ac-cider)
-(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-(add-hook 'cider-mode-hook 'ac-cider-setup)
-(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'cider-mode))
-
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
-(require 'cl)
-(defun my-php-mode-hook ()
-  (make-local-variable (quote whitespace-style))
-  (setf whitespace-style (quote (face lines-tail tab-mark)))
-  (whitespace-mode t)
-  (linum-mode 1)
-  (subword-mode 1)
-  (php-enable-symfony2-coding-style))
-
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
-(setq web-mode-autocompletes-flag t)
-(autoload 'zencoding-mode "zencoding-mode" nil t)
-(add-hook 'web-mode-hook 'zencoding-mode)
-(add-hook 'twig-mode-hook 'zencoding-mode)
-
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-
-(setq erc-nick "echosa")
-(setq erc-user-full-name "Echosa")
-
-(setq browse-url-browser-function 'eww-browse-url)
-
-(setq send-mail-function 'smtpmail-send-it)
-
-(setq term-scroll-show-maximum-output nil)
-(setq term-scroll-to-bottom-on-output t)
-
-(setq woman-use-own-frame nil)
 
 ;; http://www.emacswiki.org/emacs/ToggleWindowSplit
 (defun toggle-window-split ()
@@ -177,13 +124,6 @@
           (if this-win-2nd (other-window 1))))))
 (define-key ctl-x-4-map "t" 'toggle-window-split)
 
-(defvar chess-dir "~/dev/chess.com")
-(defun chess-cmd (cmd)
-  (interactive "sCommand: ")
-  (compile (concat "cd " chess-dir " && vagrant ssh web3 -c '"
-                   cmd
-                   "'; RETVAL=$?; terminal-notifier -message \"Chess command complete.\" -sound \"default\"; exit $RETVAL")))
-
 (defun reb-query-replace-this-regxp (replace)
   "Uses the regexp built with re-builder to query the target buffer.
 This function must be run from within the re-builder buffer, not the target
@@ -203,15 +143,8 @@ Argument REPLACE String used to replace the matched strings in the buffer.
       '((lambda nil
           (define-key reb-mode-map "\245" 'reb-query-replace-this-regxp))))
 
-(global-set-key "\M-n" 'scroll-up-line)
-(global-set-key "\M-p" 'scroll-down-line)
-(global-set-key "\C-x9" 'delete-other-windows-vertically)
-(global-set-key "\M-@" 'er/expand-region)
-(global-set-key "\C-cm" 'mc/mark-more-like-this-extended)
-
-(when window-system (load-theme 'solarized-dark t))
-
-(setq custom-safe-themes t)
+(when window-system
+  (load-theme 'solarized-dark t))
 
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.tmp/" nil)))
 (setq auto-save-list-file-prefix "~/.emacs.tmp/.saves-")
@@ -235,22 +168,4 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 
 (setq blink-cursor-mode t)
 
-(setq visible-bell t)
-
-(setq ring-bell-function 'ignore)
-
 (setq indicate-empty-lines t)
-
-(pcase system-name
-  ("Saffron.local" (progn
-                     (setq exec-path
-                           '("/usr/local/bin" "/usr/bin" "/bin" "/usr/sbin" "/sbin"))
-                     (setenv "PATH" (mapconcat 'concat
-                                               (append '("/usr/local/pear/bin"
-                                                         "/usr/local/bin"
-                                                         "/Users/echosa/.cask/bin")
-                                                       (list (getenv "PATH")))
-                                               ":"))
-                     (set-face-attribute 'default nil :family "Monaco" :height 110)
-                     (when (window-system)
-                       (ns-set-resource nil "ApplePressAndHoldEnabled" "NO")))))

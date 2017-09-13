@@ -7,5 +7,7 @@ projectile-bookmarks.eld
 tramp
 url/
 /ido.last
-/ido.last~
 geben
+elpa/
+*~
+network-security.data
