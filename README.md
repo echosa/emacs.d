@@ -90,8 +90,8 @@ documetation and narrative, like this introdution section.
 
 If you're wondering about performance, org-babel doesn't do this
 parse every time I open Emacs. Instead, it sees that I'm trying to
-load \`emacs-config.org\` and checks for the existence of
-\`emacs-config.el\`. If it doesn't find that file, or finds an out of
+load `emacs-config.org` and checks for the existence of
+`emacs-config.el`. If it doesn't find that file, or finds an out of
 date version, only then does it parse the .org file to create a new
 .el file. This means there's a bit of a slow startup the first time
 after the org-mode file is changes, but after that there's no
@@ -108,10 +108,10 @@ First, you need to get the config from GitHub. I recommend actually cloning
 instead of just downloading a zip file, because a cloned repo will be 
 easier to update.
 
-First, delete, move, or rename your existing \`~/.emacs.d/\` directory and your
-existing \`~/.emacs\` file. Next, clone the repository into your home directory:
+First, delete, move, or rename your existing `~/.emacs.d/` directory and your
+existing `~/.emacs` file. Next, clone the repository into your home directory:
 
-\`$ git clone git@github.com:echosa/emacs.d.git ~/.emacs.d\`
+`$ git clone git@github.com:echosa/emacs.d.git ~/.emacs.d`
 
 ## Start Emacs<a id="sec-2-2" name="sec-2-2"></a>
 
@@ -120,8 +120,8 @@ Start Emacs and ignore any errors for now.
 ## Install packages<a id="sec-2-3" name="sec-2-3"></a>
 
 Next, the packages need to be installed. Once Emacs is started, run
-\`package-install-selected-packages\`. This will install all the
-packages defined in \`package-selected-packages\` in the init
+`package-install-selected-packages`. This will install all the
+packages defined in `package-selected-packages` in the init
 file. More info on that below.
 
 ## Restart Emacs<a id="sec-2-4" name="sec-2-4"></a>
@@ -132,12 +132,12 @@ all setup!
 ## Additional Useful Package Information<a id="sec-2-5" name="sec-2-5"></a>
 
 Newer versions of Emacs include a variable called
-\`package-selected-packages\` which can automatically track the
-packages you install \`M-x list-packages\` and \`M-x package
-install\`. So, you can just keep using the package.el functionality
+`package-selected-packages` which can automatically track the
+packages you install `M-x list-packages` and `M-x package
+install`. So, you can just keep using the package.el functionality
 as usual without any habit changes, and Emacs will remember what
 you need. Then, if you ever need to reinstall Emacs fresh, you can
-run \`package-install-selected-packages\`, and Emacs will reinstall
+run `package-install-selected-packages`, and Emacs will reinstall
 all your required and desired packages. It's pretty nice, to be
 honest, and has replaced the Cask/Pallet combo I used to use for
 this very purpose.
@@ -172,7 +172,7 @@ We need to set up the package repositories for Emacs' own package manager.
     (setq truncate-partial-width-windows nil)
     (global-hl-line-mode 1)
 
-Allow \`a\` to be used in dired to reuse the buffer instead of creating new buffers for every
+Allow `a` to be used in dired to reuse the buffer instead of creating new buffers for every
 directory.
 
     (put 'dired-find-alternate-file 'disabled nil)
@@ -190,9 +190,9 @@ Make sure Emacs can find and run commands on the PATH.
 
 If I have two buffers open with two files that have the same name, (e.g. two 
 different README files from two different projects), Emacs will, by default, 
-name the buffers \`README\` and \`README<1>\`. This is useless. Therefore, I turn on 
+name the buffers `README` and `README<1>`. This is useless. Therefore, I turn on 
 uniquify and use it to name buffers wtih the same file name based on their 
-parent directories: \`README<projdir1>\` and \`README<projectdir2>\`.
+parent directories: `README<projdir1>` and `README<projectdir2>`.
 
     (require 'uniquify)
     (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -219,8 +219,8 @@ Call me heathen if you wish, but I prefer Vim navigation keys.
     (evil-mode 1)
     (setq evil-default-cursor '(t))
 
-Using \`key-chord-mode\`, I have the vim equivalent of \`imap jk <Esc>\`, which 
-allows me to use \`jk\` instead of \`Esc\` to get out of insert mode.
+Using `key-chord-mode`, I have the vim equivalent of `imap jk <Esc>`, which 
+allows me to use `jk` instead of `Esc` to get out of insert mode.
 
     (key-chord-mode 1)
     (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
@@ -228,14 +228,14 @@ allows me to use \`jk\` instead of \`Esc\` to get out of insert mode.
     (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
     (key-chord-define evil-emacs-state-map "jk" 'evil-normal-state)
 
-I want Ido buffer switching and file finding when using Vim's \`:b\` and \`:e\`.
+I want Ido buffer switching and file finding when using Vim's `:b` and `:e`.
 
     (define-key evil-ex-map "b " 'ido-switch-buffer)
     (define-key evil-ex-map "e " 'ido-find-file)
 
-To make things even easier, I set up a "leader key" of \`Space\`, so that I can
-type \`Space <letter>\` to run a command. For instance, \`Space x\` instead of
-\`M-x\` to execute commands.
+To make things even easier, I set up a "leader key" of `Space`, so that I can
+type `Space <letter>` to run a command. For instance, `Space x` instead of
+`M-x` to execute commands.
 
     (require 'evil-leader)
     (evil-leader/set-leader "<SPC>")
