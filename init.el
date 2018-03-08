@@ -5,10 +5,6 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(require 'org)
-(require 'ob-tangle)
-(org-babel-load-file (expand-file-name "~/.emacs.d/emacs-config.org"))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -35,3 +31,7 @@
  '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
  '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
  '(evil-goggles-yank-face ((t (:inherit diff-changed)))))
+
+(require 'org)
+(require 'ob-tangle)
+(org-babel-load-file (expand-file-name "~/.emacs.d/emacs-config.org"))
