@@ -3,51 +3,59 @@
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#sec-1">1. Introduction</a></li>
-<li><a href="#sec-2">2. Packages</a>
+<li><a href="#sec-2">2. Installation</a>
 <ul>
-<li><a href="#sec-2-1">2.1. Repositories</a></li>
-<li><a href="#sec-2-2">2.2. Installation</a></li>
+<li><a href="#sec-2-1">2.1. Get from GitHub</a></li>
+<li><a href="#sec-2-2">2.2. Start Emacs</a></li>
+<li><a href="#sec-2-3">2.3. Install packages</a></li>
+<li><a href="#sec-2-4">2.4. Restart Emacs</a></li>
+<li><a href="#sec-2-5">2.5. Additional Useful Package Information</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3. General Setup</a></li>
-<li><a href="#sec-4">4. Uniquify</a></li>
-<li><a href="#sec-5">5. Ido</a></li>
-<li><a href="#sec-6">6. Evil</a></li>
-<li><a href="#sec-7">7. Line Numbers</a></li>
-<li><a href="#sec-8">8. Winner-mode</a></li>
-<li><a href="#sec-9">9. pbcopy</a></li>
-<li><a href="#sec-10">10. Minibuffer</a></li>
-<li><a href="#sec-11">11. Programming</a>
+<li><a href="#sec-3">3. Packages</a>
 <ul>
-<li><a href="#sec-11-1">11.1. General</a></li>
-<li><a href="#sec-11-2">11.2. Git</a></li>
-<li><a href="#sec-11-3">11.3. Projectile</a></li>
-<li><a href="#sec-11-4">11.4. Paredit</a></li>
-<li><a href="#sec-11-5">11.5. Emacs Lisp</a></li>
+<li><a href="#sec-3-1">3.1. Repositories</a></li>
 </ul>
 </li>
-<li><a href="#sec-12">12. Miscellaneous Functions</a></li>
-<li><a href="#sec-13">13. Regular Expressions</a></li>
-<li><a href="#sec-14">14. Theme</a></li>
-<li><a href="#sec-15">15. Backup and Auto Save</a></li>
-<li><a href="#sec-16">16. Prettyify Emacs</a>
+<li><a href="#sec-4">4. General Setup</a></li>
+<li><a href="#sec-5">5. Uniquify</a></li>
+<li><a href="#sec-6">6. Ido</a></li>
+<li><a href="#sec-7">7. Evil</a></li>
+<li><a href="#sec-8">8. Line Numbers</a></li>
+<li><a href="#sec-9">9. Winner-mode</a></li>
+<li><a href="#sec-10">10. pbcopy</a></li>
+<li><a href="#sec-11">11. Minibuffer</a></li>
+<li><a href="#sec-12">12. Programming</a>
 <ul>
-<li><a href="#sec-16-1">16.1. Things I don't want to see</a>
-<ul>
-<li><a href="#sec-16-1-1">16.1.1. Scroll bars</a></li>
-<li><a href="#sec-16-1-2">16.1.2. Tool bar</a></li>
-<li><a href="#sec-16-1-3">16.1.3. Menu bar</a></li>
-<li><a href="#sec-16-1-4">16.1.4. Splash screen</a></li>
+<li><a href="#sec-12-1">12.1. General</a></li>
+<li><a href="#sec-12-2">12.2. Git</a></li>
+<li><a href="#sec-12-3">12.3. Projectile</a></li>
+<li><a href="#sec-12-4">12.4. Paredit</a></li>
+<li><a href="#sec-12-5">12.5. Emacs Lisp</a></li>
 </ul>
 </li>
-<li><a href="#sec-16-2">16.2. Things I do want to see</a>
+<li><a href="#sec-13">13. Miscellaneous Functions</a></li>
+<li><a href="#sec-14">14. Regular Expressions</a></li>
+<li><a href="#sec-15">15. Theme</a></li>
+<li><a href="#sec-16">16. Backup and Auto Save</a></li>
+<li><a href="#sec-17">17. Prettyify Emacs</a>
 <ul>
-<li><a href="#sec-16-2-1">16.2.1. Highlight current region/selection</a></li>
-<li><a href="#sec-16-2-2">16.2.2. Syntax highlighting</a></li>
-<li><a href="#sec-16-2-3">16.2.3. Column number</a></li>
-<li><a href="#sec-16-2-4">16.2.4. Show matching parenthesis</a></li>
-<li><a href="#sec-16-2-5">16.2.5. Blinking cursor</a></li>
-<li><a href="#sec-16-2-6">16.2.6. Show empty lines</a></li>
+<li><a href="#sec-17-1">17.1. Things I don't want to see</a>
+<ul>
+<li><a href="#sec-17-1-1">17.1.1. Scroll bars</a></li>
+<li><a href="#sec-17-1-2">17.1.2. Tool bar</a></li>
+<li><a href="#sec-17-1-3">17.1.3. Menu bar</a></li>
+<li><a href="#sec-17-1-4">17.1.4. Splash screen</a></li>
+</ul>
+</li>
+<li><a href="#sec-17-2">17.2. Things I do want to see</a>
+<ul>
+<li><a href="#sec-17-2-1">17.2.1. Highlight current region/selection</a></li>
+<li><a href="#sec-17-2-2">17.2.2. Syntax highlighting</a></li>
+<li><a href="#sec-17-2-3">17.2.3. Column number</a></li>
+<li><a href="#sec-17-2-4">17.2.4. Show matching parenthesis</a></li>
+<li><a href="#sec-17-2-5">17.2.5. Blinking cursor</a></li>
+<li><a href="#sec-17-2-6">17.2.6. Show empty lines</a></li>
 </ul>
 </li>
 </ul>
@@ -92,12 +100,54 @@ noticable change in performance (at least on my machine).
 Anyway, what follows is my actual Emacs configuration, embedded into
 a descriptive narrative.
 
-# Packages<a id="sec-2" name="sec-2"></a>
+# Installation<a id="sec-2" name="sec-2"></a>
+
+## Get from GitHub<a id="sec-2-1" name="sec-2-1"></a>
+
+First, you need to get the config from GitHub. I recommend actually cloning
+instead of just downloading a zip file, because a cloned repo will be 
+easier to update.
+
+First, delete, move, or rename your existing \`~/.emacs.d/\` directory and your
+existing \`~/.emacs\` file. Next, clone the repository into your home directory:
+
+\`$ git clone git@github.com:echosa/emacs.d.git ~/.emacs.d\`
+
+## Start Emacs<a id="sec-2-2" name="sec-2-2"></a>
+
+Start Emacs and ignore any errors for now.
+
+## Install packages<a id="sec-2-3" name="sec-2-3"></a>
+
+Next, the packages need to be installed. Once Emacs is started, run
+\`package-install-selected-packages\`. This will install all the
+packages defined in \`package-selected-packages\` in the init
+file. More info on that below.
+
+## Restart Emacs<a id="sec-2-4" name="sec-2-4"></a>
+
+Now that packages are installed, restart Emacs and you should be
+all setup!
+
+## Additional Useful Package Information<a id="sec-2-5" name="sec-2-5"></a>
+
+Newer versions of Emacs include a variable called
+\`package-selected-packages\` which can automatically track the
+packages you install \`M-x list-packages\` and \`M-x package
+install\`. So, you can just keep using the package.el functionality
+as usual without any habit changes, and Emacs will remember what
+you need. Then, if you ever need to reinstall Emacs fresh, you can
+run \`package-install-selected-packages\`, and Emacs will reinstall
+all your required and desired packages. It's pretty nice, to be
+honest, and has replaced the Cask/Pallet combo I used to use for
+this very purpose.
+
+# Packages<a id="sec-3" name="sec-3"></a>
 
 External and third-party packages are great. They make adding new things to
 Emacs much nicer and less complicated.
 
-## Repositories<a id="sec-2-1" name="sec-2-1"></a>
+## Repositories<a id="sec-3-1" name="sec-3-1"></a>
 
 We need to set up the package repositories for Emacs' own package manager.
 
@@ -107,19 +157,7 @@ We need to set up the package repositories for Emacs' own package manager.
             ("melpa" . "https://melpa.org/packages/")
             ))
 
-## Installation<a id="sec-2-2" name="sec-2-2"></a>
-
-The packages obviously need to be installed. Newer versions of Emacs include
-a variable called \`package-selected-packages\` which can automatically track
-the packages you install \`M-x list-packages\` and \`M-x package install\`. So,
-you can just keep using the package.el functionality as usual without any
-habit changes, and Emacs will remember what you need. Then, if you ever need
-to reinstall Emacs fresh, you can run \`package-install-selected-packages\`,
-and Emacs will reinstall all your required and desired packages. It's pretty
-nice, to be honest, and has replaced the Cask/Pallet combo I used to use
-for this very purpose.
-
-# General Setup<a id="sec-3" name="sec-3"></a>
+# General Setup<a id="sec-4" name="sec-4"></a>
 
     (temp-buffer-resize-mode 0)
     (add-hook 'before-save-hook 'time-stamp)
@@ -148,7 +186,7 @@ Make sure Emacs can find and run commands on the PATH.
     (when (memq window-system '(mac ns x))
       (exec-path-from-shell-initialize))
 
-# Uniquify<a id="sec-4" name="sec-4"></a>
+# Uniquify<a id="sec-5" name="sec-5"></a>
 
 If I have two buffers open with two files that have the same name, (e.g. two 
 different README files from two different projects), Emacs will, by default, 
@@ -159,7 +197,7 @@ parent directories: \`README<projdir1>\` and \`README<projectdir2>\`.
     (require 'uniquify)
     (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-# Ido<a id="sec-5" name="sec-5"></a>
+# Ido<a id="sec-6" name="sec-6"></a>
 
     (icomplete-mode)
     (require 'ido)
@@ -172,7 +210,7 @@ parent directories: \`README<projdir1>\` and \`README<projectdir2>\`.
     (setq ido-use-faces nil)
     (ido-vertical-mode 1)
 
-# Evil<a id="sec-6" name="sec-6"></a>
+# Evil<a id="sec-7" name="sec-7"></a>
 
 Call me heathen if you wish, but I prefer Vim navigation keys.
 
@@ -223,7 +261,7 @@ Minor modes:
 
     (add-hook 'geben-mode-hook 'evil-emacs-state)
 
-# Line Numbers<a id="sec-7" name="sec-7"></a>
+# Line Numbers<a id="sec-8" name="sec-8"></a>
 
 I like line numbers. They help quite a bit with moving around. Here
 I turn on linum-mode globally.
@@ -247,7 +285,7 @@ displayed to be right-justified.
                           'face
                           'linum)))
 
-# Winner-mode<a id="sec-8" name="sec-8"></a>
+# Winner-mode<a id="sec-9" name="sec-9"></a>
 
 Winner-mode makes it really easy to handle window changes in
 Emacs. `C-c left-arrow` goes back to the previous window
@@ -257,7 +295,7 @@ your layout. Simply `C-c left-arrow` to get back to where you were.
 
     (winner-mode 1)
 
-# pbcopy<a id="sec-9" name="sec-9"></a>
+# pbcopy<a id="sec-10" name="sec-10"></a>
 
 Clipboard sharing. Copy in Emacs, paste in OS X, and vice versa.
 
@@ -266,16 +304,16 @@ Clipboard sharing. Copy in Emacs, paste in OS X, and vice versa.
     (require 'pbcopy)
     (turn-on-pbcopy)
 
-# Minibuffer<a id="sec-10" name="sec-10"></a>
+# Minibuffer<a id="sec-11" name="sec-11"></a>
 
 This little snippet adds eldoc support to the minibuffer. Requires Emacs 24.4.
 [Found on EndlessParenthesis.com.](http://endlessparentheses.com/sweet-new-features-in-24-4.html)
 
     (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
 
-# Programming<a id="sec-11" name="sec-11"></a>
+# Programming<a id="sec-12" name="sec-12"></a>
 
-## General<a id="sec-11-1" name="sec-11-1"></a>
+## General<a id="sec-12-1" name="sec-12-1"></a>
 
 Indent with 4 spaces, not a tabstop.
 
@@ -283,13 +321,13 @@ Indent with 4 spaces, not a tabstop.
     (setq tab-width 4)
     (setq indent-tabs-mode nil)
 
-## Git<a id="sec-11-2" name="sec-11-2"></a>
+## Git<a id="sec-12-2" name="sec-12-2"></a>
 
 Magit is awesome.
 
     (require 'magit)
 
-## Projectile<a id="sec-11-3" name="sec-11-3"></a>
+## Projectile<a id="sec-12-3" name="sec-12-3"></a>
 
 Projectile is, quite simply and objectively, the shit. There's no other way to
 put it.
@@ -298,7 +336,7 @@ put it.
 
     (projectile-global-mode)
 
-## Paredit<a id="sec-11-4" name="sec-11-4"></a>
+## Paredit<a id="sec-12-4" name="sec-12-4"></a>
 
 If you write any form of Lisp and don't use paredit, change that. 
 
@@ -310,14 +348,14 @@ If you write any form of Lisp and don't use paredit, change that.
     (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
     (add-hook 'clojure-mode-hook 'paredit-mode)
 
-## Emacs Lisp<a id="sec-11-5" name="sec-11-5"></a>
+## Emacs Lisp<a id="sec-12-5" name="sec-12-5"></a>
 
     (defun my-emacs-lisp-mode-hook ()
       (eldoc-mode)
       (linum-mode))
     (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
-# Miscellaneous Functions<a id="sec-12" name="sec-12"></a>
+# Miscellaneous Functions<a id="sec-13" name="sec-13"></a>
 
     ;; http://www.emacswiki.org/emacs/ToggleWindowSplit
     (defun toggle-window-split ()
@@ -346,7 +384,7 @@ If you write any form of Lisp and don't use paredit, change that.
               (if this-win-2nd (other-window 1))))))
     (define-key ctl-x-4-map "t" 'toggle-window-split)
 
-# Regular Expressions<a id="sec-13" name="sec-13"></a>
+# Regular Expressions<a id="sec-14" name="sec-14"></a>
 
     (defun reb-query-replace-this-regxp (replace)
       "Uses the regexp built with re-builder to query the target buffer.
@@ -367,61 +405,61 @@ If you write any form of Lisp and don't use paredit, change that.
           '((lambda nil
               (define-key reb-mode-map "\245" 'reb-query-replace-this-regxp))))
 
-# Theme<a id="sec-14" name="sec-14"></a>
+# Theme<a id="sec-15" name="sec-15"></a>
 
     (when window-system
       (load-theme 'solarized-dark t))
 
-# Backup and Auto Save<a id="sec-15" name="sec-15"></a>
+# Backup and Auto Save<a id="sec-16" name="sec-16"></a>
 
     (setq auto-save-file-name-transforms '((".*" "~/.emacs.tmp/" nil)))
     (setq auto-save-list-file-prefix "~/.emacs.tmp/.saves-")
     (setq backup-directory-alist '(("" . "~/.emacs.tmp")))
 
-# Prettyify Emacs<a id="sec-16" name="sec-16"></a>
+# Prettyify Emacs<a id="sec-17" name="sec-17"></a>
 
-## Things I don't want to see<a id="sec-16-1" name="sec-16-1"></a>
+## Things I don't want to see<a id="sec-17-1" name="sec-17-1"></a>
 
-### Scroll bars<a id="sec-16-1-1" name="sec-16-1-1"></a>
+### Scroll bars<a id="sec-17-1-1" name="sec-17-1-1"></a>
 
     (when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
 
-### Tool bar<a id="sec-16-1-2" name="sec-16-1-2"></a>
+### Tool bar<a id="sec-17-1-2" name="sec-17-1-2"></a>
 
     (tool-bar-mode -1)
 
-### Menu bar<a id="sec-16-1-3" name="sec-16-1-3"></a>
+### Menu bar<a id="sec-17-1-3" name="sec-17-1-3"></a>
 
     (menu-bar-mode -1)
 
-### Splash screen<a id="sec-16-1-4" name="sec-16-1-4"></a>
+### Splash screen<a id="sec-17-1-4" name="sec-17-1-4"></a>
 
 It's unnecessary, really.
 
     (setq inhibit-startup-screen t)
 
-## Things I do want to see<a id="sec-16-2" name="sec-16-2"></a>
+## Things I do want to see<a id="sec-17-2" name="sec-17-2"></a>
 
-### Highlight current region/selection<a id="sec-16-2-1" name="sec-16-2-1"></a>
+### Highlight current region/selection<a id="sec-17-2-1" name="sec-17-2-1"></a>
 
     (transient-mark-mode t)
 
-### Syntax highlighting<a id="sec-16-2-2" name="sec-16-2-2"></a>
+### Syntax highlighting<a id="sec-17-2-2" name="sec-17-2-2"></a>
 
     (global-font-lock-mode t)
 
-### Column number<a id="sec-16-2-3" name="sec-16-2-3"></a>
+### Column number<a id="sec-17-2-3" name="sec-17-2-3"></a>
 
     (column-number-mode t)
 
-### Show matching parenthesis<a id="sec-16-2-4" name="sec-16-2-4"></a>
+### Show matching parenthesis<a id="sec-17-2-4" name="sec-17-2-4"></a>
 
     (show-paren-mode t)
 
-### Blinking cursor<a id="sec-16-2-5" name="sec-16-2-5"></a>
+### Blinking cursor<a id="sec-17-2-5" name="sec-17-2-5"></a>
 
     (setq blink-cursor-mode t)
 
-### Show empty lines<a id="sec-16-2-6" name="sec-16-2-6"></a>
+### Show empty lines<a id="sec-17-2-6" name="sec-17-2-6"></a>
 
     (setq indicate-empty-lines t)
