@@ -73,7 +73,7 @@ web.
 
 How this works is based around a part of org-mode called
 org-babel. org-babel allows org-mode to execute code that is
-embedded into a .org file. If you look at the [actual .emacs file](https://github.com/echosa/emacs.d/blob/master/dotemacs.el)
+embedded into a .org file. If you look at the [actual .emacs file](https://github.com/echosa/emacs.d/blob/master/init.el)
 that my Emacs loads, you'll see that all it does is load the .org
 file containing my configuration (the one you're reading now) and
 parse it through org-babel to execute only the blocks of elisp that
