@@ -18,7 +18,7 @@
     (("~/dev/chess.com" "/www/sites/chess.com/current"))))
  '(package-selected-packages
    (quote
-    (expand-region helm helm-open-github evil-goggles solarized-theme browse-at-remote geben php-mode exec-path-from-shell ag lua-mode cider flx-ido ido-vertical-mode evil evil-leader key-chord magit paredit pbcopy projectile))))
+    (use-package expand-region helm helm-open-github evil-goggles solarized-theme browse-at-remote geben php-mode exec-path-from-shell ag lua-mode cider flx-ido ido-vertical-mode evil evil-leader key-chord magit paredit pbcopy projectile))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
