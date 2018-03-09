@@ -159,8 +159,6 @@ in the org file.
         (org-babel-tangle-file "~/.emacs.d/emacs-config.org" "~/.emacs.d/emacs-config.el" "emacs-lisp")
         (org-md-export-as-markdown)
         (switch-to-buffer "*Org MD Export*")
-        (while (re-search-forward "\~" nil t)
-          (replace-match "~"))
         (write-file "~/.emacs.d/README.md")
         (kill-buffer)
         (delete-window)
@@ -180,6 +178,7 @@ We need to set up the package repositories for Emacs' own package manager.
           '(("gnu" . "http://elpa.gnu.org/packages/")
             ("marmalade" . "http://marmalade-repo.org/packages/")
             ("melpa" . "https://melpa.org/packages/")
+            ("melpa-stable" . "https://stable.melpa.org/packages/")
             ))
 
 # General Setup<a id="sec-5" name="sec-5"></a>

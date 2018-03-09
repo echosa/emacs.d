@@ -84,8 +84,6 @@
     (org-babel-tangle-file "~/.emacs.d/emacs-config.org" "~/.emacs.d/emacs-config.el" "emacs-lisp")
     (org-md-export-as-markdown)
     (switch-to-buffer "*Org MD Export*")
-    (while (re-search-forward "\~" nil t)
-      (replace-match "~"))
     (write-file "~/.emacs.d/README.md")
     (kill-buffer)
     (delete-window)
