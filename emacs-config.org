@@ -8,12 +8,6 @@
 
   Well, sort of.
 
-  With org-mode, I can export the information to a number of
-  formats. That means you could be reading this directly from the .org
-  file itself, from a markdown file (like the [[https://github.com/echosa/emacs.d/blob/master/README.md][README]] on my Emacs
-  configuration GitHub repo), or from an HTML file somewhere on the
-  web.
-
   How this works is based around a part of org-mode called
   org-babel. org-babel allows org-mode to execute code that is
   embedded into a .org file. If you look at the [[https://github.com/echosa/emacs.d/blob/master/init.el][actual .emacs file]]
@@ -59,7 +53,7 @@
   In order to make maintaining this config easier, I've made the
   ~echosa-export-config~ command. This command should be run whenever
   ~emacs-config.org~ is updated. The command will export the proper
-  ~emacs-config.el~ and ~README.md~ files to reflect the changes made
+  ~emacs-config.el~ and ~README.org~ files to reflect the changes made
   in the org file.
 #+BEGIN_SRC emacs-lisp
   (defun echosa-export-config ()
