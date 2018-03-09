@@ -37,7 +37,10 @@
 
 (setq load-prefer-newer t)
 
-(when (memq window-system '(mac ns x))
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :ensure t
+  :config
   (exec-path-from-shell-initialize))
 
 (use-package uniquify
@@ -128,6 +131,7 @@
     (projectile-global-mode))
 
 (use-package paredit
+  :ensure t
   :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
 
 (defun my-emacs-lisp-mode-hook ()

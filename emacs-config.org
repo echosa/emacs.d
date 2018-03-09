@@ -47,29 +47,13 @@
    ~$ git clone git@github.com:echosa/emacs.d.git ~/.emacs.d~
 
 ** Start Emacs
-   Start Emacs and ignore any errors for now.
-
-** Install packages
-   Next, the packages need to be installed. Once Emacs is started, run
-   ~package-install-selected-packages~. This will install all the
-   packages defined in ~package-selected-packages~ in the init
-   file. More info on that below.
-
-** Restart Emacs
-   Now that packages are installed, restart Emacs and you should be
-   all setup!
-
-** Additional Useful Package Information
-   Newer versions of Emacs include a variable called
-   ~package-selected-packages~ which can automatically track the
-   packages you install ~M-x list-packages~ and ~M-x
-   package-install~. So, you can just keep using the package.el
-   functionality as usual without any habit changes, and Emacs will
-   remember what you need. Then, if you ever need to reinstall Emacs
-   fresh, you can run ~package-install-selected-packages~, and Emacs
-   will reinstall all your required and desired packages. It's pretty
-   nice, to be honest, and has replaced the Cask/Pallet combo I used
-   to use for this very purpose.
+   Simply run Emacs and wait a bit! All the necessary packages will
+   download and install automatically and everything will be
+   configured. This is because the ~use-package~ package's ~:ensure t~
+   flag. That flag tells Emacs to download and install the package if
+   it is not already installed. Because of this, the first time you
+   start Emacs make take a few seconds as all the packages are
+   downloaded and installed. Subsequent starts will not take so long.
 
 * Maintenance
   In order to make maintaining this config easier, I've made the
@@ -136,8 +120,11 @@
 #+END_SRC
   Make sure Emacs can find and run commands on the PATH.
 #+BEGIN_SRC emacs-lisp
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))
 #+END_SRC
 * Uniquify
   If I have two buffers open with two files that have the same name, (e.g. two
@@ -297,6 +284,7 @@
   [[http://emacsrocks.com/e14.html][Emacs Rocks episode on paredit]]
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
+    :ensure t
     :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
 #+END_SRC
 ** Emacs Lisp
