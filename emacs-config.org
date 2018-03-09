@@ -52,19 +52,19 @@
 
 * Maintenance
   In order to make maintaining this config easier, I've made the
-  ~echosa-export-config~ command. This command should be run whenever
-  ~emacs-config.org~ is updated. The command will export the proper
-  ~emacs-config.el~ and ~README.org~ files to reflect the changes made
-  in the org file.
+  ~echosa-export-config~ function which will export the proper
+  ~emacs-config.el~ and ~README.org~ files when ~emacs-config.org~ is
+  updated and saved.
 #+BEGIN_SRC emacs-lisp
   (defun echosa-export-config ()
-    (interactive)
-    (let ((org-file "~/.emacs.d/emacs-config.org")
-          (elisp-file "~/.emacs.d/emacs-config.el")
-          (readme-file "~/.emacs.d/README.org"))
-      (org-babel-tangle-file org-file elisp-file "emacs-lisp")
-      (copy-file org-file readme-file t))
-    (message "Config export complete!"))
+    (when (string= (buffer-name (current-buffer)) "emacs-config.org")
+      (let ((org-file "~/.emacs.d/emacs-config.org")
+            (elisp-file "~/.emacs.d/emacs-config.el")
+            (readme-file "~/.emacs.d/README.org"))
+        (org-babel-tangle-file org-file elisp-file "emacs-lisp")
+        (copy-file org-file readme-file t)
+        (message "Config export complete!"))))
+  (add-hook 'after-save-hook 'echosa-export-config)
 #+END_SRC
 * Packages
   External and third-party packages are great. They make adding new things to

@@ -1,12 +1,13 @@
 
 (defun echosa-export-config ()
-  (interactive)
-  (let ((org-file "~/.emacs.d/emacs-config.org")
-        (elisp-file "~/.emacs.d/emacs-config.el")
-        (readme-file "~/.emacs.d/README.org"))
-    (org-babel-tangle-file org-file elisp-file "emacs-lisp")
-    (copy-file org-file readme-file t))
-  (message "Config export complete!"))
+  (when (string= (buffer-name (current-buffer)) "emacs-config.org")
+    (let ((org-file "~/.emacs.d/emacs-config.org")
+          (elisp-file "~/.emacs.d/emacs-config.el")
+          (readme-file "~/.emacs.d/README.org"))
+      (org-babel-tangle-file org-file elisp-file "emacs-lisp")
+      (copy-file org-file readme-file t)
+      (message "Config export complete!"))))
+(add-hook 'after-save-hook 'echosa-export-config)
 
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
