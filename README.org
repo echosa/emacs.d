@@ -35,8 +35,9 @@
    instead of just downloading a zip file, because a cloned repo will be
    easier to update.
 
-   First, delete, move, or rename your existing ~\~/.emacs.d/~ directory and your
-   existing ~\~/.emacs~ file. Next, clone the repository into your home directory:
+   First, delete, move, or rename your existing Emacs configuration
+   (both the ~.emacs.d/~ directory and your ~.emacs~ init file). Next,
+   clone the repository into your home directory:
 
    ~$ git clone git@github.com:echosa/emacs.d.git ~/.emacs.d~
 
