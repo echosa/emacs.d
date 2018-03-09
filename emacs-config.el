@@ -1,4 +1,19 @@
 
+(defun echosa-export-config ()
+  (interactive)
+  (if (not (string= "emacs-config.org" (buffer-name (current-buffer))))
+      (message "Config export must be run from config file buffer.")
+    (org-babel-tangle-file "~/.emacs.d/emacs-config.org" "~/.emacs.d/emacs-config.el" "emacs-lisp")
+    (org-md-export-as-markdown)
+    (switch-to-buffer "*Org MD Export*")
+    (while (re-search-forward "\~" nil t)
+      (replace-match "~"))
+    (write-file "~/.emacs.d/README.md")
+    (kill-buffer)
+    (delete-window)
+  )
+  (message "Config export complete!"))
+
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -95,6 +110,10 @@
   (eldoc-mode)
   (linum-mode))
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
+
+(defun my-org-mode-hook ()
+  (auto-fill-mode))
+(add-hook 'org-mode-hook 'my-org-mode-hook)
 
 ;; http://www.emacswiki.org/emacs/ToggleWindowSplit
 (defun toggle-window-split ()

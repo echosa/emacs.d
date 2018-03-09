@@ -24,34 +24,34 @@
 
   If you're wondering about performance, org-babel doesn't do this
   parse every time I open Emacs. Instead, it sees that I'm trying to
-  load `emacs-config.org` and checks for the existence of
-  `emacs-config.el`. If it doesn't find that file, or finds an out of
+  load ~emacs-config.org~ and checks for the existence of
+  ~emacs-config.el~. If it doesn't find that file, or finds an out of
   date version, only then does it parse the .org file to create a new
   .el file. This means there's a bit of a slow startup the first time
   after the org-mode file is changes, but after that there's no
   noticable change in performance (at least on my machine).
-  
+
   Anyway, what follows is my actual Emacs configuration, embedded into
   a descriptive narrative.
 
 * Installation
 ** Get from GitHub
    First, you need to get the config from GitHub. I recommend actually cloning
-   instead of just downloading a zip file, because a cloned repo will be 
+   instead of just downloading a zip file, because a cloned repo will be
    easier to update.
 
-   First, delete, move, or rename your existing `~/.emacs.d/` directory and your
-   existing `~/.emacs` file. Next, clone the repository into your home directory:
+   First, delete, move, or rename your existing ~~/.emacs.d/~ directory and your
+   existing ~~/.emacs~ file. Next, clone the repository into your home directory:
 
-   `$ git clone git@github.com:echosa/emacs.d.git ~/.emacs.d`
+   ~$ git clone git@github.com:echosa/emacs.d.git ~/.emacs.d~
 
 ** Start Emacs
    Start Emacs and ignore any errors for now.
 
 ** Install packages
    Next, the packages need to be installed. Once Emacs is started, run
-   `package-install-selected-packages`. This will install all the
-   packages defined in `package-selected-packages` in the init
+   ~package-install-selected-packages~. This will install all the
+   packages defined in ~package-selected-packages~ in the init
    file. More info on that below.
 
 ** Restart Emacs
@@ -60,21 +60,43 @@
 
 ** Additional Useful Package Information
    Newer versions of Emacs include a variable called
-   `package-selected-packages` which can automatically track the
-   packages you install `M-x list-packages` and `M-x package
-   install`. So, you can just keep using the package.el functionality
-   as usual without any habit changes, and Emacs will remember what
-   you need. Then, if you ever need to reinstall Emacs fresh, you can
-   run `package-install-selected-packages`, and Emacs will reinstall
-   all your required and desired packages. It's pretty nice, to be
-   honest, and has replaced the Cask/Pallet combo I used to use for
-   this very purpose.
+   ~package-selected-packages~ which can automatically track the
+   packages you install ~M-x list-packages~ and ~M-x
+   package-install~. So, you can just keep using the package.el
+   functionality as usual without any habit changes, and Emacs will
+   remember what you need. Then, if you ever need to reinstall Emacs
+   fresh, you can run ~package-install-selected-packages~, and Emacs
+   will reinstall all your required and desired packages. It's pretty
+   nice, to be honest, and has replaced the Cask/Pallet combo I used
+   to use for this very purpose.
 
+* Maintenance
+  In order to make maintaining this config easier, I've made the
+  ~echosa-export-config~ command. This command should be run whenever
+  ~emacs-config.org~ is updated. The command will export the proper
+  ~emacs-config.el~ and ~README.md~ files to reflect the changes made
+  in the org file.
+#+begin_src emacs-lisp
+(defun echosa-export-config ()
+  (interactive)
+  (if (not (string= "emacs-config.org" (buffer-name (current-buffer))))
+      (message "Config export must be run from config file buffer.")
+    (org-babel-tangle-file "~/.emacs.d/emacs-config.org" "~/.emacs.d/emacs-config.el" "emacs-lisp")
+    (org-md-export-as-markdown)
+    (switch-to-buffer "*Org MD Export*")
+    (while (re-search-forward "\~" nil t)
+      (replace-match "~"))
+    (write-file "~/.emacs.d/README.md")
+    (kill-buffer)
+    (delete-window)
+  )
+  (message "Config export complete!"))
+#+end_src
 * Packages
   External and third-party packages are great. They make adding new things to
   Emacs much nicer and less complicated.
 
-** Repositories 
+** Repositories
    We need to set up the package repositories for Emacs' own package manager.
 #+begin_src emacs-lisp
 (setq package-archives
@@ -100,7 +122,7 @@
 (setq truncate-partial-width-windows nil)
 (global-hl-line-mode 1)
 #+end_src
-  Allow `a` to be used in dired to reuse the buffer instead of creating new buffers for every
+  Allow ~a~ to be used in dired to reuse the buffer instead of creating new buffers for every
   directory.
 #+begin_src emacs-lisp
 (put 'dired-find-alternate-file 'disabled nil)
@@ -115,11 +137,11 @@
   (exec-path-from-shell-initialize))
 #+end_src
 * Uniquify
-  If I have two buffers open with two files that have the same name, (e.g. two 
-  different README files from two different projects), Emacs will, by default, 
-  name the buffers `README` and `README<1>`. This is useless. Therefore, I turn on 
-  uniquify and use it to name buffers wtih the same file name based on their 
-  parent directories: `README<projdir1>` and `README<projectdir2>`.
+  If I have two buffers open with two files that have the same name, (e.g. two
+  different README files from two different projects), Emacs will, by default,
+  name the buffers ~README~ and ~README<1>~. This is useless. Therefore, I turn on
+  uniquify and use it to name buffers wtih the same file name based on their
+  parent directories: ~README<projdir1>~ and ~README<projectdir2>~.
 #+begin_src emacs-lisp
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -146,8 +168,8 @@
 (evil-mode 1)
 (setq evil-default-cursor '(t))
 #+end_src
-  Using `key-chord-mode`, I have the vim equivalent of `imap jk <Esc>`, which 
-  allows me to use `jk` instead of `Esc` to get out of insert mode.
+  Using ~key-chord-mode~, I have the vim equivalent of ~imap jk <Esc>~, which
+  allows me to use ~jk~ instead of ~Esc~ to get out of insert mode.
 #+begin_src emacs-lisp
 (key-chord-mode 1)
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
@@ -155,14 +177,14 @@
 (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-emacs-state-map "jk" 'evil-normal-state)
 #+end_src
-  I want Ido buffer switching and file finding when using Vim's `:b` and `:e`.
+  I want Ido buffer switching and file finding when using Vim's ~:b~ and ~:e~.
 #+begin_src emacs-lisp
 (define-key evil-ex-map "b " 'ido-switch-buffer)
 (define-key evil-ex-map "e " 'ido-find-file)
 #+end_src
-  To make things even easier, I set up a "leader key" of `Space`, so that I can
-  type `Space <letter>` to run a command. For instance, `Space x` instead of
-  `M-x` to execute commands.
+  To make things even easier, I set up a "leader key" of ~Space~, so that I can
+  type ~Space <letter>~ to run a command. For instance, ~Space x~ instead of
+  ~M-x~ to execute commands.
 #+begin_src emacs-lisp
 (require 'evil-leader)
 (evil-leader/set-leader "<SPC>")
@@ -178,7 +200,7 @@
 #+end_src
   Finally, there are some modes that I want to always be in Emacs mode instead
   of Evil.
-  
+
   Major modes:
 #+begin_src emacs-lisp
 (setq evil-emacs-state-modes
@@ -260,7 +282,7 @@
 (projectile-global-mode)
 #+end_src
 ** Paredit
-  If you write any form of Lisp and don't use paredit, change that. 
+  If you write any form of Lisp and don't use paredit, change that.
 
   [[http://mumble.net/~campbell/emacs/paredit.el][Paredit website]]
 
@@ -276,6 +298,12 @@
   (eldoc-mode)
   (linum-mode))
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
+#+end_src
+* Org-mode
+#+begin_src emacs-lisp
+(defun my-org-mode-hook ()
+  (auto-fill-mode))
+(add-hook 'org-mode-hook 'my-org-mode-hook)
 #+end_src
 * Miscellaneous Functions
 #+begin_src emacs-lisp
@@ -383,4 +411,3 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 #+begin_src emacs-lisp
 (setq indicate-empty-lines t)
 #+end_src
-
