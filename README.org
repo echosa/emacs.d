@@ -44,7 +44,7 @@
 ** Start Emacs
    Simply run Emacs and wait a bit! All the necessary packages will
    download and install automatically and everything will be
-   configured. This is because the ~use-package~ package's ~:ensure t~
+   configured. This is because of the ~use-package~ package's ~:ensure~
    flag. That flag tells Emacs to download and install the package if
    it is not already installed. Because of this, the first time you
    start Emacs make take a few seconds as all the packages are
