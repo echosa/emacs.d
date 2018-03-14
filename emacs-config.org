@@ -352,12 +352,22 @@
 #+END_SRC
 
 * Theme
+  Here, I keep a list of several theme setups, wrapped up in a
+  conditional (the ~(cond ...)~ function is the emacs lisp equivalent of a
+  switch statement). Essentially, all that needs to be done is to
+  change the value of ~my-theme~ at the beginning of the ~(let)~, then
+  execute (~C-x C-e~) the entire block.
 #+BEGIN_SRC emacs-lisp
-  (use-package solarized-theme
-    :if window-system
-    :ensure t
-    :config
-    (load-theme 'solarized-dark t))
+  (let ((my-theme "tango-dark"))
+    (cond
+     ((string= my-theme "solarized-dark")
+      (use-package solarized-theme
+        :if window-system
+        :ensure t
+        :config
+        (load-theme 'solarized-dark t)))
+     ((string= my-theme "tango-dark")
+      (load-theme 'tango-dark t))))
 #+END_SRC
 * Backup and Auto Save
 #+BEGIN_SRC emacs-lisp
