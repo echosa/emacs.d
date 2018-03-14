@@ -11,3 +11,4 @@ geben
 elpa/
 *~
 network-security.data
+.tmp/

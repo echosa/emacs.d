@@ -371,9 +371,9 @@
 #+END_SRC
 * Backup and Auto Save
 #+BEGIN_SRC emacs-lisp
-  (setq auto-save-file-name-transforms '((".*" "~/.emacs.tmp/" nil)))
-  (setq auto-save-list-file-prefix "~/.emacs.tmp/.saves-")
-  (setq backup-directory-alist '(("" . "~/.emacs.tmp")))
+  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/.tmp/" nil)))
+  (setq auto-save-list-file-prefix "~/.emacs.d/.tmp/.saves-")
+  (setq backup-directory-alist '(("" . "~/.emacs.d/.tmp")))
 #+END_SRC
 * Prettyify Emacs
 ** Things I don't want to see
