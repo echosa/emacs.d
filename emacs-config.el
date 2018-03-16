@@ -38,7 +38,12 @@
 
 (setq load-prefer-newer t)
 
+(when (memq window-system '(mac ns x))
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setq exec-path (append '("/usr/local/bin") exec-path)))
+
 (use-package exec-path-from-shell
+  :disabled t
   :if (memq window-system '(mac ns))
   :ensure t
   :config

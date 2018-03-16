@@ -113,13 +113,20 @@
 #+BEGIN_SRC emacs-lisp
   (setq load-prefer-newer t)
 #+END_SRC
-  Make sure Emacs can find and run commands on the PATH.
+  Make sure Emacs can find and run commands on the PATH. The
+  ~exec-path-from-shell~ package is SLOW. Disabling and manually
+  setting paths for now.
 #+BEGIN_SRC emacs-lisp
-(use-package exec-path-from-shell
-  :if (memq window-system '(mac ns))
-  :ensure t
-  :config
-  (exec-path-from-shell-initialize))
+  (when (memq window-system '(mac ns x))
+    (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+    (setq exec-path (append '("/usr/local/bin") exec-path)))
+
+  (use-package exec-path-from-shell
+    :disabled t
+    :if (memq window-system '(mac ns))
+    :ensure t
+    :config
+    (exec-path-from-shell-initialize))
 #+END_SRC
 * Uniquify
   If I have two buffers open with two files that have the same name, (e.g. two
