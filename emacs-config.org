@@ -129,6 +129,7 @@
   parent directories: ~README<projdir1>~ and ~README<projectdir2>~.
 #+BEGIN_SRC emacs-lisp
   (use-package uniquify
+    :defer t
     :config
     (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 #+END_SRC
@@ -166,11 +167,16 @@
 #+BEGIN_SRC emacs-lisp
   (use-package evil
     :ensure t
+    :after (key-chord)
     :config
     (setq evil-default-cursor '(t))
     (evil-mode 1)
     (define-key evil-ex-map "b " 'ido-switch-buffer)
-    (define-key evil-ex-map "e " 'ido-find-file))
+    (define-key evil-ex-map "e " 'ido-find-file)
+    (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+    (key-chord-define evil-motion-state-map "jk" 'evil-normal-state)
+    (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+    (key-chord-define evil-emacs-state-map "jk" 'evil-normal-state))
 #+END_SRC
   Using ~key-chord-mode~, I have the vim equivalent of ~imap jk <Esc>~, which
   allows me to use ~jk~ instead of ~Esc~ to get out of insert mode.
@@ -178,11 +184,7 @@
   (use-package key-chord
     :ensure t
     :config
-    (key-chord-mode 1)
-    (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-    (key-chord-define evil-motion-state-map "jk" 'evil-normal-state)
-    (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-    (key-chord-define evil-emacs-state-map "jk" 'evil-normal-state))
+    (key-chord-mode 1))
 #+END_SRC
   To make things even easier, I set up a "leader key" of ~Space~, so that I can
   type ~Space <letter>~ to run a command. For instance, ~Space x~ instead of
@@ -224,6 +226,7 @@
   your layout. Simply =C-c left-arrow= to get back to where you were.
 #+BEGIN_SRC emacs-lisp
   (use-package winner
+    :defer 5
     :config
     (winner-mode 1))
 #+END_SRC
@@ -235,6 +238,7 @@
 #+BEGIN_SRC emacs-lisp
   (use-package pbcopy
     :ensure t
+    :defer t
     :config
     (turn-on-pbcopy))
 #+END_SRC
@@ -258,7 +262,8 @@
    Magit is awesome.
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t)
+    :ensure t
+    :defer t)
 #+END_SRC
 ** Projectile
   Projectile is, quite simply and objectively, the shit. There's no other way to
@@ -267,9 +272,9 @@
   [[https://github.com/bbatsov/projectile][Projectile on Github]]
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :ensure t
+    :defer 5
     :config
-      (projectile-global-mode))
+    (projectile-global-mode))
 #+END_SRC
 ** Paredit
   If you write any form of Lisp and don't use paredit, change that.
@@ -280,6 +285,7 @@
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
     :ensure t
+    :defer t
     :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
 #+END_SRC
 ** Emacs Lisp
@@ -358,7 +364,7 @@
   change the value of ~my-theme~ at the beginning of the ~(let)~, then
   execute (~C-x C-e~) the entire block.
 #+BEGIN_SRC emacs-lisp
-  (let ((my-theme "tango-dark"))
+  (let ((my-theme "solarized-dark"))
     (cond
      ((string= my-theme "solarized-dark")
       (use-package solarized-theme

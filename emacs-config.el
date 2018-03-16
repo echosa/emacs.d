@@ -45,6 +45,7 @@
   (exec-path-from-shell-initialize))
 
 (use-package uniquify
+  :defer t
   :config
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 
@@ -73,20 +74,21 @@
 
 (use-package evil
   :ensure t
+  :after (key-chord)
   :config
   (setq evil-default-cursor '(t))
   (evil-mode 1)
   (define-key evil-ex-map "b " 'ido-switch-buffer)
-  (define-key evil-ex-map "e " 'ido-find-file))
-
-(use-package key-chord
-  :ensure t
-  :config
-  (key-chord-mode 1)
+  (define-key evil-ex-map "e " 'ido-find-file)
   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
   (key-chord-define evil-motion-state-map "jk" 'evil-normal-state)
   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
   (key-chord-define evil-emacs-state-map "jk" 'evil-normal-state))
+
+(use-package key-chord
+  :ensure t
+  :config
+  (key-chord-mode 1))
 
 (use-package evil-leader
   :ensure t
@@ -109,11 +111,13 @@
 (add-hook 'geben-mode-hook 'evil-emacs-state)
 
 (use-package winner
+  :defer 5
   :config
   (winner-mode 1))
 
 (use-package pbcopy
   :ensure t
+  :defer t
   :config
   (turn-on-pbcopy))
 
@@ -124,15 +128,17 @@
 (setq indent-tabs-mode nil)
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package projectile
-  :ensure t
+  :defer 5
   :config
-    (projectile-global-mode))
+  (projectile-global-mode))
 
 (use-package paredit
   :ensure t
+  :defer t
   :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
 
 (defun my-emacs-lisp-mode-hook ()
@@ -193,7 +199,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
       '((lambda nil
           (define-key reb-mode-map "\245" 'reb-query-replace-this-regxp))))
 
-(let ((my-theme "tango-dark"))
+(let ((my-theme "solarized-dark"))
   (cond
    ((string= my-theme "solarized-dark")
     (use-package solarized-theme
