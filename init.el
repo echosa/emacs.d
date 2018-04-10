@@ -6,7 +6,6 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(require 'cl) ;; php-cs-fixer
 (require 'org)
 (require 'ob-tangle)
 (org-babel-load-file (expand-file-name "~/.emacs.d/emacs-config.org"))

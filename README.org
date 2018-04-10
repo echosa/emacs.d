@@ -324,6 +324,7 @@
                  (ac-php-core-eldoc-setup)
                  (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)
                  (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back))))
+  (require 'cl) ;; php-cs-fixer
   (use-package php-cs-fixer
     :ensure t
     :config
