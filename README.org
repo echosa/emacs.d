@@ -212,6 +212,13 @@
     (evil-leader/set-key "s" 'string-inflection-toggle)
     (global-evil-leader-mode))
 #+END_SRC
+  Let's make sure we have "surround" support.
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-surround
+    :ensure t
+    :config
+    (global-evil-surround-mode 1))
+#+END_SRC
   Finally, there are some modes that I want to always be in Emacs mode instead
   of Evil.
 
@@ -306,6 +313,27 @@
 #+BEGIN_SRC emacs-lisp
   (use-package php-mode
     :mode "\\.php\\'")
+  (use-package ac-php
+    :ensure t
+    :init
+    (add-hook 'php-mode-hook
+              '(lambda ()
+                 (auto-complete-mode t)
+                 (setq ac-sources '(ac-source-php))
+                 (yas-global-mode 1)
+                 (ac-php-core-eldoc-setup)
+                 (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)
+                 (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back))))
+  (use-package php-cs-fixer
+    :ensure t
+    :config
+    (add-hook 'before-save-hook 'php-cs-fixer-before-save))
+#+END_SRC
+** Syntax checking
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
 #+END_SRC
 * Org-mode
 #+BEGIN_SRC emacs-lisp
