@@ -331,6 +331,7 @@
     (add-hook 'before-save-hook 'php-cs-fixer-before-save))
 #+END_SRC
 ** Syntax checking
+   [[http://www.flycheck.org][FlyCheck]]
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :ensure t
@@ -341,6 +342,17 @@
   (defun my-org-mode-hook ()
     (auto-fill-mode))
   (add-hook 'org-mode-hook 'my-org-mode-hook)
+#+END_SRC
+* Music
+  [[https://www.gnu.org/software/emms/][EMMS]]
+#+BEGIN_SRC emacs-lisp
+  (use-package emms
+    :ensure t
+    :defer t
+    :config
+    (require 'emms-setup)
+    (emms-standard)
+    (emms-default-players))
 #+END_SRC
 * Miscellaneous Functions
 #+BEGIN_SRC emacs-lisp

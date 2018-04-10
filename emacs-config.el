@@ -183,6 +183,14 @@
   (auto-fill-mode))
 (add-hook 'org-mode-hook 'my-org-mode-hook)
 
+(use-package emms
+  :ensure t
+  :defer t
+  :config
+  (require 'emms-setup)
+  (emms-standard)
+  (emms-default-players))
+
 ;; http://www.emacswiki.org/emacs/ToggleWindowSplit
 (defun toggle-window-split ()
   (interactive)
