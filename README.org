@@ -487,3 +487,11 @@
                         'face
                         'linum)))
 #+END_SRC
+* Customizations
+Any customizations that are machine specific or do not belong in git
+can go in ~custom.el~. This file is ignored from git, and is where all
+customizations form ~M-x customize~ are saved.
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load custom-file 'noerror)
+#+END_SRC

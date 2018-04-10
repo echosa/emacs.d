@@ -280,3 +280,6 @@ Argument REPLACE String used to replace the matched strings in the buffer.
                               line)
                       'face
                       'linum)))
+
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file 'noerror)

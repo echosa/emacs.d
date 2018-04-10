@@ -6,9 +6,6 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file 'noerror)
-
 (require 'cl) ;; php-cs-fixer
 (require 'org)
 (require 'ob-tangle)
