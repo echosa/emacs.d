@@ -513,6 +513,15 @@
                         'face
                         'linum)))
 #+END_SRC
+*** Indent Guides
+#+BEGIN_SRC emacs-lisp
+    (use-package highlight-indent-guides
+      :ensure t
+      :defer t
+      :hook ((prog-mode) . highlight-indent-guides-mode)
+      :config
+      (setq highlight-indent-guides-method 'character))
+#+END_SRC
 * Customizations
 Any customizations that are machine specific or do not belong in git
 can go in ~custom.el~. This file is ignored from git, and is where all

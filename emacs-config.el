@@ -300,5 +300,12 @@ Argument REPLACE String used to replace the matched strings in the buffer.
                       'face
                       'linum)))
 
+(use-package highlight-indent-guides
+  :ensure t
+  :defer t
+  :hook ((prog-mode) . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'character))
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
