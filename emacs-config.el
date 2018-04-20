@@ -175,6 +175,16 @@
   :config
   (add-hook 'before-save-hook 'php-cs-fixer-before-save))
 
+(use-package js2-mode
+  :ensure t
+  :defer t
+  :mode "\\.js\\'")
+
+(use-package json-mode
+  :ensure t
+  :defer t
+  :mode "\\.json\\'")
+
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))

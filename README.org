@@ -330,6 +330,19 @@
     :config
     (add-hook 'before-save-hook 'php-cs-fixer-before-save))
 #+END_SRC
+** JavaScript
+  The built-in JS support in Emacs is lacking.
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :ensure t
+    :defer t
+    :mode "\\.js\\'")
+
+  (use-package json-mode
+    :ensure t
+    :defer t
+    :mode "\\.json\\'")
+#+END_SRC
 ** Syntax checking
    [[http://www.flycheck.org][FlyCheck]]
 #+BEGIN_SRC emacs-lisp
