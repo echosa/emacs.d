@@ -279,6 +279,20 @@
     :ensure t
     :defer t)
 #+END_SRC
+   Show changes in the gutter/fringe.
+#+BEGIN_SRC emacs-lisp
+    (use-package git-gutter-fringe
+      :ensure t
+      :if window-system
+      :config
+      (global-git-gutter-mode))
+
+    (use-package git-gutter
+      :ensure t
+      :if (not window-system)
+      :config
+      (global-git-gutter-mode 1))
+#+END_SRC
 ** Projectile
   Projectile is, quite simply and objectively, the shit. There's no other way to
   put it.

@@ -141,6 +141,18 @@
   :ensure t
   :defer t)
 
+(use-package git-gutter-fringe
+  :ensure t
+  :if window-system
+  :config
+  (global-git-gutter-mode))
+
+(use-package git-gutter
+  :ensure t
+  :if (not window-system)
+  :config
+  (global-git-gutter-mode 1))
+
 (use-package projectile
   :defer 5
   :config
