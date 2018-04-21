@@ -383,7 +383,15 @@
     :config
     (require 'emms-setup)
     (emms-standard)
-    (emms-default-players))
+    (emms-default-players)
+    (define-emms-simple-player mplayer-no-video '(file url)
+      (concat "\\`\\(http[s]?\\|mms\\)://\\|"
+              (apply #'emms-player-simple-regexp
+                     emms-player-base-format-list))
+      "mplayer" "-slave" "-quiet" "-really-quiet" "-vo" "null")
+    (define-emms-simple-player mplayer-playlist-no-video '(streamlist)
+      "\\`http[s]?://"
+      "mplayer" "-slave" "-quiet" "-really-quiet" "-playlist" "-vo" "null"))
 #+END_SRC
 * Miscellaneous Functions
 #+BEGIN_SRC emacs-lisp
