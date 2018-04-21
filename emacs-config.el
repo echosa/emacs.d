@@ -49,6 +49,8 @@
   :config
   (exec-path-from-shell-initialize))
 
+(desktop-save-mode 1)
+
 (use-package uniquify
   :defer t
   :config

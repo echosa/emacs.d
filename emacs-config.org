@@ -128,6 +128,10 @@
     :config
     (exec-path-from-shell-initialize))
 #+END_SRC
+  Remember opens files and buffers between sessions.
+#+BEGIN_SRC emacs-lisp
+  (desktop-save-mode 1)
+#+END_SRC
 * Uniquify
   If I have two buffers open with two files that have the same name, (e.g. two
   different README files from two different projects), Emacs will, by default,

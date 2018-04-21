@@ -14,3 +14,4 @@ network-security.data
 .tmp/
 custom.el
 emms/
+.emacs.desktop*
