@@ -147,6 +147,7 @@
 * Ido
 #+BEGIN_SRC emacs-lisp
   (use-package icomplete
+    :disabled
     :ensure t
     :config
     (icomplete-mode))
@@ -159,6 +160,7 @@
     ;; disable ido faces to see flx highlights.
     (setq ido-use-faces nil))
   (use-package flx-ido
+    :disabled
     :ensure t
     :after (ido)
     :config
@@ -168,6 +170,12 @@
     :after (ido)
     :config
     (ido-vertical-mode 1))
+  (use-package ido-completing-read+
+    :ensure t)
+  (use-package amx
+    :ensure t
+    :config
+    (amx-mode))
 #+END_SRC
 
 * Evil
@@ -361,6 +369,23 @@
     :defer t
     :mode "\\.json\\'")
 #+END_SRC
+** Web
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :mode (("\\.html\\'" . web-mode)
+          ("\\.twig\\'" . web-mode)))
+#+END_SRC
+** YAML
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :mode "\\.ya?ml\\'")
+#+END_SRC
+** Clojure
+#+BEGIN_SRC emacs-lisp
+  (use-package cider
+    :ensure t)
+#+END_SRC
 ** Syntax checking
    [[http://www.flycheck.org][FlyCheck]]
 #+BEGIN_SRC emacs-lisp
@@ -377,21 +402,21 @@
 * Music
   [[https://www.gnu.org/software/emms/][EMMS]]
 #+BEGIN_SRC emacs-lisp
-  (use-package emms
-    :ensure t
-    :defer t
-    :config
-    (require 'emms-setup)
-    (emms-standard)
-    (emms-default-players)
-    (define-emms-simple-player mplayer-no-video '(file url)
-      (concat "\\`\\(http[s]?\\|mms\\)://\\|"
-              (apply #'emms-player-simple-regexp
-                     emms-player-base-format-list))
-      "mplayer" "-slave" "-quiet" "-really-quiet" "-vo" "null")
-    (define-emms-simple-player mplayer-playlist-no-video '(streamlist)
-      "\\`http[s]?://"
-      "mplayer" "-slave" "-quiet" "-really-quiet" "-playlist" "-vo" "null"))
+    (use-package emms
+      :ensure t
+      :defer t
+      :config
+      (require 'emms-setup)
+      (emms-standard)
+      (emms-default-players)
+      (define-emms-simple-player mplayer-no-video '(file url)
+        (concat "\\`\\(http[s]?\\|mms\\)://\\|"
+                (apply #'emms-player-simple-regexp
+                       emms-player-base-format-list))
+        "mplayer" "-slave" "-quiet" "-really-quiet" "-vo" "null")
+      (define-emms-simple-player mplayer-playlist-no-video '(streamlist)
+        "\\`http[s]?://"
+        "mplayer" "-slave" "-quiet" "-really-quiet" "-playlist" "-vo" "null"))
 #+END_SRC
 * Miscellaneous Functions
 #+BEGIN_SRC emacs-lisp
@@ -542,6 +567,7 @@
 *** Indent Guides
 #+BEGIN_SRC emacs-lisp
     (use-package highlight-indent-guides
+      :disabled t
       :ensure t
       :defer t
       :hook ((prog-mode) . highlight-indent-guides-mode)

@@ -57,6 +57,7 @@
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 
 (use-package icomplete
+  :disabled
   :ensure t
   :config
   (icomplete-mode))
@@ -69,6 +70,7 @@
   ;; disable ido faces to see flx highlights.
   (setq ido-use-faces nil))
 (use-package flx-ido
+  :disabled
   :ensure t
   :after (ido)
   :config
@@ -78,6 +80,12 @@
   :after (ido)
   :config
   (ido-vertical-mode 1))
+(use-package ido-completing-read+
+  :ensure t)
+(use-package amx
+  :ensure t
+  :config
+  (amx-mode))
 
 (use-package evil
   :ensure t
@@ -198,6 +206,17 @@
   :ensure t
   :defer t
   :mode "\\.json\\'")
+
+(use-package web-mode
+  :ensure t
+  :mode (("\\.html\\'" . web-mode)
+        ("\\.twig\\'" . web-mode)))
+
+(use-package yaml-mode
+  :mode "\\.ya?ml\\'")
+
+(use-package cider
+  :ensure t)
 
 (use-package flycheck
   :ensure t
@@ -323,6 +342,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
                       'linum)))
 
 (use-package highlight-indent-guides
+  :disabled t
   :ensure t
   :defer t
   :hook ((prog-mode) . highlight-indent-guides-mode)
