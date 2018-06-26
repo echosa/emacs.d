@@ -164,11 +164,6 @@
   :defer t
   :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
 
-(defun my-emacs-lisp-mode-hook ()
-  (eldoc-mode)
-  (linum-mode))
-(add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
-
 (use-package php-mode
   :ensure t
   :config
