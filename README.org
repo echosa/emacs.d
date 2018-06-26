@@ -50,7 +50,7 @@
    start Emacs make take a few seconds as all the packages are
    downloaded and installed. Subsequent starts will not take so long.
 
-* Maintenance
+* Configuration Maintenance
   In order to make maintaining this config easier, I've made the
   ~echosa-export-config~ function which will export the proper
   ~emacs-config.el~ and ~README.org~ files when ~emacs-config.org~ is
@@ -69,7 +69,6 @@
 * Packages
   External and third-party packages are great. They make adding new things to
   Emacs much nicer and less complicated.
-
 ** Repositories
    We need to set up the package repositories for Emacs' package manager.
 #+BEGIN_SRC emacs-lisp
