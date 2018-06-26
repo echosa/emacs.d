@@ -44,6 +44,36 @@
 
 (desktop-save-mode 1)
 
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/.tmp/" nil)))
+(setq auto-save-list-file-prefix "~/.emacs.d/.tmp/.saves-")
+(setq backup-directory-alist '(("" . "~/.emacs.d/.tmp")))
+
+(when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
+
+(tool-bar-mode -1)
+
+(menu-bar-mode -1)
+
+(setq inhibit-startup-screen t)
+
+(transient-mark-mode t)
+
+(global-font-lock-mode t)
+
+(column-number-mode t)
+
+(show-paren-mode t)
+
+(setq blink-cursor-mode t)
+
+(setq indicate-empty-lines t)
+
+(global-hl-line-mode 1)
+
+(global-display-line-numbers-mode)
+
+(setq visible-bell t)
+
 (use-package uniquify
   :defer t
   :config
@@ -187,10 +217,44 @@
   (require 'cl)
   (add-hook 'before-save-hook 'php-cs-fixer-before-save))
 
-
 (use-package geben
   :ensure t
   :defer t)
+
+;; lsp
+;; https://github.com/emacs-lsp/lsp-php
+;; from https://www.reddit.com/r/emacs/comments/7xz6bd/im_having_the_worst_time_trying_to_get_php/
+(use-package lsp-mode
+  :disabled
+  :ensure t
+  :config
+  (setq lsp-response-timeout 25)
+  (require 'lsp-imenu)
+  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
+
+(use-package lsp-ui
+  :disabled
+  :ensure t
+  :after lsp-mode
+  :config
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+(use-package company-lsp
+  :disabled
+  :ensure t
+  :after (lsp-mode company)
+  :config
+  (push 'company-lsp company-backends))
+
+(use-package lsp-php
+  :disabled
+  :after (php-mode lsp-mode)
+  :ensure t
+  :config
+  (add-hook 'php-mode-hook #'lsp-php-enable)
+  (custom-set-variables
+   ;; Composer.json detection after Projectile.
+   '(lsp-php-workspace-root-detectors (quote (lsp-php-root-projectile lsp-php-root-composer-json "index.php" "robots.txt")))))
 
 (use-package js2-mode
   :ensure t
@@ -279,36 +343,6 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (setq reb-mode-hook
       '((lambda nil
           (define-key reb-mode-map "\245" 'reb-query-replace-this-regxp))))
-
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/.tmp/" nil)))
-(setq auto-save-list-file-prefix "~/.emacs.d/.tmp/.saves-")
-(setq backup-directory-alist '(("" . "~/.emacs.d/.tmp")))
-
-(when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
-
-(tool-bar-mode -1)
-
-(menu-bar-mode -1)
-
-(setq inhibit-startup-screen t)
-
-(transient-mark-mode t)
-
-(global-font-lock-mode t)
-
-(column-number-mode t)
-
-(show-paren-mode t)
-
-(setq blink-cursor-mode t)
-
-(setq indicate-empty-lines t)
-
-(global-hl-line-mode 1)
-
-(global-display-line-numbers-mode)
-
-(setq visible-bell t)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)

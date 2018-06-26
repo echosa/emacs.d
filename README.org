@@ -71,7 +71,7 @@
   Emacs much nicer and less complicated.
 
 ** Repositories
-   We need to set up the package repositories for Emacs' own package manager.
+   We need to set up the package repositories for Emacs' package manager.
 #+BEGIN_SRC emacs-lisp
   (setq package-archives
         '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -80,6 +80,15 @@
 #+END_SRC
 
 ** use-package
+  I've come to appreciate the [[https://github.com/jwiegley/use-package][use-package]] way of handling package
+  management. Everything is nice, clean, and compact. Best of all, all
+  setup for a package is self-contained within a ~use-package~
+  declaration, so no need to hunt through your whole config to find
+  related parts (hooks in one place, key bindings in another, etc.)
+
+  Since I use ~use-package~ to install all the other packages, this is
+  the only place where I pull in and use package.el. I only do that to
+  ensure that ~use-package~ is installed and ready to go.
 #+BEGIN_SRC emacs-lisp
   (require 'package)
   (package-initialize)
@@ -92,6 +101,12 @@
 #+END_SRC
 
 * General Setup
+  Here, I change some generic Emacs behavior. These are all things
+  that aren't tied to a specific mode or programming language. Most of
+  these are self-explanatory. However, for more info, you can look
+  them up with Emacs' built-in help. That will do a better job of
+  explaining that I can, plus there's no need for me to reiterate it
+  all here.
 #+BEGIN_SRC emacs-lisp
   (temp-buffer-resize-mode 0)
   (add-hook 'before-save-hook 'time-stamp)
@@ -124,6 +139,78 @@
 #+BEGIN_SRC emacs-lisp
   (desktop-save-mode 1)
 #+END_SRC
+** Backup and Auto Save
+  I don't like Emacs littering and leaving a bunch of temporarily
+  files all over the place, so here I tell it to keep all those files
+  in one place.
+#+BEGIN_SRC emacs-lisp
+  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/.tmp/" nil)))
+  (setq auto-save-list-file-prefix "~/.emacs.d/.tmp/.saves-")
+  (setq backup-directory-alist '(("" . "~/.emacs.d/.tmp")))
+#+END_SRC
+** Things I don't want to see
+*** Scroll bars
+#+BEGIN_SRC emacs-lisp
+  (when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
+#+END_SRC
+*** Tool bar
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode -1)
+#+END_SRC
+*** Menu bar
+#+BEGIN_SRC emacs-lisp
+  (menu-bar-mode -1)
+#+END_SRC
+*** Splash screen
+    It's unnecessary, really.
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-screen t)
+#+END_SRC
+** Things I do want to see
+*** Highlight current region/selection
+#+BEGIN_SRC emacs-lisp
+  (transient-mark-mode t)
+#+END_SRC
+*** Syntax highlighting
+#+BEGIN_SRC emacs-lisp
+  (global-font-lock-mode t)
+#+END_SRC
+*** Column number
+#+BEGIN_SRC emacs-lisp
+  (column-number-mode t)
+#+END_SRC
+*** Show matching parenthesis
+#+BEGIN_SRC emacs-lisp
+  (show-paren-mode t)
+#+END_SRC
+*** Blinking cursor
+#+BEGIN_SRC emacs-lisp
+  (setq blink-cursor-mode t)
+#+END_SRC
+*** Show empty lines
+#+BEGIN_SRC emacs-lisp
+  (setq indicate-empty-lines t)
+#+END_SRC
+*** Highlight the current light
+#+BEGIN_SRC emacs-lisp
+  (global-hl-line-mode 1)
+#+END_SRC
+*** Line Numbers
+  I like line numbers. They help quite a bit with moving around.
+#+BEGIN_SRC emacs-lisp
+  (global-display-line-numbers-mode)
+#+END_SRC
+*** Visible Bell
+  I don't want to hear a blip everytime I do something wrong, so I'm
+  turning on the visible bell.
+#+BEGIN_SRC emacs-lisp
+  (setq visible-bell t)
+#+END_SRC
+** Theme
+  I set my theme through ~M-x customize~ so it doesn't need to be
+  here. That way, it doesn't require changes to this init file. Themes
+  truly are a customized thing, so hard-coding it here doesn't make
+  sense.
 * Uniquify
   If I have two buffers open with two files that have the same name, (e.g. two
   different README files from two different projects), Emacs will, by default,
@@ -136,7 +223,9 @@
     :config
     (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 #+END_SRC
-* Ido
+* Ido and Icomplete
+  Here I configure Ido and Icomplete. Ido gives improved file finding
+  and buffer switching. Icomplete gives improve command running with ~M-x~.
 #+BEGIN_SRC emacs-lisp
   (use-package icomplete
     :config
@@ -149,6 +238,12 @@
 #+END_SRC
 
 * Evil
+  Update: At the moment, I have Evil disabled. I'm see how I can get
+  by without it. I might learn that I no longer need or want
+  it. However, just in case, I leaving my config here, just disabled
+  through ~use-package~. (Have I mentioned how awesome ~use-package~
+  is?)
+
   Call me heathen if you wish, but I prefer Vim navigation keys. Also,
   I want Ido buffer switching and file finding when using Vim's ~:b~ and ~:e~.
 
@@ -217,10 +312,10 @@
 #+END_SRC
 * Winner-mode
   Winner-mode makes it really easy to handle window changes in
-  Emacs. =C-c left-arrow= goes back to the previous window
-  configuration (undo), and =C-c right-arrow= goes forward
+  Emacs. ~C-c left-arrow~ goes back to the previous window
+  configuration (undo), and ~C-c right-arrow~ goes forward
   (redo). This is especially helpful for when a popop window ruins
-  your layout. Simply =C-c left-arrow= to get back to where you were.
+  your layout. Simply ~C-c left-arrow~ to get back to where you were.
 #+BEGIN_SRC emacs-lisp
   (use-package winner
     :defer 5
@@ -279,7 +374,8 @@
 #+END_SRC
 ** Projectile
   Projectile is, quite simply and objectively, the shit. There's no other way to
-  put it.
+  put it. I consider it pretty much necessary for working with full
+  projects (as opposed to individual, unrelated files).
 
   [[https://github.com/bbatsov/projectile][Projectile on Github]]
 #+BEGIN_SRC emacs-lisp
@@ -290,7 +386,9 @@
     (projectile-global-mode))
 #+END_SRC
 ** Completion
-  Who doesn't like a little auto-completion?
+  Who doesn't like a little auto-completion? I choose to use ~company~
+  instead of ~auto-complete~ (aka ~ac~). This decision is based on
+  lots of reading about both and comparing/trying out both.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
@@ -299,13 +397,21 @@
     (global-company-mode))
 #+END_SRC
 ** Search
-  The Silver Searcher (ag) is awesome.
+  The Silver Searcher (ag) is awesome. Using it Emacs is even more
+  awesome! Also, with this installed, Projectile can use it, as
+  well. What a perfect match.
+
+  This requires that you have [[https://github.com/ggreer/the_silver_searcher][The Silver Searcher]] installed on your
+  computer.
 #+BEGIN_SRC emacs-lisp
   (use-package ag
     :ensure t)
 #+END_SRC
 ** Paredit
-  If you write any form of Lisp and don't use paredit, change that.
+  If you write any form of Lisp and don't use paredit, change that. It
+  does so much for you and helps out in so many ways. I highly
+  recommend it, even though it is quite weird (and, honestly,
+  sometimes frustrating) at first.
 
   [[http://mumble.net/~campbell/emacs/paredit.el][Paredit website]]
 
@@ -317,13 +423,19 @@
     :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
 #+END_SRC
 ** PHP
+  Let's start with adding basic PHP handling.
 #+BEGIN_SRC emacs-lisp
   (use-package php-mode
     :ensure t
     :config
     (add-hook 'php-mode-hook 'flymake-mode)
     (add-hook 'php-mode-hook 'php-enable-symfony2-coding-style))
+#+END_SRC
+  Next, let's improve completion. This sets up [[https://github.com/xcwen/ac-php][ac-php]] to give better
+  PHP specific completions with ~company~.
 
+
+#+BEGIN_SRC emacs-lisp
   (use-package company-php
     :ensure t)
 
@@ -341,17 +453,68 @@
                  (ac-php-core-eldoc-setup)
                  (make-local-variable 'company-backends)
                  (add-to-list 'company-backends 'company-ac-php-backend))))
+#+END_SRC
+  Now, let's set up [[https://github.com/FriendsOfPhp/PHP-CS-Fixer][php-cs-fixer]] so that it automatically fixes our
+  PHP files on save.
 
+  Note that I have a config file for this set with ~M-x customize~,
+  not seen in this config.
+#+BEGIN_SRC emacs-lisp
   (use-package php-cs-fixer
     :ensure t
     :config
     (require 'cl)
     (add-hook 'before-save-hook 'php-cs-fixer-before-save))
+#+END_SRC
+  Of course, we want to be able to debug our PHP files. That's where
+  [[https://github.com/ahungry/geben][geben]] comes in.
 
-
+  Note that some geben config, like path mappings, I have done with
+  ~M-x customize~, so they do not appear in this file.
+#+BEGIN_SRC emacs-lisp
   (use-package geben
     :ensure t
     :defer t)
+#+END_SRC
+  Finally, let's get a lot more detailed and IDE-like functionality
+  with [[https://github.com/emacs-lsp/lsp-mode][LSP in Emacs]].
+
+  I currently have this disabled because it isn't working properly.
+#+BEGIN_SRC emacs-lisp
+  ;; lsp
+  ;; https://github.com/emacs-lsp/lsp-php
+  ;; from https://www.reddit.com/r/emacs/comments/7xz6bd/im_having_the_worst_time_trying_to_get_php/
+  (use-package lsp-mode
+    :disabled
+    :ensure t
+    :config
+    (setq lsp-response-timeout 25)
+    (require 'lsp-imenu)
+    (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
+
+  (use-package lsp-ui
+    :disabled
+    :ensure t
+    :after lsp-mode
+    :config
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+  (use-package company-lsp
+    :disabled
+    :ensure t
+    :after (lsp-mode company)
+    :config
+    (push 'company-lsp company-backends))
+
+  (use-package lsp-php
+    :disabled
+    :after (php-mode lsp-mode)
+    :ensure t
+    :config
+    (add-hook 'php-mode-hook #'lsp-php-enable)
+    (custom-set-variables
+     ;; Composer.json detection after Projectile.
+     '(lsp-php-workspace-root-detectors (quote (lsp-php-root-projectile lsp-php-root-composer-json "index.php" "robots.txt")))))
 #+END_SRC
 ** JavaScript
   The built-in JS support in Emacs is lacking.
@@ -367,6 +530,8 @@
     :mode "\\.json\\'")
 #+END_SRC
 ** Web
+  As far as I can tell, ~web-mode~ is the best mode for dealing with
+  web files like HTML, Twig, etc.
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode
     :ensure t
@@ -374,17 +539,21 @@
           ("\\.twig\\'" . web-mode)))
 #+END_SRC
 ** YAML
+  Syntax highlighting for YAML files is nice, too.
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
     :ensure t
     :mode "\\.ya?ml\\'")
 #+END_SRC
 ** Clojure
+  The ultimate experience for [[https://clojure.org/][Clojure]] developement: [[https://github.com/clojure-emacs/cider][cider]]!
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :ensure t)
 #+END_SRC
 * Org-mode
+  This customizes ~org-mode~ a bit. For instance, I like my org files
+  to have ~auto-fill~ turned on.
 #+BEGIN_SRC emacs-lisp
   (defun my-org-mode-hook ()
     (auto-fill-mode))
@@ -410,6 +579,9 @@
         "mplayer" "-slave" "-quiet" "-really-quiet" "-playlist" "-vo" "null"))
 #+END_SRC
 * Miscellaneous Functions
+  This is a quite useful function that will change a frame with two
+  horizontal windows into a frame with two vertical windows and vice
+  versa.
 #+BEGIN_SRC emacs-lisp
   ;; http://www.emacswiki.org/emacs/ToggleWindowSplit
   (defun toggle-window-split ()
@@ -460,75 +632,6 @@
             (define-key reb-mode-map "\245" 'reb-query-replace-this-regxp))))
 #+END_SRC
 
-* Theme
-  I set my theme through ~M-x customize~ so it doesn't need to be
-  here. That way, it doesn't require changes to this init file. Themes
-  truly are a customized thing, so hard-coding it here doesn't make sense.
-* Backup and Auto Save
-#+BEGIN_SRC emacs-lisp
-  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/.tmp/" nil)))
-  (setq auto-save-list-file-prefix "~/.emacs.d/.tmp/.saves-")
-  (setq backup-directory-alist '(("" . "~/.emacs.d/.tmp")))
-#+END_SRC
-* Prettyify Emacs
-** Things I don't want to see
-*** Scroll bars
-#+BEGIN_SRC emacs-lisp
-  (when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar nil))
-#+END_SRC
-*** Tool bar
-#+BEGIN_SRC emacs-lisp
-  (tool-bar-mode -1)
-#+END_SRC
-*** Menu bar
-#+BEGIN_SRC emacs-lisp
-  (menu-bar-mode -1)
-#+END_SRC
-*** Splash screen
-    It's unnecessary, really.
-#+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-screen t)
-#+END_SRC
-** Things I do want to see
-*** Highlight current region/selection
-#+BEGIN_SRC emacs-lisp
-  (transient-mark-mode t)
-#+END_SRC
-*** Syntax highlighting
-#+BEGIN_SRC emacs-lisp
-  (global-font-lock-mode t)
-#+END_SRC
-*** Column number
-#+BEGIN_SRC emacs-lisp
-  (column-number-mode t)
-#+END_SRC
-*** Show matching parenthesis
-#+BEGIN_SRC emacs-lisp
-  (show-paren-mode t)
-#+END_SRC
-*** Blinking cursor
-#+BEGIN_SRC emacs-lisp
-  (setq blink-cursor-mode t)
-#+END_SRC
-*** Show empty lines
-#+BEGIN_SRC emacs-lisp
-  (setq indicate-empty-lines t)
-#+END_SRC
-*** Highlight the current light
-#+BEGIN_SRC emacs-lisp
-  (global-hl-line-mode 1)
-#+END_SRC
-*** Line Numbers
-  I like line numbers. They help quite a bit with moving around.
-#+BEGIN_SRC emacs-lisp
-  (global-display-line-numbers-mode)
-#+END_SRC
-*** Visible Bell
-  I don't want to hear a blip everytime I do something wrong, so I'm
-  turning on the visible bell.
-#+BEGIN_SRC emacs-lisp
-  (setq visible-bell t)
-#+END_SRC
 * Customizations
 Any customizations that are machine specific or do not belong in git
 can go in ~custom.el~. This file is ignored from git, and is where all
