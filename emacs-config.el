@@ -57,35 +57,13 @@
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 
 (use-package icomplete
-  :disabled
-  :ensure t
   :config
   (icomplete-mode))
 (use-package ido
-  :ensure t
   :config
   (ido-mode 1)
   (ido-everywhere 1)
-  (setq ido-enable-flex-matching t)
-  ;; disable ido faces to see flx highlights.
-  (setq ido-use-faces nil))
-(use-package flx-ido
-  :disabled
-  :ensure t
-  :after (ido)
-  :config
-  (flx-ido-mode 1))
-(use-package ido-vertical-mode
-  :ensure t
-  :after (ido)
-  :config
-  (ido-vertical-mode 1))
-(use-package ido-completing-read+
-  :ensure t)
-(use-package amx
-  :ensure t
-  :config
-  (amx-mode))
+  (setq ido-enable-flex-matching t))
 
 (use-package evil
   :disabled
