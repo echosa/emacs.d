@@ -16,3 +16,4 @@ custom.el
 emms/
 .emacs.desktop*
 amx-items
+php-language-server/
