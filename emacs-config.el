@@ -287,17 +287,6 @@ Argument REPLACE String used to replace the matched strings in the buffer.
       '((lambda nil
           (define-key reb-mode-map "\245" 'reb-query-replace-this-regxp))))
 
-(let ((my-theme "solarized-dark"))
-  (cond
-   ((string= my-theme "solarized-dark")
-    (use-package solarized-theme
-      :if window-system
-      :ensure t
-      :config
-      (load-theme 'solarized-dark t)))
-   ((string= my-theme "tango-dark")
-    (load-theme 'tango-dark t))))
-
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/.tmp/" nil)))
 (setq auto-save-list-file-prefix "~/.emacs.d/.tmp/.saves-")
 (setq backup-directory-alist '(("" . "~/.emacs.d/.tmp")))
