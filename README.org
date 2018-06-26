@@ -354,6 +354,14 @@
   (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
 #+END_SRC
 
+* Expand Region
+  This package makes is easy to select regions based on various
+  bounds: words, braces, etc.
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :bind (("C-=" . er/expand-region)))
+#+END_SRC
 * Programming
 ** General
    Indent with 4 spaces, not a tabstop.

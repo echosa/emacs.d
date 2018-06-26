@@ -148,6 +148,10 @@
 
 (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
 
+(use-package expand-region
+  :ensure t
+  :bind (("C-=" . er/expand-region)))
+
 (setq-default c-basic-offset 4)
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
