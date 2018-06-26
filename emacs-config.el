@@ -226,10 +226,6 @@
 (use-package cider
   :ensure t)
 
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
-
 (defun my-org-mode-hook ()
   (auto-fill-mode))
 (add-hook 'org-mode-hook 'my-org-mode-hook)
