@@ -8,9 +8,9 @@
 
   Well, sort of.
 
-  How this works is based around a part of org-mode called
-  org-babel. org-babel allows org-mode to execute code that is
-  embedded into a .org file. If you look at the [[https://github.com/echosa/emacs.d/blob/master/init.el][actual .emacs file]]
+  How this works is based around a part of ~org-mode~ called
+  ~org-babel~. ~org-babel~ allows ~org-mode~ to execute code that is
+  embedded into a .org file. If you look at the [[https://github.com/echosa/emacs.d/blob/master/init.el][actual init.el file]]
   that my Emacs loads, you'll see that all it does is load the .org
   file containing my configuration (the one you're reading now) and
   parse it through org-babel to execute only the blocks of elisp that
@@ -25,6 +25,19 @@
   .el file. This means there's a bit of a slow startup the first time
   after the org-mode file is changes, but after that there's no
   noticable change in performance (at least on my machine).
+
+  The only other source of major slowdown, usually only on the first
+  run, is the installation of packages. On a fresh install of Emacs
+  using this configuration, the first time Emacs is run ~org-babel~
+  parses the .org file and also installs all the external packages
+  required by my config. This makes for a slow first-time startup, but
+  the benefit is that all of the configuration, installation, and
+  setup is done for me automatically. I don't have to manually set
+  anything up, which, when setting up other editors, can often take
+  much longer than the first run of this config. Plus, it's more work
+  to have to manually set things up, so I'll take a one-time slowdown
+  in trade of automatically having my Emacs setup installed and ready
+  for me.
 
   Anyway, what follows is my actual Emacs configuration, embedded into
   a descriptive narrative.
