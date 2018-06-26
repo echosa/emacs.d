@@ -114,20 +114,11 @@
 #+BEGIN_SRC emacs-lisp
   (setq load-prefer-newer t)
 #+END_SRC
-  Make sure Emacs can find and run commands on the PATH. The
-  ~exec-path-from-shell~ package is SLOW. Disabling and manually
-  setting paths for now.
+  Make sure Emacs can find and run commands on the PATH.
 #+BEGIN_SRC emacs-lisp
   (when (memq window-system '(mac ns x))
     (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
     (setq exec-path (append '("/usr/local/bin") exec-path)))
-
-  (use-package exec-path-from-shell
-    :disabled t
-    :if (memq window-system '(mac ns))
-    :ensure t
-    :config
-    (exec-path-from-shell-initialize))
 #+END_SRC
   Remember opens files and buffers between sessions.
 #+BEGIN_SRC emacs-lisp

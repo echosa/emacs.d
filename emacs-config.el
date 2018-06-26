@@ -42,13 +42,6 @@
   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
   (setq exec-path (append '("/usr/local/bin") exec-path)))
 
-(use-package exec-path-from-shell
-  :disabled t
-  :if (memq window-system '(mac ns))
-  :ensure t
-  :config
-  (exec-path-from-shell-initialize))
-
 (desktop-save-mode 1)
 
 (use-package uniquify
