@@ -181,7 +181,9 @@
   :ensure t
   :bind (("C-<tab>" . company-complete))
   :config
-  (global-company-mode))
+  (global-company-mode)
+  (setq company-dabbrev-downcase nil)
+  (setq company-dabbrev-ignore-case t))
 
 (use-package ag
   :ensure t)
