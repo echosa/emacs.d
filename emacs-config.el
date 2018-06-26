@@ -282,22 +282,6 @@
   (auto-fill-mode))
 (add-hook 'org-mode-hook 'my-org-mode-hook)
 
-(use-package emms
-  :ensure t
-  :defer t
-  :config
-  (require 'emms-setup)
-  (emms-standard)
-  (emms-default-players)
-  (define-emms-simple-player mplayer-no-video '(file url)
-    (concat "\\`\\(http[s]?\\|mms\\)://\\|"
-            (apply #'emms-player-simple-regexp
-                   emms-player-base-format-list))
-    "mplayer" "-slave" "-quiet" "-really-quiet" "-vo" "null")
-  (define-emms-simple-player mplayer-playlist-no-video '(streamlist)
-    "\\`http[s]?://"
-    "mplayer" "-slave" "-quiet" "-really-quiet" "-playlist" "-vo" "null"))
-
 ;; http://www.emacswiki.org/emacs/ToggleWindowSplit
 (defun toggle-window-split ()
   (interactive)
@@ -324,25 +308,6 @@
           (select-window first-win)
           (if this-win-2nd (other-window 1))))))
 (define-key ctl-x-4-map "t" 'toggle-window-split)
-
-(defun reb-query-replace-this-regxp (replace)
-  "Uses the regexp built with re-builder to query the target buffer.
-This function must be run from within the re-builder buffer, not the target
-buffer.
-
-Argument REPLACE String used to replace the matched strings in the buffer.
- Subexpression references can be used (\1, \2, etc)."
-  (interactive "sReplace with: ")
-  (if (eq major-mode 'reb-mode)
-      (let ((reg (reb-read-regexp)))
-        (select-window reb-target-window)
-        (save-excursion
-          (beginning-of-buffer)
-          (query-replace-regexp reg replace)))
-    (message "Not in a re-builder buffer!")))
-(setq reb-mode-hook
-      '((lambda nil
-          (define-key reb-mode-map "\245" 'reb-query-replace-this-regxp))))
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
