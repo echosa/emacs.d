@@ -1,4 +1,3 @@
-
 (defun echosa-export-config ()
   (when (string= (buffer-name (current-buffer)) "emacs-config.org")
     (let ((org-file "~/.emacs.d/emacs-config.org")
@@ -11,10 +10,11 @@
 
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
-        ("marmalade" . "http://marmalade-repo.org/packages/")
         ("melpa" . "https://melpa.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
+(require 'package)
+(package-initialize)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
