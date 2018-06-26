@@ -260,17 +260,18 @@
 ** General
    Indent with 4 spaces, not a tabstop.
 #+BEGIN_SRC emacs-lisp
-  (setq c-basic-offset 4)
-  (setq tab-width 4)
-  (setq indent-tabs-mode nil)
+  (setq-default c-basic-offset 4)
+  (setq-default tab-width 4)
+  (setq-default indent-tabs-mode nil)
 #+END_SRC
 ** Git
    Magit is awesome.
+
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t
-    :defer t)
+    :ensure t)
 #+END_SRC
+
    Show changes in the gutter/fringe.
 #+BEGIN_SRC emacs-lisp
     (use-package git-gutter-fringe
@@ -292,9 +293,25 @@
   [[https://github.com/bbatsov/projectile][Projectile on Github]]
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
+    :ensure t
     :defer 5
     :config
     (projectile-global-mode))
+#+END_SRC
+** Completion
+  Who doesn't like a little auto-completion?
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :bind (("C-<tab>" . company-complete))
+    :config
+    (global-company-mode))
+#+END_SRC
+** Search
+  The Silver Searcher (ag) is awesome.
+#+BEGIN_SRC emacs-lisp
+  (use-package ag
+    :ensure t)
 #+END_SRC
 ** Paredit
   If you write any form of Lisp and don't use paredit, change that.
@@ -318,23 +335,39 @@
 ** PHP
 #+BEGIN_SRC emacs-lisp
   (use-package php-mode
-    :mode "\\.php\\'")
+    :ensure t
+    :config
+    (add-hook 'php-mode-hook 'flymake-mode)
+    (add-hook 'php-mode-hook 'php-enable-symfony2-coding-style))
+
+  (use-package company-php
+    :ensure t)
+
   (use-package ac-php
     :ensure t
+    :after (php-mode company-php)
     :init
+    (bind-key "C-c ]" 'ac-php-find-symbol-at-point php-mode-map)
+    (bind-key "C-c [" 'ac-php-location-stack-back php-mode-map)
+    :config
     (add-hook 'php-mode-hook
               '(lambda ()
-                 (auto-complete-mode t)
-                 (setq ac-sources '(ac-source-php))
-                 (yas-global-mode 1)
+                 (require 'company-php)
+                 (company-mode t)
                  (ac-php-core-eldoc-setup)
-                 (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)
-                 (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back))))
-  (require 'cl) ;; php-cs-fixer
+                 (make-local-variable 'company-backends)
+                 (add-to-list 'company-backends 'company-ac-php-backend))))
+
   (use-package php-cs-fixer
     :ensure t
     :config
+    (require 'cl)
     (add-hook 'before-save-hook 'php-cs-fixer-before-save))
+
+
+  (use-package geben
+    :ensure t
+    :defer t)
 #+END_SRC
 ** JavaScript
   The built-in JS support in Emacs is lacking.
@@ -359,6 +392,7 @@
 ** YAML
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
+    :ensure t
     :mode "\\.ya?ml\\'")
 #+END_SRC
 ** Clojure

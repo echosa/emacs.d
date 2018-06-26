@@ -125,13 +125,12 @@
 
 (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
 
-(setq c-basic-offset 4)
-(setq tab-width 4)
-(setq indent-tabs-mode nil)
+(setq-default c-basic-offset 4)
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
 
 (use-package magit
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (use-package git-gutter-fringe
   :ensure t
@@ -146,9 +145,19 @@
   (global-git-gutter-mode 1))
 
 (use-package projectile
+  :ensure t
   :defer 5
   :config
   (projectile-global-mode))
+
+(use-package company
+  :ensure t
+  :bind (("C-<tab>" . company-complete))
+  :config
+  (global-company-mode))
+
+(use-package ag
+  :ensure t)
 
 (use-package paredit
   :ensure t
@@ -161,23 +170,39 @@
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
 (use-package php-mode
-  :mode "\\.php\\'")
+  :ensure t
+  :config
+  (add-hook 'php-mode-hook 'flymake-mode)
+  (add-hook 'php-mode-hook 'php-enable-symfony2-coding-style))
+
+(use-package company-php
+  :ensure t)
+
 (use-package ac-php
   :ensure t
+  :after (php-mode company-php)
   :init
+  (bind-key "C-c ]" 'ac-php-find-symbol-at-point php-mode-map)
+  (bind-key "C-c [" 'ac-php-location-stack-back php-mode-map)
+  :config
   (add-hook 'php-mode-hook
             '(lambda ()
-               (auto-complete-mode t)
-               (setq ac-sources '(ac-source-php))
-               (yas-global-mode 1)
+               (require 'company-php)
+               (company-mode t)
                (ac-php-core-eldoc-setup)
-               (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)
-               (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back))))
-(require 'cl) ;; php-cs-fixer
+               (make-local-variable 'company-backends)
+               (add-to-list 'company-backends 'company-ac-php-backend))))
+
 (use-package php-cs-fixer
   :ensure t
   :config
+  (require 'cl)
   (add-hook 'before-save-hook 'php-cs-fixer-before-save))
+
+
+(use-package geben
+  :ensure t
+  :defer t)
 
 (use-package js2-mode
   :ensure t
@@ -195,6 +220,7 @@
         ("\\.twig\\'" . web-mode)))
 
 (use-package yaml-mode
+  :ensure t
   :mode "\\.ya?ml\\'")
 
 (use-package cider
