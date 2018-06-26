@@ -528,37 +528,15 @@
   (global-hl-line-mode 1)
 #+END_SRC
 *** Line Numbers
-  I like line numbers. They help quite a bit with moving around. Here
-  I turn on linum-mode globally.
+  I like line numbers. They help quite a bit with moving around.
 #+BEGIN_SRC emacs-lisp
-  (global-linum-mode)
+  (global-display-line-numbers-mode)
 #+END_SRC
-  Then I change the way line numbers are
-  displayed to be right-justified.
+*** Visible Bell
+  I don't want to hear a blip everytime I do something wrong, so I'm
+  turning on the visible bell.
 #+BEGIN_SRC emacs-lisp
-  (setq linum-format (lambda
-                       (line)
-                       (propertize
-                        (format (concat "%"
-                                        (number-to-string
-                                         (length
-                                          (number-to-string
-                                           (line-number-at-pos
-                                            (point-max)))))
-                                        "d ")
-                                line)
-                        'face
-                        'linum)))
-#+END_SRC
-*** Indent Guides
-#+BEGIN_SRC emacs-lisp
-    (use-package highlight-indent-guides
-      :disabled t
-      :ensure t
-      :defer t
-      :hook ((prog-mode) . highlight-indent-guides-mode)
-      :config
-      (setq highlight-indent-guides-method 'character))
+  (setq visible-bell t)
 #+END_SRC
 * Customizations
 Any customizations that are machine specific or do not belong in git

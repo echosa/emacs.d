@@ -313,29 +313,9 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 
 (global-hl-line-mode 1)
 
-(global-linum-mode)
+(global-display-line-numbers-mode)
 
-(setq linum-format (lambda
-                     (line)
-                     (propertize
-                      (format (concat "%"
-                                      (number-to-string
-                                       (length
-                                        (number-to-string
-                                         (line-number-at-pos
-                                          (point-max)))))
-                                      "d ")
-                              line)
-                      'face
-                      'linum)))
-
-(use-package highlight-indent-guides
-  :disabled t
-  :ensure t
-  :defer t
-  :hook ((prog-mode) . highlight-indent-guides-mode)
-  :config
-  (setq highlight-indent-guides-method 'character))
+(setq visible-bell t)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
