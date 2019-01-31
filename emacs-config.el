@@ -227,40 +227,20 @@
   :ensure t
   :defer t)
 
-;; lsp
-;; https://github.com/emacs-lsp/lsp-php
-;; from https://www.reddit.com/r/emacs/comments/7xz6bd/im_having_the_worst_time_trying_to_get_php/
 (use-package lsp-mode
-  :disabled
   :ensure t
-  :config
-  (setq lsp-response-timeout 25)
-  (require 'lsp-imenu)
-  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
+  :commands lsp
+  :init
+  (add-hook 'php-mode-hook #'lsp)
+)
 
 (use-package lsp-ui
-  :disabled
   :ensure t
-  :after lsp-mode
-  :config
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+  :commands lsp-ui-mode)
 
 (use-package company-lsp
-  :disabled
   :ensure t
-  :after (lsp-mode company)
-  :config
-  (push 'company-lsp company-backends))
-
-(use-package lsp-php
-  :disabled
-  :after (php-mode lsp-mode)
-  :ensure t
-  :config
-  (add-hook 'php-mode-hook #'lsp-php-enable)
-  (custom-set-variables
-   ;; Composer.json detection after Projectile.
-   '(lsp-php-workspace-root-detectors (quote (lsp-php-root-projectile lsp-php-root-composer-json "index.php" "robots.txt")))))
+  :commands company-lsp)
 
 (use-package js2-mode
   :ensure t
