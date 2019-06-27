@@ -502,6 +502,7 @@
   I currently have this disabled because it isn't working properly.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
+    :disabled
     :ensure t
     :commands lsp
     :init
@@ -509,10 +510,12 @@
   )
 
   (use-package lsp-ui
+    :disabled
     :ensure t
     :commands lsp-ui-mode)
 
   (use-package company-lsp
+    :disabled
     :ensure t
     :commands company-lsp)
 #+END_SRC
@@ -559,6 +562,16 @@
     (auto-fill-mode))
   (add-hook 'org-mode-hook 'my-org-mode-hook)
 #+END_SRC
+* Fun Packages
+** Encouragement
+#+BEGIN_SRC emacs-lisp
+  (use-package encourage-mode
+    :ensure t
+    :config
+    ;; Activate encourage-mode
+    (encourage-mode t))
+#+END_SRC
+
 * Miscellaneous Functions
   This is a quite useful function that will change a frame with two
   horizontal windows into a frame with two vertical windows and vice

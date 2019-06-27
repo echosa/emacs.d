@@ -228,6 +228,7 @@
   :defer t)
 
 (use-package lsp-mode
+  :disabled
   :ensure t
   :commands lsp
   :init
@@ -235,10 +236,12 @@
 )
 
 (use-package lsp-ui
+  :disabled
   :ensure t
   :commands lsp-ui-mode)
 
 (use-package company-lsp
+  :disabled
   :ensure t
   :commands company-lsp)
 
@@ -267,6 +270,12 @@
 (defun my-org-mode-hook ()
   (auto-fill-mode))
 (add-hook 'org-mode-hook 'my-org-mode-hook)
+
+(use-package encourage-mode
+  :ensure t
+  :config
+  ;; Activate encourage-mode
+  (encourage-mode t))
 
 ;; http://www.emacswiki.org/emacs/ToggleWindowSplit
 (defun toggle-window-split ()
