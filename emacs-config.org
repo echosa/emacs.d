@@ -15,7 +15,7 @@
   file containing my configuration (the one you're reading now) and
   parse it through org-babel to execute only the blocks of elisp that
   make up the actual configuration, while ignoring the extra
-  documetation and narrative, like this introdution section.
+  documentation and narrative, like this introduction section.
 
   If you're wondering about performance, org-babel doesn't do this
   parse every time I open Emacs. Instead, it sees that I'm trying to
@@ -24,7 +24,10 @@
   date version, only then does it parse the .org file to create a new
   .el file. This means there's a bit of a slow startup the first time
   after the org-mode file is changes, but after that there's no
-  noticable change in performance (at least on my machine).
+  noticeable change in performance (at least on my machine). I have
+  accounted for this one-off performance hit, however, by
+  automatically regenerating ~emacs-config.el~ when I save
+  ~emacs-config.org~. You'll see this later.
 
   The only other source of major slowdown, usually only on the first
   run, is the installation of packages. On a fresh install of Emacs
@@ -64,7 +67,7 @@
    downloaded and installed. Subsequent starts will not take so long.
 
 * Configuration Maintenance
-  In order to make maintaining this config easier, I've made the
+  In order to make maintaining this config easier, I've made this
   ~echosa-export-config~ function which will export the proper
   ~emacs-config.el~ and ~README.org~ files when ~emacs-config.org~ is
   updated and saved.
@@ -147,12 +150,12 @@
     (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
     (setq exec-path (append '("/usr/local/bin") exec-path)))
 #+END_SRC
-  Remember opens files and buffers between sessions.
+  Remember open files and buffers between sessions.
 #+BEGIN_SRC emacs-lisp
   (desktop-save-mode 1)
 #+END_SRC
 ** Backup and Auto Save
-  I don't like Emacs littering and leaving a bunch of temporarily
+  I don't like Emacs littering and leaving a bunch of temporary
   files all over the place, so here I tell it to keep all those files
   in one place.
 #+BEGIN_SRC emacs-lisp
@@ -213,21 +216,16 @@
   (global-display-line-numbers-mode)
 #+END_SRC
 *** Visible Bell
-  I don't want to hear a blip everytime I do something wrong, so I'm
+  I don't want to hear a blip every time I do something wrong, so I'm
   turning on the visible bell.
 #+BEGIN_SRC emacs-lisp
   (setq visible-bell t)
 #+END_SRC
-** Theme
-  I set my theme through ~M-x customize~ so it doesn't need to be
-  here. That way, it doesn't require changes to this init file. Themes
-  truly are a customized thing, so hard-coding it here doesn't make
-  sense.
 * Uniquify
   If I have two buffers open with two files that have the same name, (e.g. two
   different README files from two different projects), Emacs will, by default,
   name the buffers ~README~ and ~README<1>~. This is useless. Therefore, I turn on
-  uniquify and use it to name buffers wtih the same file name based on their
+  uniquify and use it to name buffers with the same file name based on their
   parent directories: ~README<projdir1>~ and ~README<projectdir2>~.
 #+BEGIN_SRC emacs-lisp
   (use-package uniquify
@@ -237,7 +235,8 @@
 #+END_SRC
 * Ido and Icomplete
   Here I configure Ido and Icomplete. Ido gives improved file finding
-  and buffer switching. Icomplete gives improve command running with ~M-x~.
+  and buffer switching. Icomplete gives improved command execution
+  with ~M-x~.
 #+BEGIN_SRC emacs-lisp
   (use-package icomplete
     :config
@@ -250,9 +249,9 @@
 #+END_SRC
 
 * Evil
-  Update: At the moment, I have Evil disabled. I'm see how I can get
+  Update: At the moment, I have Evil disabled. I'm seeing how I get
   by without it. I might learn that I no longer need or want
-  it. However, just in case, I leaving my config here, just disabled
+  it. However, just in case, I leaving my config here, disabled
   through ~use-package~. (Have I mentioned how awesome ~use-package~
   is?)
 
@@ -326,7 +325,7 @@
   Winner-mode makes it really easy to handle window changes in
   Emacs. ~C-c left-arrow~ goes back to the previous window
   configuration (undo), and ~C-c right-arrow~ goes forward
-  (redo). This is especially helpful for when a popop window ruins
+  (redo). This is especially helpful for when a popup window ruins
   your layout. Simply ~C-c left-arrow~ to get back to where you were.
 #+BEGIN_SRC emacs-lisp
   (use-package winner
@@ -348,14 +347,15 @@
 #+END_SRC
 
 * Minibuffer
-  This little snippet adds eldoc support to the minibuffer. Requires Emacs 24.4.
+  This little snippet adds eldoc support to the minibuffer. Requires
+  Emacs 24.4 or later.
   [[http://endlessparentheses.com/sweet-new-features-in-24-4.html][Found on EndlessParenthesis.com.]]
 #+BEGIN_SRC emacs-lisp
   (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
 #+END_SRC
 
 * Expand Region
-  This package makes is easy to select regions based on various
+  This package makes it easy to select regions based on various
   bounds: words, braces, etc.
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
@@ -364,7 +364,7 @@
 #+END_SRC
 * Programming
 ** General
-   Indent with 4 spaces, not a tabstop.
+   Indent with 4 spaces, not a tab stop.
 #+BEGIN_SRC emacs-lisp
   (setq-default c-basic-offset 4)
   (setq-default tab-width 4)
@@ -421,9 +421,9 @@
     (setq company-dabbrev-ignore-case t))
 #+END_SRC
 ** Search
-  The Silver Searcher (ag) is awesome. Using it Emacs is even more
+  The Silver Searcher (ag) is awesome. Using it, Emacs is even more
   awesome! Also, with this installed, Projectile can use it, as
-  well. What a perfect match.
+  well. What a perfect match!
 
   This requires that you have [[https://github.com/ggreer/the_silver_searcher][The Silver Searcher]] installed on your
   computer.
@@ -551,7 +551,7 @@
     :mode "\\.ya?ml\\'")
 #+END_SRC
 ** Clojure
-  The ultimate experience for [[https://clojure.org/][Clojure]] developement: [[https://github.com/clojure-emacs/cider][cider]]!
+  The ultimate experience for [[https://clojure.org/][Clojure]] development: [[https://github.com/clojure-emacs/cider][cider]]!
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :ensure t)
@@ -570,11 +570,11 @@
   (use-package encourage-mode
     :ensure t
     :config
-    ;; Activate encourage-mode
     (encourage-mode t))
 #+END_SRC
 
 * Miscellaneous Functions
+** Toggle Window Split
   This is a quite useful function that will change a frame with two
   horizontal windows into a frame with two vertical windows and vice
   versa.
@@ -606,11 +606,14 @@
             (if this-win-2nd (other-window 1))))))
   (define-key ctl-x-4-map "t" 'toggle-window-split)
 #+END_SRC
-* Customizations
-Any customizations that are machine specific or do not belong in git
-can go in ~custom.el~. This file is ignored from git, and is where all
-customizations form ~M-x customize~ are saved.
+* Individual Customization
+Any customization that is machine specific or does not belong in git
+can go in ~custom.el~. This file is ignored from git and is where all
+changes from ~M-x customize~ are saved.
 #+BEGIN_SRC emacs-lisp
   (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file 'noerror)
 #+END_SRC
+** Theme
+  I set my theme through ~M-x customize~. That way, it doesn't require
+  changes to this init file.

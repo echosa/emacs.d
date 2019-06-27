@@ -276,7 +276,6 @@
 (use-package encourage-mode
   :ensure t
   :config
-  ;; Activate encourage-mode
   (encourage-mode t))
 
 ;; http://www.emacswiki.org/emacs/ToggleWindowSplit
