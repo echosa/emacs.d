@@ -174,6 +174,8 @@
 (use-package projectile
   :ensure t
   :defer 5
+  :init
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   :config
   (projectile-global-mode))
 
